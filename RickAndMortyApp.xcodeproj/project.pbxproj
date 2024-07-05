@@ -19,9 +19,11 @@
 		14BC61D02C31B4F6007EDA07 /* FavouritesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC61CF2C31B4F6007EDA07 /* FavouritesCoordinator.swift */; };
 		14BC61D22C31B504007EDA07 /* FavouritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC61D12C31B504007EDA07 /* FavouritesViewModel.swift */; };
 		14BC61D42C31B514007EDA07 /* FavouritesViewContorller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC61D32C31B514007EDA07 /* FavouritesViewContorller.swift */; };
-		14BC61D62C31BD12007EDA07 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC61D52C31BD12007EDA07 /* MainCoordinator.swift */; };
+		14BC61D62C31BD12007EDA07 /* LaunchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC61D52C31BD12007EDA07 /* LaunchCoordinator.swift */; };
 		14BC61DA2C3328CC007EDA07 /* AssemblyBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC61D92C3328CC007EDA07 /* AssemblyBuilder.swift */; };
-		14BC61DC2C332900007EDA07 /* AssemblyBuilderImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC61DB2C332900007EDA07 /* AssemblyBuilderImpl.swift */; };
+		14BC61DC2C332900007EDA07 /* LauchAssemblyBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC61DB2C332900007EDA07 /* LauchAssemblyBuilder.swift */; };
+		14BC61E22C38814D007EDA07 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC61E12C38814D007EDA07 /* Dependencies.swift */; };
+		14BC61E42C3881ED007EDA07 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC61E32C3881ED007EDA07 /* LaunchViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,9 +41,11 @@
 		14BC61CF2C31B4F6007EDA07 /* FavouritesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesCoordinator.swift; sourceTree = "<group>"; };
 		14BC61D12C31B504007EDA07 /* FavouritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewModel.swift; sourceTree = "<group>"; };
 		14BC61D32C31B514007EDA07 /* FavouritesViewContorller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewContorller.swift; sourceTree = "<group>"; };
-		14BC61D52C31BD12007EDA07 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		14BC61D52C31BD12007EDA07 /* LaunchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchCoordinator.swift; sourceTree = "<group>"; };
 		14BC61D92C3328CC007EDA07 /* AssemblyBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssemblyBuilder.swift; sourceTree = "<group>"; };
-		14BC61DB2C332900007EDA07 /* AssemblyBuilderImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssemblyBuilderImpl.swift; sourceTree = "<group>"; };
+		14BC61DB2C332900007EDA07 /* LauchAssemblyBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LauchAssemblyBuilder.swift; sourceTree = "<group>"; };
+		14BC61E12C38814D007EDA07 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
+		14BC61E32C3881ED007EDA07 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,14 +78,11 @@
 		14BC61AA2C316D4A007EDA07 /* RickAndMortyApp */ = {
 			isa = PBXGroup;
 			children = (
-				14BC61AB2C316D4A007EDA07 /* AppDelegate.swift */,
-				14BC61AD2C316D4A007EDA07 /* SceneDelegate.swift */,
-				14BC61C42C31A673007EDA07 /* AppCoordinator.swift */,
-				14BC61C62C31B39E007EDA07 /* Main */,
+				14BC61E02C38812A007EDA07 /* Dependencies */,
+				14BC61DE2C3867FF007EDA07 /* Coordinators */,
+				14BC61DF2C38684C007EDA07 /* Module */,
 				14BC61C12C31A5FF007EDA07 /* Protocols */,
-				14BC61B42C316D4C007EDA07 /* Assets.xcassets */,
-				14BC61B62C316D4C007EDA07 /* LaunchScreen.storyboard */,
-				14BC61B92C316D4C007EDA07 /* Info.plist */,
+				14BC61DD2C38663E007EDA07 /* Supporting files */,
 			);
 			path = RickAndMortyApp;
 			sourceTree = "<group>";
@@ -90,26 +91,22 @@
 			isa = PBXGroup;
 			children = (
 				14BC61D92C3328CC007EDA07 /* AssemblyBuilder.swift */,
-				14BC61C22C31A61C007EDA07 /* Coordinator.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		14BC61C62C31B39E007EDA07 /* Main */ = {
+		14BC61C62C31B39E007EDA07 /* Launch */ = {
 			isa = PBXGroup;
 			children = (
-				14BC61D52C31BD12007EDA07 /* MainCoordinator.swift */,
-				14BC61DB2C332900007EDA07 /* AssemblyBuilderImpl.swift */,
-				14BC61C72C31B3BF007EDA07 /* Episodes */,
-				14BC61C82C31B41C007EDA07 /* Favourites */,
+				14BC61DB2C332900007EDA07 /* LauchAssemblyBuilder.swift */,
+				14BC61E32C3881ED007EDA07 /* LaunchViewController.swift */,
 			);
-			path = Main;
+			path = Launch;
 			sourceTree = "<group>";
 		};
 		14BC61C72C31B3BF007EDA07 /* Episodes */ = {
 			isa = PBXGroup;
 			children = (
-				14BC61CB2C31B473007EDA07 /* EpisodesCoordinator.swift */,
 				14BC61CD2C31B480007EDA07 /* EpisodesViewModel.swift */,
 				14BC61C92C31B465007EDA07 /* EpisodesViewController.swift */,
 			);
@@ -119,11 +116,52 @@
 		14BC61C82C31B41C007EDA07 /* Favourites */ = {
 			isa = PBXGroup;
 			children = (
-				14BC61CF2C31B4F6007EDA07 /* FavouritesCoordinator.swift */,
 				14BC61D12C31B504007EDA07 /* FavouritesViewModel.swift */,
 				14BC61D32C31B514007EDA07 /* FavouritesViewContorller.swift */,
 			);
 			path = Favourites;
+			sourceTree = "<group>";
+		};
+		14BC61DD2C38663E007EDA07 /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
+				14BC61AB2C316D4A007EDA07 /* AppDelegate.swift */,
+				14BC61AD2C316D4A007EDA07 /* SceneDelegate.swift */,
+				14BC61B42C316D4C007EDA07 /* Assets.xcassets */,
+				14BC61B62C316D4C007EDA07 /* LaunchScreen.storyboard */,
+				14BC61B92C316D4C007EDA07 /* Info.plist */,
+			);
+			path = "Supporting files";
+			sourceTree = "<group>";
+		};
+		14BC61DE2C3867FF007EDA07 /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				14BC61C22C31A61C007EDA07 /* Coordinator.swift */,
+				14BC61C42C31A673007EDA07 /* AppCoordinator.swift */,
+				14BC61D52C31BD12007EDA07 /* LaunchCoordinator.swift */,
+				14BC61CF2C31B4F6007EDA07 /* FavouritesCoordinator.swift */,
+				14BC61CB2C31B473007EDA07 /* EpisodesCoordinator.swift */,
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		14BC61DF2C38684C007EDA07 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				14BC61C62C31B39E007EDA07 /* Launch */,
+				14BC61C82C31B41C007EDA07 /* Favourites */,
+				14BC61C72C31B3BF007EDA07 /* Episodes */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
+		14BC61E02C38812A007EDA07 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				14BC61E12C38814D007EDA07 /* Dependencies.swift */,
+			);
+			path = Dependencies;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,16 +234,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14BC61E22C38814D007EDA07 /* Dependencies.swift in Sources */,
+				14BC61E42C3881ED007EDA07 /* LaunchViewController.swift in Sources */,
 				14BC61D22C31B504007EDA07 /* FavouritesViewModel.swift in Sources */,
 				14BC61CA2C31B465007EDA07 /* EpisodesViewController.swift in Sources */,
 				14BC61CC2C31B473007EDA07 /* EpisodesCoordinator.swift in Sources */,
 				14BC61D02C31B4F6007EDA07 /* FavouritesCoordinator.swift in Sources */,
 				14BC61CE2C31B480007EDA07 /* EpisodesViewModel.swift in Sources */,
 				14BC61DA2C3328CC007EDA07 /* AssemblyBuilder.swift in Sources */,
-				14BC61D62C31BD12007EDA07 /* MainCoordinator.swift in Sources */,
+				14BC61D62C31BD12007EDA07 /* LaunchCoordinator.swift in Sources */,
 				14BC61C52C31A673007EDA07 /* AppCoordinator.swift in Sources */,
 				14BC61AC2C316D4A007EDA07 /* AppDelegate.swift in Sources */,
-				14BC61DC2C332900007EDA07 /* AssemblyBuilderImpl.swift in Sources */,
+				14BC61DC2C332900007EDA07 /* LauchAssemblyBuilder.swift in Sources */,
 				14BC61C32C31A61C007EDA07 /* Coordinator.swift in Sources */,
 				14BC61AE2C316D4A007EDA07 /* SceneDelegate.swift in Sources */,
 				14BC61D42C31B514007EDA07 /* FavouritesViewContorller.swift in Sources */,
@@ -353,7 +393,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = RickAndMortyApp/Info.plist;
+				INFOPLIST_FILE = "RickAndMortyApp/Supporting files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -380,7 +420,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = RickAndMortyApp/Info.plist;
+				INFOPLIST_FILE = "RickAndMortyApp/Supporting files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

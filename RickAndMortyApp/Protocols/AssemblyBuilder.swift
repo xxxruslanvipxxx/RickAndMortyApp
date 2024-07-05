@@ -9,6 +9,5 @@ import Foundation
 import UIKit
 
 protocol AssemblyBuilder {
-    static func createEpisodesModule() -> EpisodesViewController
-    static func createFavouritesModule() -> FavouritesViewContorller
+    static func configure(_ dependencies: IDependencies) -> UIViewController
 }

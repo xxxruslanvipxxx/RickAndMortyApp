@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FavouritesCoordinator: Coordinator {
+class FavouritesCoordinator {
     
     var childCoordinators = [Coordinator]()
     var rootViewController = UINavigationController()
