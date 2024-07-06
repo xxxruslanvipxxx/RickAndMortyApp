@@ -10,7 +10,7 @@ import UIKit
 
 class LauchAssemblyBuilder: AssemblyBuilder {
     static func configure(_ dependencies: IDependencies) -> UIViewController {
-        LaunchViewController()
+        dependencies.moduleContainer.createLaunchView()
     }
         
 }

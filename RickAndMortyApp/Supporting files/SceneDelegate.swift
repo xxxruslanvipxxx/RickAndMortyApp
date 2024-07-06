@@ -11,11 +11,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     private var coordinator: AppCoordinatorProtocol?
-    // private var dependencies: IDependencies = Dependencies()
+    private var dependencies: IDependencies = Dependencies()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
         configureScene(windowScene)
     }
     
@@ -26,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = navController
         window?.makeKeyAndVisible()
         
-        coordinator = AppCoordinator(navController)
+        coordinator = AppCoordinator(navController, dependencies: dependencies)
         coordinator?.start()
         
     }

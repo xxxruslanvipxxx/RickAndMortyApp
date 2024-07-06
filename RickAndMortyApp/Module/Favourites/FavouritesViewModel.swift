@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+protocol FavouritesViewModelProtocol {
+    
+}
+
+class FavouritesViewModel: FavouritesViewModelProtocol {
+    
+}

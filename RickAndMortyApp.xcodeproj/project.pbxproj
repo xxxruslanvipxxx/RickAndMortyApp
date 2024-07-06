@@ -24,6 +24,8 @@
 		14BC61DC2C332900007EDA07 /* LauchAssemblyBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC61DB2C332900007EDA07 /* LauchAssemblyBuilder.swift */; };
 		14BC61E22C38814D007EDA07 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC61E12C38814D007EDA07 /* Dependencies.swift */; };
 		14BC61E42C3881ED007EDA07 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC61E32C3881ED007EDA07 /* LaunchViewController.swift */; };
+		14BC61E62C3990C0007EDA07 /* ModuleContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC61E52C3990C0007EDA07 /* ModuleContainer.swift */; };
+		14BC61E82C39AB55007EDA07 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC61E72C39AB55007EDA07 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		14BC61DB2C332900007EDA07 /* LauchAssemblyBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LauchAssemblyBuilder.swift; sourceTree = "<group>"; };
 		14BC61E12C38814D007EDA07 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 		14BC61E32C3881ED007EDA07 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
+		14BC61E52C3990C0007EDA07 /* ModuleContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleContainer.swift; sourceTree = "<group>"; };
+		14BC61E72C39AB55007EDA07 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +131,7 @@
 			children = (
 				14BC61AB2C316D4A007EDA07 /* AppDelegate.swift */,
 				14BC61AD2C316D4A007EDA07 /* SceneDelegate.swift */,
+				14BC61E72C39AB55007EDA07 /* Constants.swift */,
 				14BC61B42C316D4C007EDA07 /* Assets.xcassets */,
 				14BC61B62C316D4C007EDA07 /* LaunchScreen.storyboard */,
 				14BC61B92C316D4C007EDA07 /* Info.plist */,
@@ -160,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				14BC61E12C38814D007EDA07 /* Dependencies.swift */,
+				14BC61E52C3990C0007EDA07 /* ModuleContainer.swift */,
 			);
 			path = Dependencies;
 			sourceTree = "<group>";
@@ -235,6 +241,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				14BC61E22C38814D007EDA07 /* Dependencies.swift in Sources */,
+				14BC61E82C39AB55007EDA07 /* Constants.swift in Sources */,
 				14BC61E42C3881ED007EDA07 /* LaunchViewController.swift in Sources */,
 				14BC61D22C31B504007EDA07 /* FavouritesViewModel.swift in Sources */,
 				14BC61CA2C31B465007EDA07 /* EpisodesViewController.swift in Sources */,
@@ -243,6 +250,7 @@
 				14BC61CE2C31B480007EDA07 /* EpisodesViewModel.swift in Sources */,
 				14BC61DA2C3328CC007EDA07 /* AssemblyBuilder.swift in Sources */,
 				14BC61D62C31BD12007EDA07 /* LaunchCoordinator.swift in Sources */,
+				14BC61E62C3990C0007EDA07 /* ModuleContainer.swift in Sources */,
 				14BC61C52C31A673007EDA07 /* AppCoordinator.swift in Sources */,
 				14BC61AC2C316D4A007EDA07 /* AppDelegate.swift in Sources */,
 				14BC61DC2C332900007EDA07 /* LauchAssemblyBuilder.swift in Sources */,
