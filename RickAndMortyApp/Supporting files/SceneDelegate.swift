@@ -9,7 +9,6 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
-    var window: UIWindow?
     private var coordinator: AppCoordinatorProtocol?
     private var dependencies: IDependencies = Dependencies()
 
@@ -20,12 +19,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private func configureScene(_ windowScene: UIWindowScene) {
         let navController = UINavigationController()
+        let window = UIWindow(windowScene: windowScene)
+        window.rootViewController = navController
+        window.makeKeyAndVisible()
         
-        window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = navController
-        window?.makeKeyAndVisible()
-        
-        coordinator = AppCoordinator(navController, dependencies: dependencies)
+        coordinator = AppCoordinator(window: window, dependencies: dependencies, navigationController: navController)
         coordinator?.start()
         
     }

@@ -13,13 +13,13 @@ protocol LaunchCoordinatorProtocol: Coordinator {
 
 class LaunchCoordinator: LaunchCoordinatorProtocol {
     
-    var navigationController: UINavigationController
+    var rootViewController: UINavigationController
     var type: CoordinatorType { .launch }
     var childCoordinators = [Coordinator]()
     var dependencies: IDependencies
     
     init(_ navigationController: UINavigationController, dependencies: IDependencies) {
-        self.navigationController = navigationController
+        self.rootViewController = navigationController
         self.dependencies = dependencies
     }
     
@@ -29,7 +29,7 @@ class LaunchCoordinator: LaunchCoordinatorProtocol {
     
     private func showLaunchViewController() {
         let launchViewController = LauchAssemblyBuilder.configure(dependencies)
-        navigationController.show(launchViewController, sender: self)
+        rootViewController.show(launchViewController, sender: self)
     }
     
 }

@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import Combine
 
 class LaunchViewController: UIViewController {
+    
+    @Published public var didSendCompletionEvent: (() -> Void)?
     
     private lazy var logoImageView: UIImageView = {
         let image = UIImage(named: ImageName.appLogo)

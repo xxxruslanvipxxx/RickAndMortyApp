@@ -31,13 +31,17 @@ extension ModuleContainer {
 extension ModuleContainer {
     func createEpisodesView() -> UIViewController {
         let vm = EpisodesViewModel()
-        return EpisodesViewController(viewModel: vm)
+        let vc = EpisodesViewController(viewModel: vm)
+        
+        return vc
     }
 }
 
 extension ModuleContainer {
     func createFavouritesView() -> UIViewController {
         let vm = FavouritesViewModel()
-        return FavouritesViewContorller()
+        let vc = FavouritesViewContorller(viewModel: vm)
+
+        return vc
     }
 }

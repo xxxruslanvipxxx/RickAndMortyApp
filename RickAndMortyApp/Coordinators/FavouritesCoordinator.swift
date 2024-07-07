@@ -12,14 +12,8 @@ class FavouritesCoordinator {
     var childCoordinators = [Coordinator]()
     var rootViewController = UINavigationController()
     
-    lazy var favouritesVC: FavouritesViewContorller = {
-        let vc = FavouritesViewContorller()
-        vc.tabBarItem.image = UIImage(systemName: "heart")
-        return vc
-    }()
-    
     func start() {
-        rootViewController.setViewControllers([favouritesVC], animated: false)
+        
     }
     
 }

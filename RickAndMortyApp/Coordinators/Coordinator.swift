@@ -8,11 +8,11 @@
 import UIKit
 
 enum CoordinatorType {
-    case app, launch, episodes, favourites
+    case app, launch, main, episodes, favourites
 }
 
 protocol Coordinator: AnyObject {
-    var navigationController: UINavigationController {get set}
+//    var rootViewController: UINavigationController {get set}
     var childCoordinators: [Coordinator] { get set }
     var type: CoordinatorType {get}
      var dependencies: IDependencies {get set}

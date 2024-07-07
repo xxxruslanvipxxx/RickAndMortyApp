@@ -20,7 +20,7 @@ class EpisodesViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private lazy var logoImage: UIImageView = {
+    private lazy var logoImageView: UIImageView = {
         let image = UIImage(named: "appLogo")
         let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFit
@@ -40,12 +40,25 @@ class EpisodesViewController: UIViewController {
 
 //        view.backgroundColor = UIColor(named: "customBackgroundColor")
         view.backgroundColor = .green
+        setupSubviews()
+        setupTabBar()
     }
 
     private func setupSubviews() {
         
-        view.addSubview(logoImage)
+        view.addSubview(logoImageView)
         
+        let logoImageViewCenterX = logoImageView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor)
+        let logoImageViewTop = logoImageView.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor, constant: 97)
+        let logoImageViewWidth = logoImageView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.8)
+        let logoImageViewHeight = logoImageView.heightAnchor.constraint(equalTo: logoImageView.widthAnchor, multiplier: 1/3)
+        
+        NSLayoutConstraint.activate([logoImageViewCenterX, logoImageViewTop, logoImageViewWidth, logoImageViewHeight])
+        
+    }
+    
+    private func setupTabBar() {
+        self.tabBarItem = UITabBarItem(title: "Home", image: UIImage(named: ImageName.homeTabBarImage), tag: 0)
     }
     
 }

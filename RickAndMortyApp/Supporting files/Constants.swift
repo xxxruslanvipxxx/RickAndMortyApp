@@ -10,6 +10,8 @@ import Foundation
 enum ImageName {
     static let appLogo = "appLogo"
     static let loadingComponent = "loadingComponent"
+    static let favouritesTabBarImage = "favouritesTabBarImage"
+    static let homeTabBarImage = "homeTabBarImage"
 }
 
 enum ColorName {

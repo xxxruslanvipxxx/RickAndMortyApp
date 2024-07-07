@@ -12,5 +12,4 @@ class LauchAssemblyBuilder: AssemblyBuilder {
     static func configure(_ dependencies: IDependencies) -> UIViewController {
         dependencies.moduleContainer.createLaunchView()
     }
-        
 }
