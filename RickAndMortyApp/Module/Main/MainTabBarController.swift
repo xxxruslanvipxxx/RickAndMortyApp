@@ -11,8 +11,14 @@ class MainTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        setupUI()
+    }
+    
+    private func setupUI() {
+        tabBar.backgroundColor = .white
+        tabBar.layer.shadowOffset = CGSize(width: -8, height: 0)
+        tabBar.layer.shadowRadius = 8
+        tabBar.layer.shadowOpacity = 0.5
     }
 
 }

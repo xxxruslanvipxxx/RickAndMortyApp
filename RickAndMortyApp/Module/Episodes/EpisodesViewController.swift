@@ -14,6 +14,7 @@ class EpisodesViewController: UIViewController {
     init(viewModel: EpisodesViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        self.setupTabBar()
     }
     
     required init?(coder: NSCoder) {
@@ -41,7 +42,6 @@ class EpisodesViewController: UIViewController {
 //        view.backgroundColor = UIColor(named: "customBackgroundColor")
         view.backgroundColor = .green
         setupSubviews()
-        setupTabBar()
     }
 
     private func setupSubviews() {
@@ -58,7 +58,10 @@ class EpisodesViewController: UIViewController {
     }
     
     private func setupTabBar() {
-        self.tabBarItem = UITabBarItem(title: "Home", image: UIImage(named: ImageName.homeTabBarImage), tag: 0)
+        let image = UIImage(named: ImageName.homeTabBarImage)
+        let selectedImage = UIImage(named: ImageName.homeTabBarImageSelected)
+        self.tabBarItem.tag = 1
+        self.tabBarItem = UITabBarItem(title: nil, image: image, selectedImage: selectedImage)
     }
     
 }

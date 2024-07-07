@@ -5,7 +5,6 @@
 //  Created by Руслан Забиран on 7.07.24.
 //
 
-import Foundation
 import UIKit
 
 protocol MainTabBarCoordinatorProtocol: Coordinator {
@@ -25,11 +24,13 @@ class MainTabBarCoordinator: MainTabBarCoordinatorProtocol {
     }
     
     func start() {
-        let episodesVC = EpisodesAssemblyBuilder.configure(dependencies)
-        let favouritesVC = FavouritesAssemblyBuilder.configure(dependencies)
-        rootViewController.tabBar.items?[0].image = UIImage(named: ImageName.homeTabBarImage)
-        rootViewController.tabBar.items?[1].image = UIImage(named: ImageName.favouritesTabBarImage)
-        rootViewController.setViewControllers([episodesVC, favouritesVC], animated: true)
+        let episodesCoordinator = EpisodesCoordinator(dependencies: dependencies)
+        episodesCoordinator.start()
+        
+        let favouritesCoordinator = FavouritesCoordinator(dependencies: dependencies)
+        favouritesCoordinator.start()
+        
+        rootViewController.viewControllers = [episodesCoordinator.rootViewController, favouritesCoordinator.rootViewController]
     }
     
 }

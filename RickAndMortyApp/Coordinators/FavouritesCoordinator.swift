@@ -7,13 +7,25 @@
 
 import UIKit
 
-class FavouritesCoordinator {
+protocol FavouritesCoordinatorProtocol: Coordinator {
+    func start()
+}
+
+class FavouritesCoordinator: FavouritesCoordinatorProtocol {
     
-    var childCoordinators = [Coordinator]()
     var rootViewController = UINavigationController()
+    var type: CoordinatorType = .favourites
+    var dependencies: IDependencies
+    var childCoordinators = [Coordinator]()
+    
+    init(rootViewController: UINavigationController = UINavigationController(), dependencies: IDependencies) {
+        self.rootViewController = rootViewController
+        self.dependencies = dependencies
+    }
     
     func start() {
-        
+        let favouritesVC = FavouritesAssemblyBuilder.configure(dependencies)
+        rootViewController.pushViewController(favouritesVC, animated: false)
     }
     
 }

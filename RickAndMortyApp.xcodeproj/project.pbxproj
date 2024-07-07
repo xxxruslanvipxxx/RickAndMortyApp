@@ -156,8 +156,8 @@
 				14BC61C42C31A673007EDA07 /* AppCoordinator.swift */,
 				14BC61D52C31BD12007EDA07 /* LaunchCoordinator.swift */,
 				14BC61E92C3AB355007EDA07 /* MainTabBarCoordinator.swift */,
-				14BC61CF2C31B4F6007EDA07 /* FavouritesCoordinator.swift */,
 				14BC61CB2C31B473007EDA07 /* EpisodesCoordinator.swift */,
+				14BC61CF2C31B4F6007EDA07 /* FavouritesCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";

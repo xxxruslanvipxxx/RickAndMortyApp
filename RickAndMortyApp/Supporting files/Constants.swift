@@ -11,7 +11,9 @@ enum ImageName {
     static let appLogo = "appLogo"
     static let loadingComponent = "loadingComponent"
     static let favouritesTabBarImage = "favouritesTabBarImage"
+    static let favouritesTabBarImageSelected = "favouritesTabBarImageSelected"
     static let homeTabBarImage = "homeTabBarImage"
+    static let homeTabBarImageSelected = "homeTabBarImageSelected"
 }
 
 enum ColorName {

@@ -5,7 +5,6 @@
 //  Created by Руслан Забиран on 6.07.24.
 //
 
-import Foundation
 import UIKit
 
 protocol ModuleContainerProtocol {

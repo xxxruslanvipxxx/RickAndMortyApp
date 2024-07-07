@@ -14,6 +14,7 @@ class FavouritesViewContorller: UIViewController {
     init(viewModel: FavouritesViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        self.setupTabBar()
     }
     
     required init?(coder: NSCoder) {
@@ -28,7 +29,10 @@ class FavouritesViewContorller: UIViewController {
     }
 
     private func setupTabBar() {
-        self.tabBarItem = UITabBarItem(title: "Fav", image: UIImage(named: ImageName.favouritesTabBarImage), tag: 1)
+        let image = UIImage(named: ImageName.favouritesTabBarImage)
+        let selectedImage = UIImage(named: ImageName.favouritesTabBarImageSelected)
+        self.tabBarItem.tag = 1
+        self.tabBarItem = UITabBarItem(title: nil, image: image, selectedImage: selectedImage)
     }
 
 }

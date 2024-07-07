@@ -16,7 +16,7 @@ protocol AppCoordinatorProtocol: Coordinator {
 final class AppCoordinator: AppCoordinatorProtocol {
     
     var navigationController: UINavigationController
-    var tabBarController: UITabBarController = UITabBarController()
+    var tabBarController: UITabBarController = MainTabBarController()
     var window: UIWindow
     var type: CoordinatorType { .app }
     var childCoordinators = [Coordinator]()
