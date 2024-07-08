@@ -39,8 +39,7 @@ class EpisodesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        view.backgroundColor = UIColor(named: "customBackgroundColor")
-        view.backgroundColor = .green
+        view.backgroundColor = UIColor(named: ColorName.customBackgroundColor)
         setupSubviews()
     }
 
