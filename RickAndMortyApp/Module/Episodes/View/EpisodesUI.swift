@@ -78,13 +78,32 @@ class EpisodesUI: UIViewController {
         return stackView
     }()
     
+    var contentHeight: CGFloat = 2000
+    
+    var contentSize: CGSize {
+        CGSize(width: view.frame.width, height: contentHeight)
+    }
+    
+    lazy var contentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
     lazy var collectionView: UICollectionView = {
-        let collectionLayout = UICollectionViewLayout()
-        let frame = CGRect(x: 0, y: 0, width: 200, height: 200)
-        let collectionView = UICollectionView(frame: frame, collectionViewLayout: collectionLayout)
+        // UICollectionViewFlowLayout
+        let collectionLayout = UICollectionViewFlowLayout()
+        collectionLayout.minimumLineSpacing = 40
+        // Cell Size
+        let width = self.view.frame.size.width
+        let cellSize = CGSize(width: width, height: width * 1.1)
+        collectionLayout.itemSize = cellSize
+        // UICollectionView
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
+        collectionView.register(EpisodeCell.self, forCellWithReuseIdentifier: EpisodeCell.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.isScrollEnabled = false
-        collectionView.backgroundColor = .gray
         
         return collectionView
     }()
@@ -93,7 +112,6 @@ class EpisodesUI: UIViewController {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.showsVerticalScrollIndicator = true
-//        scrollView.alwaysBounceVertical = true
         scrollView.keyboardDismissMode = .onDrag
         
         return scrollView
@@ -108,7 +126,8 @@ class EpisodesUI: UIViewController {
     private func setupViews() {
         view.backgroundColor = UIColor(named: ColorName.customBackgroundColor)
         view.addSubview(scrollView)
-        [logoImageView, searchAndFilterVStack, collectionView].forEach { self.scrollView.addSubview($0) }
+        scrollView.addSubview(contentView)
+        [logoImageView, searchAndFilterVStack, collectionView].forEach { self.contentView.addSubview($0) }
     }
     
     private func setupConstraints() {
@@ -117,23 +136,30 @@ class EpisodesUI: UIViewController {
         let scrollViewTop = scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         let scrollViewLeading = scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
         let scrollViewTrailing = scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-//        let scrollViewBottom = scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        let scrollViewBottom = scrollView.heightAnchor.constraint(equalToConstant: 800)
+        let scrollViewBottom = scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         
         NSLayoutConstraint.activate([scrollViewTop, scrollViewLeading, scrollViewTrailing, scrollViewBottom])
         
+        // contentView constraints
+        let contentViewTop = contentView.topAnchor.constraint(equalTo: scrollView.topAnchor)
+        let contentViewLeading = contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor)
+        let contentViewTrailing = contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor)
+        let contentViewBottom = contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+        
+        NSLayoutConstraint.activate([contentViewTop, contentViewLeading, contentViewTrailing, contentViewBottom])
+        
         // logoImageView constraints
-        let logoImageViewCenterX = logoImageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
-        let logoImageViewTop = logoImageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 20)
-        let logoImageViewWidth = logoImageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8)
-        let logoImageViewHeight = logoImageView.heightAnchor.constraint(equalTo: logoImageView.widthAnchor, multiplier: 1/3)
+        let logoImageViewCenterX = logoImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+        let logoImageViewTop = logoImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20)
+        let logoImageViewWidth = logoImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8)
+        let logoImageViewHeight = logoImageView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1/3)
         
         NSLayoutConstraint.activate([logoImageViewCenterX, logoImageViewTop, logoImageViewWidth, logoImageViewHeight])
         
         // searchAndFilterVStack constraints
         let searchAndFilterStackTop = searchAndFilterVStack.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 30)
-        let searchAndFilterStackLeading = searchAndFilterVStack.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 21)
-        let searchAndFilterStackTrailing = searchAndFilterVStack.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -21)
+        let searchAndFilterStackLeading = searchAndFilterVStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 21)
+        let searchAndFilterStackTrailing = searchAndFilterVStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -21)
         
         NSLayoutConstraint.activate([searchAndFilterStackTop, searchAndFilterStackLeading, searchAndFilterStackTrailing])
         
@@ -151,12 +177,13 @@ class EpisodesUI: UIViewController {
         
         // collectionView constraints
         let collectionViewTop = collectionView.topAnchor.constraint(equalTo: searchAndFilterVStack.bottomAnchor, constant: 20)
-        let collectionViewLeading = collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 21)
-        let collectionViewTrailing = collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -21)
-        let collectionViewHeight = collectionView.heightAnchor.constraint(equalToConstant: 600)
-//        let collectionViewBottom = collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        let collectionViewLeading = collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 21)
+        let collectionViewTrailing = collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -21)
+        let collectionViewBottom = collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        let collectionViewHeight = collectionView.heightAnchor.constraint(equalToConstant: contentHeight)
         
-        NSLayoutConstraint.activate([collectionViewTop, collectionViewLeading, collectionViewTrailing, collectionViewHeight])
+        
+        NSLayoutConstraint.activate([collectionViewTop, collectionViewLeading, collectionViewTrailing, collectionViewBottom, collectionViewHeight])
     }
     
     private func setupTabBar() {
