@@ -101,7 +101,7 @@ class EpisodesUI: UIViewController {
         collectionLayout.itemSize = cellSize
         // UICollectionView
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
-        collectionView.register(EpisodeCell.self, forCellWithReuseIdentifier: EpisodeCell.identifier)
+        collectionView.register(CharacterCell.self, forCellWithReuseIdentifier: CharacterCell.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.isScrollEnabled = false
         

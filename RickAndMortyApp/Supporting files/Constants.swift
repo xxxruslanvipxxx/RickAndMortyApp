@@ -16,6 +16,10 @@ enum ImageName {
     static let homeTabBarImageSelected = "homeTabBarImageSelected"
     static let leadingTextView = "leadingTextView"
     static let filterButtonImage = "filterButtonImage"
+    static let systemQuestionmark = "questionmark"
+    static let monitorPlay = "monitorPlay"
+    static let heart = "heart"
+    static let heartFilled = "heartFilled"
 }
 
 enum ColorName {
