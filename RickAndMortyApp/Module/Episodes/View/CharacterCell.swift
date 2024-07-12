@@ -13,14 +13,16 @@ class CharacterCell: UICollectionViewCell {
     
     //MARK: Variables
     
+    private var shadowLayer: CAShapeLayer!
+    
     var isFavourite: Bool = false {
         didSet {
             if isFavourite{
                 let image = UIImage(named: ImageName.heartFilled)
-                heartButton.setImage(image, for: .normal)
+                addToFavouriteButton.setImage(image, for: .normal)
             } else {
                 let image = UIImage(named: ImageName.heart)
-                heartButton.setImage(image, for: .normal)
+                addToFavouriteButton.setImage(image, for: .normal)
             }
             print(isFavourite)
         }
@@ -43,9 +45,8 @@ class CharacterCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Rick Sanchez"
-        label.textAlignment = .natural
-        label.font = UIFont(name: "Roboto", size: 20)
-//        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        label.textAlignment = .left
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         
         return label
     }()
@@ -54,8 +55,7 @@ class CharacterCell: UICollectionViewCell {
         let image = UIImage(named: ImageName.monitorPlay)
         let imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-//        imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        imageView.contentMode = .right
         
         return imageView
     }()
@@ -66,12 +66,11 @@ class CharacterCell: UICollectionViewCell {
         label.text = "Pilot | S01E01"
         label.textAlignment = .left
         label.font = UIFont(name: "Inter", size: 16)
-//        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
         return label
     }()
     
-    private lazy var heartButton: UIButton = {
+    private lazy var addToFavouriteButton: UIButton = {
         let button = UIButton()
         let image = UIImage(named: ImageName.heart)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -84,28 +83,28 @@ class CharacterCell: UICollectionViewCell {
     private lazy var episodeBackgroundView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .systemGray
-        view.layer.cornerRadius = 15
+        view.backgroundColor = UIColor(_colorLiteralRed: 249/255, green: 249/255, blue: 249/255, alpha: 1)
+        view.layer.cornerRadius = 20
         
         return view
     }()
     
     private lazy var episodeAndFavouritesStack: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [monitorPlayImageView, episodeLabel, heartButton])
+        let stackView = UIStackView(arrangedSubviews: [monitorPlayImageView, episodeLabel, addToFavouriteButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.distribution = .fillProportionally
-        stackView.spacing = 5
+        stackView.spacing = 8
         
         return stackView
     }()
     
     private lazy var finalStack: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [imageView, episodeBackgroundView])
+        let stackView = UIStackView(arrangedSubviews: [imageView, characterNameLabel, episodeBackgroundView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.distribution = .fill
-        
+        stackView.alignment = .center
         
         return stackView
     }()
@@ -137,7 +136,16 @@ class CharacterCell: UICollectionViewCell {
     //MARK: UI Methods
     
     private func setupUI() {
-        self.backgroundColor = .systemBlue
+        self.backgroundColor = UIColor(named: ColorName.customBackgroundColor)
+//        // To round the corners
+//        layer.cornerRadius = 4
+//        clipsToBounds = true
+//        // To provide the shadow
+//        layer.shadowRadius = 10
+//        layer.shadowOpacity = 1.0
+//        layer.shadowOffset = CGSize(width: -3, height: -3)
+//        layer.shadowColor = UIColor.black.cgColor
+//        layer.masksToBounds = false
         
         self.contentView.addSubview(finalStack)
         episodeBackgroundView.addSubview(episodeAndFavouritesStack)
@@ -147,50 +155,69 @@ class CharacterCell: UICollectionViewCell {
     
     private func setupConstraints() {
         
-        //MARK: episodeAndFavouritesStack constraints
-        let episodeAndFavouritesStackTop = episodeAndFavouritesStack.topAnchor.constraint(equalTo: episodeBackgroundView.topAnchor)
-        let episodeAndFavouritesStackLeading = episodeAndFavouritesStack.leadingAnchor.constraint(equalTo: episodeBackgroundView.leadingAnchor)
-        let episodeAndFavouritesStackTrailing = episodeAndFavouritesStack.trailingAnchor.constraint(equalTo: episodeBackgroundView.trailingAnchor)
-        let episodeAndFavouritesStackBottom = episodeAndFavouritesStack.bottomAnchor.constraint(equalTo: episodeBackgroundView.bottomAnchor)
-        
-        NSLayoutConstraint.activate([episodeAndFavouritesStackTop,
-                                     episodeAndFavouritesStackLeading,
-                                     episodeAndFavouritesStackTrailing,
-                                     episodeAndFavouritesStackBottom])
-        
         //MARK: finalStack constraints
         let finalStackTop = finalStack.topAnchor.constraint(equalTo: contentView.topAnchor)
         let finalStackLeading = finalStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
         let finalStackTrailing = finalStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         let finalStackBottom = finalStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         
-        NSLayoutConstraint.activate([finalStackTop,
-                                     finalStackLeading,
-                                     finalStackTrailing,
-                                     finalStackBottom])
+        NSLayoutConstraint.activate([finalStackTop, finalStackLeading, finalStackTrailing, finalStackBottom])
         
         //MARK: imageView constraints
         let imageViewWidth = imageView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
-        let imageViewHeight = imageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.75)
-       
-        NSLayoutConstraint.activate([imageViewWidth,
-                                     imageViewHeight])
+        let imageViewHeight = imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.65)
+        
+        NSLayoutConstraint.activate([imageViewWidth, imageViewHeight])
         
         //MARK: episodeBackgroundView constraints
         let episodeBackgroundViewWidth = episodeBackgroundView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
         let episodeBackgroundViewHeight = episodeBackgroundView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.2)
         
-        NSLayoutConstraint.activate([episodeBackgroundViewWidth])
+        NSLayoutConstraint.activate([episodeBackgroundViewWidth, episodeBackgroundViewHeight])
+        
+        //MARK: episodeAndFavouritesStack constraints
+        let episodeAndFavouritesStackTop = episodeAndFavouritesStack.topAnchor.constraint(equalTo: episodeBackgroundView.topAnchor)
+        let episodeAndFavouritesStackLeading = episodeAndFavouritesStack.leadingAnchor.constraint(equalTo: episodeBackgroundView.leadingAnchor)
+        let episodeAndFavouritesStackTrailing = episodeAndFavouritesStack.trailingAnchor.constraint(equalTo: episodeBackgroundView.trailingAnchor)
+        let episodeAndFavouritesStackBottom = episodeAndFavouritesStack.bottomAnchor.constraint(equalTo: episodeBackgroundView.bottomAnchor)
+        
+        NSLayoutConstraint.activate([episodeAndFavouritesStackTop, episodeAndFavouritesStackLeading, episodeAndFavouritesStackTrailing, episodeAndFavouritesStackBottom])
         
         //MARK: characterNameLabel constraints
-//        let characterNameLabelHeight = characterNameLabel.heightAnchor.constraint(equalToConstant: 50)
-//        let characterNameLabelWidth = characterNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor)
+        let characterNameLabelLeading = characterNameLabel.leadingAnchor.constraint(equalTo: finalStack.leadingAnchor, constant: 16)
+        let characterNameLabelTrailing = characterNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         
-//        NSLayoutConstraint.activate([characterNameLabelWidth])
+        NSLayoutConstraint.activate([characterNameLabelLeading, characterNameLabelTrailing])
         
-//        let episodeBackgroundViewHeight = episodeBackgroundView.heightAnchor.constraint(equalToConstant: 70)
-//        NSLayoutConstraint.activate([episodeBackgroundViewHeight])
+//        //MARK: monitorPlayImageView constraints
+//        let monitorPlayImageViewWidth = monitorPlayImageView.widthAnchor.constraint(equalToConstant: 26)
+//        let monitorPlayImageViewHeight = monitorPlayImageView.heightAnchor.constraint(equalToConstant: 26)
+//        
+//        NSLayoutConstraint.activate([monitorPlayImageViewWidth, monitorPlayImageViewHeight])
 
     }
+    
+}
+
+extension CharacterCell {
+    
+    override func layoutSubviews() {
+            super.layoutSubviews()
+
+            if shadowLayer == nil {
+                shadowLayer = CAShapeLayer()
+                shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 4).cgPath
+                
+                shadowLayer.fillColor = UIColor.white.cgColor
+
+                shadowLayer.shadowColor = UIColor.darkGray.cgColor
+                shadowLayer.shadowPath = shadowLayer.path
+                shadowLayer.shadowOffset = CGSize(width: 0, height: 2.0)
+                shadowLayer.shadowOpacity = 0.7
+                shadowLayer.shadowRadius = 3
+
+                layer.insertSublayer(shadowLayer, at: 0)
+            }
+        }
     
 }

@@ -95,15 +95,17 @@ class EpisodesUI: UIViewController {
         // UICollectionViewFlowLayout
         let collectionLayout = UICollectionViewFlowLayout()
         collectionLayout.minimumLineSpacing = 40
+        collectionLayout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
         // Cell Size
-        let width = self.view.frame.size.width
-        let cellSize = CGSize(width: width, height: width * 1.1)
+        let width = self.view.frame.size.width - 48
+        let cellSize = CGSize(width: width, height: width * 1.15)
         collectionLayout.itemSize = cellSize
         // UICollectionView
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
         collectionView.register(CharacterCell.self, forCellWithReuseIdentifier: CharacterCell.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.isScrollEnabled = false
+        collectionView.backgroundColor = UIColor(named: ColorName.customBackgroundColor)
         
         return collectionView
     }()
@@ -177,8 +179,8 @@ class EpisodesUI: UIViewController {
         
         // collectionView constraints
         let collectionViewTop = collectionView.topAnchor.constraint(equalTo: searchAndFilterVStack.bottomAnchor, constant: 20)
-        let collectionViewLeading = collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 21)
-        let collectionViewTrailing = collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -21)
+        let collectionViewLeading = collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+        let collectionViewTrailing = collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         let collectionViewBottom = collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         let collectionViewHeight = collectionView.heightAnchor.constraint(equalToConstant: contentHeight)
         

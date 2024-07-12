@@ -31,9 +31,10 @@ final class AppCoordinator: AppCoordinatorProtocol {
     
     func start() {
         showLaunchFlow()
-        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { timer in
-            self.showMainFlow()
-        }
+//        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { timer in
+//            self.showMainFlow()
+//        }
+        self.showMainFlow()
     }
     
     func showLaunchFlow() {
