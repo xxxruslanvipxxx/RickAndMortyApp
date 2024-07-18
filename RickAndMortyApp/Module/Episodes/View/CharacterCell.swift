@@ -137,15 +137,6 @@ class CharacterCell: UICollectionViewCell {
     
     private func setupUI() {
         self.backgroundColor = UIColor(named: ColorName.customBackgroundColor)
-//        // To round the corners
-//        layer.cornerRadius = 4
-//        clipsToBounds = true
-//        // To provide the shadow
-//        layer.shadowRadius = 10
-//        layer.shadowOpacity = 1.0
-//        layer.shadowOffset = CGSize(width: -3, height: -3)
-//        layer.shadowColor = UIColor.black.cgColor
-//        layer.masksToBounds = false
         
         self.contentView.addSubview(finalStack)
         episodeBackgroundView.addSubview(episodeAndFavouritesStack)
@@ -199,6 +190,7 @@ class CharacterCell: UICollectionViewCell {
     
 }
 
+//MARK: - Setup shadows
 extension CharacterCell {
     
     override func layoutSubviews() {

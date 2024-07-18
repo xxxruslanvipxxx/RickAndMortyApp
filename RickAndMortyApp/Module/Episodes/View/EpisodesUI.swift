@@ -9,17 +9,14 @@ import UIKit
 
 class EpisodesUI: UIViewController {
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        self.setupTabBar()
-    }
+    //MARK: Variables
+    var contentHeight: CGFloat = 2000
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
+    var contentSize: CGSize { CGSize(width: view.frame.width, height: contentHeight) }
+    
+    //MARK: UI Variables
     private lazy var logoImageView: UIImageView = {
-        let image = UIImage(named: "appLogo")
+        let image = UIImage(named: ImageName.appLogo)
         let imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
@@ -78,12 +75,6 @@ class EpisodesUI: UIViewController {
         return stackView
     }()
     
-    var contentHeight: CGFloat = 2000
-    
-    var contentSize: CGSize {
-        CGSize(width: view.frame.width, height: contentHeight)
-    }
-    
     lazy var contentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -119,10 +110,21 @@ class EpisodesUI: UIViewController {
         return scrollView
     }()
     
+    //MARK: Lifecicle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
+    }
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        self.setupTabBar()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
         
     private func setupViews() {
@@ -134,7 +136,7 @@ class EpisodesUI: UIViewController {
     
     private func setupConstraints() {
         
-        // scrollView constraints
+        //MARK: scrollView constraints
         let scrollViewTop = scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         let scrollViewLeading = scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
         let scrollViewTrailing = scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
@@ -142,7 +144,7 @@ class EpisodesUI: UIViewController {
         
         NSLayoutConstraint.activate([scrollViewTop, scrollViewLeading, scrollViewTrailing, scrollViewBottom])
         
-        // contentView constraints
+        //MARK: contentView constraints
         let contentViewTop = contentView.topAnchor.constraint(equalTo: scrollView.topAnchor)
         let contentViewLeading = contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor)
         let contentViewTrailing = contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor)
@@ -150,7 +152,7 @@ class EpisodesUI: UIViewController {
         
         NSLayoutConstraint.activate([contentViewTop, contentViewLeading, contentViewTrailing, contentViewBottom])
         
-        // logoImageView constraints
+        //MARK: logoImageView constraints
         let logoImageViewCenterX = logoImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         let logoImageViewTop = logoImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20)
         let logoImageViewWidth = logoImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8)
@@ -158,26 +160,26 @@ class EpisodesUI: UIViewController {
         
         NSLayoutConstraint.activate([logoImageViewCenterX, logoImageViewTop, logoImageViewWidth, logoImageViewHeight])
         
-        // searchAndFilterVStack constraints
+        //MARK: searchAndFilterVStack constraints
         let searchAndFilterStackTop = searchAndFilterVStack.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 30)
         let searchAndFilterStackLeading = searchAndFilterVStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 21)
         let searchAndFilterStackTrailing = searchAndFilterVStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -21)
         
         NSLayoutConstraint.activate([searchAndFilterStackTop, searchAndFilterStackLeading, searchAndFilterStackTrailing])
         
-        // searchTextField constraints
+        //MARK: searchTextField constraints
         let searchTextFieldLeading = searchTextField.leadingAnchor.constraint(equalTo: searchAndFilterVStack.leadingAnchor)
         let searchTextFieldTrailing = searchTextField.trailingAnchor.constraint(equalTo: searchAndFilterVStack.trailingAnchor)
         
         NSLayoutConstraint.activate([searchTextFieldLeading, searchTextFieldTrailing])
         
-        // filtersButton constraints
+        //MARK: filtersButton constraints
         let filtersButtonLeading = filtersButton.leadingAnchor.constraint(equalTo: searchAndFilterVStack.leadingAnchor)
         let filtersButtonTrailing = filtersButton.trailingAnchor.constraint(equalTo: searchAndFilterVStack.trailingAnchor)
         
         NSLayoutConstraint.activate([filtersButtonLeading, filtersButtonTrailing])
         
-        // collectionView constraints
+        //MARK: collectionView constraints
         let collectionViewTop = collectionView.topAnchor.constraint(equalTo: searchAndFilterVStack.bottomAnchor, constant: 20)
         let collectionViewLeading = collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
         let collectionViewTrailing = collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)

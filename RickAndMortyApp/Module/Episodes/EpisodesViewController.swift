@@ -32,6 +32,7 @@ class EpisodesViewController: EpisodesUI {
     
 }
 
+//MARK: - UICollectionViewDataSource
 extension EpisodesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         2
@@ -50,6 +51,7 @@ extension EpisodesViewController: UICollectionViewDataSource {
     
 }
 
+//MARK: - UICollectionViewDelegate
 extension EpisodesViewController: UICollectionViewDelegate {
     
 }
