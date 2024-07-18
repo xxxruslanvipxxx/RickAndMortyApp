@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum API {
+    static let baseURL = "https://rickandmortyapi.com/api"
+    static let characterPath = "/character"
+    static let episodePath = "/episode"
+}
+
 enum ImageName {
     static let appLogo = "appLogo"
     static let loadingComponent = "loadingComponent"
