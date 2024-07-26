@@ -7,8 +7,8 @@
 
 import Foundation
 
-// MARK: - Welcome
-struct Character: Decodable {
+// MARK: - Character
+struct Characters: Decodable {
     let info: Info
     let results: [Result]
 }
@@ -20,7 +20,7 @@ struct Info: Decodable {
 }
 
 // MARK: - Result
-struct Result: Decodable {
+struct Result: Decodable, Identifiable {
     let id: Int
     let name: String
     let status: Status

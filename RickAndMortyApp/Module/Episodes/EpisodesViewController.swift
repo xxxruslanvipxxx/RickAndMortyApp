@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import Combine
 
 class EpisodesViewController: EpisodesUI {
     
-    public var viewModel: EpisodesViewModelProtocol
+    private let viewModel: EpisodesViewModelProtocol
+    private var characters: [Result] = []
+    private var cancellables = Set<AnyCancellable>()
     
     init(viewModel: EpisodesViewModelProtocol) {
         self.viewModel = viewModel
@@ -23,8 +26,19 @@ class EpisodesViewController: EpisodesUI {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupDelegates()
+        binding()
+        
     }
     
+    private func binding() {
+        viewModel.publisher
+            .sink(receiveValue: { [weak self] characters in
+                self?.characters = characters
+                self?.collectionView.reloadData()
+            })
+            .store(in: &cancellables)
+
+    }
     private func setupDelegates() {
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -35,15 +49,15 @@ class EpisodesViewController: EpisodesUI {
 //MARK: - UICollectionViewDataSource
 extension EpisodesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        2
+        characters.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterCell.identifier, for: indexPath) as? CharacterCell else {
             fatalError("Failed to dequeue EpisodeCell")
         }
-        let image = UIImage(systemName: "sun.max.fill")
-        cell.configure(with: image)
+        let character = characters[indexPath.row]
+        cell.configure(with: character)
         
         return cell
     }

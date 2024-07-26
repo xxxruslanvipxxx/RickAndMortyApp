@@ -9,14 +9,14 @@ import Foundation
 import Combine
 
 protocol NetworkService {
-    func request<T: Decodable>(target: Endpoint) -> AnyPublisher<T, NetworkError>
+    func request<T: Decodable>(url: String) -> AnyPublisher<T, NetworkError>
 }
 
 struct NetworkServiceImpl: NetworkService {
 
-    func request<T>(target: any Endpoint) -> AnyPublisher<T, NetworkError> where T : Decodable {
-        guard let url = URL(string: target.url) else {
-            return Fail(error: NetworkError.urlValidationError(url: target.url)).eraseToAnyPublisher()
+    func request<T : Decodable>(url: String) -> AnyPublisher<T, NetworkError> {
+        guard let url = URL(string: url) else {
+            return Fail(error: NetworkError.urlValidationError(url: url)).eraseToAnyPublisher()
         }
         
         let urlRequest = URLRequest(url: url)
@@ -40,6 +40,7 @@ struct NetworkServiceImpl: NetworkService {
                     return NetworkError.unclassifiedError(error)
                 }
             }
+            .receive(on: RunLoop.main)
             .eraseToAnyPublisher()
     }
     

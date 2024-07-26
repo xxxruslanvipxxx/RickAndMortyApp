@@ -113,15 +113,17 @@ class CharacterCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        // nil to image and ather ui props
+        // nil image and other ui props
         imageView.image = nil
     }
     
     //MARK: configure()
     
-    // config method (later need to pass person model here)
-    public func configure(with image: UIImage?) {
-        self.imageView.image = image
+    // config method (later need to pass character model here)
+    public func configure(with character: Result) {
+        self.imageView.image = UIImage(systemName: "sun.fill")
+        self.characterNameLabel.text = character.name
+//        self.episodeLabel.text = character.
         setupUI()
     }
     
