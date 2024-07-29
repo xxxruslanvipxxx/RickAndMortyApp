@@ -10,9 +10,13 @@ import UIKit
 class EpisodesUI: UIViewController {
     
     //MARK: Variables
-    var contentHeight: CGFloat = 2000
+    var collectionViewHeight = NSLayoutConstraint()
     
-    var contentSize: CGSize { CGSize(width: view.frame.width, height: contentHeight) }
+    var cellSize: CGSize {
+        let width = self.view.frame.size.width - 48
+        let cellSize = CGSize(width: width, height: width * 1.15)
+        return cellSize
+    }
     
     //MARK: UI Variables
     private lazy var logoImageView: UIImageView = {
@@ -88,8 +92,6 @@ class EpisodesUI: UIViewController {
         collectionLayout.minimumLineSpacing = 40
         collectionLayout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
         // Cell Size
-        let width = self.view.frame.size.width - 48
-        let cellSize = CGSize(width: width, height: width * 1.15)
         collectionLayout.itemSize = cellSize
         // UICollectionView
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
@@ -184,8 +186,8 @@ class EpisodesUI: UIViewController {
         let collectionViewLeading = collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
         let collectionViewTrailing = collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         let collectionViewBottom = collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        let collectionViewHeight = collectionView.heightAnchor.constraint(equalToConstant: contentHeight)
-        
+        collectionViewHeight = collectionView.heightAnchor.constraint(equalToConstant: 1000)
+        collectionViewHeight.priority = .defaultHigh
         
         NSLayoutConstraint.activate([collectionViewTop, collectionViewLeading, collectionViewTrailing, collectionViewBottom, collectionViewHeight])
     }

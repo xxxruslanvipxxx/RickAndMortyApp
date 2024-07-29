@@ -11,7 +11,12 @@ import Combine
 class EpisodesViewController: EpisodesUI {
     
     private let viewModel: EpisodesViewModelProtocol
-    private var characters: [Result] = []
+    private var characters: [Result] = [] {
+        didSet {
+            self.collectionViewHeight.constant = (cellSize.height + 40) * CGFloat(characters.count)
+        }
+    }
+    
     private var cancellables = Set<AnyCancellable>()
     
     init(viewModel: EpisodesViewModelProtocol) {
