@@ -34,7 +34,7 @@ final class EpisodesViewModel: ObservableObject, EpisodesViewModelProtocol {
     
     func getAllCharacters() {
         let url = EndpointCases.getAllCharacters.url
-        networkService.request(url: url)
+        networkService.request(for: Characters.self, url: url)
             .sink(receiveCompletion: { [weak self] value in
                 guard let self = self else { return }
                 switch value {

@@ -9,12 +9,12 @@ import Foundation
 import Combine
 
 protocol NetworkService {
-    func request<T: Decodable>(url: String) -> AnyPublisher<T, NetworkError>
+    func request<T: Decodable>(for type: T.Type, url: String) -> AnyPublisher<T, NetworkError>
 }
 
 struct NetworkServiceImpl: NetworkService {
 
-    func request<T : Decodable>(url: String) -> AnyPublisher<T, NetworkError> {
+    func request<T : Decodable>(for type: T.Type, url: String) -> AnyPublisher<T, NetworkError> {
         guard let url = URL(string: url) else {
             return Fail(error: NetworkError.urlValidationError(url: url)).eraseToAnyPublisher()
         }
@@ -30,7 +30,7 @@ struct NetworkServiceImpl: NetworkService {
                     throw NetworkError.serverError(statusCode: statusCode, reason: nil, retryAfter: nil)
                 }
             }
-            .decode(type: T.self, decoder: JSONDecoder())
+            .decode(type: type, decoder: JSONDecoder())
             .mapError { error -> NetworkError in
                 if error is DecodingError {
                     return NetworkError.decodingError
