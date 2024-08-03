@@ -17,6 +17,8 @@ class EpisodesViewController: EpisodesUI {
         }
     }
     
+    private var images: [UIImage?] = []
+    
     private var cancellables = Set<AnyCancellable>()
     
     init(viewModel: EpisodesViewModelProtocol) {
@@ -32,17 +34,17 @@ class EpisodesViewController: EpisodesUI {
         super.viewDidLoad()
         setupDelegates()
         binding()
-        
     }
     
     private func binding() {
-        viewModel.publisher
+        viewModel.charactersPublisher
+            .receive(on: RunLoop.main)
             .sink(receiveValue: { [weak self] characters in
                 self?.characters = characters
                 self?.collectionView.reloadData()
             })
             .store(in: &cancellables)
-
+        
     }
     private func setupDelegates() {
         collectionView.dataSource = self
@@ -59,11 +61,22 @@ extension EpisodesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterCell.identifier, for: indexPath) as? CharacterCell else {
-            fatalError("Failed to dequeue EpisodeCell")
+            fatalError("Failed to dequeue CharacterCell")
         }
-        let character = characters[indexPath.row]
-        cell.configure(with: character)
         
+        let character = characters[indexPath.row]
+                
+        cell.configure(with: character, image: UIImage(systemName: "photo")!)
+                
+        viewModel.imagesPublisher
+            .compactMap { $0[indexPath.row] }
+            .receive(on: RunLoop.main)
+            .sink { imageData in
+                guard let image = UIImage(data: imageData) else { return }
+                cell.updateImage(image)
+            }
+            .store(in: &cell.cancellables)
+                
         return cell
     }
     

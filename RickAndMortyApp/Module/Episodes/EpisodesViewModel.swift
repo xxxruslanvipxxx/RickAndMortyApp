@@ -10,7 +10,10 @@ import Combine
 
 protocol EpisodesViewModelProtocol {
     var characters: [Result] { get }
-    var publisher: Published<[Result]>.Publisher { get }
+    var charactersPublisher: Published<[Result]>.Publisher { get }
+    
+    var images: [Data?] { get }
+    var imagesPublisher: Published<[Data?]>.Publisher { get }
     
     func getAllCharacters()
 }
@@ -18,7 +21,10 @@ protocol EpisodesViewModelProtocol {
 final class EpisodesViewModel: ObservableObject, EpisodesViewModelProtocol {
 
     @Published var characters: [Result] = []
-    var publisher: Published<[Result]>.Publisher { $characters }
+    var charactersPublisher: Published<[Result]>.Publisher { $characters }
+    
+    @Published var images: [Data?] = []
+    var imagesPublisher: Published<[Data?]>.Publisher { $images }
     
     @Published var searchString: String = ""
     @Published var episode: String?
@@ -29,7 +35,12 @@ final class EpisodesViewModel: ObservableObject, EpisodesViewModelProtocol {
     
     init(_ dependencies: IDependencies) {
         self.networkService = dependencies.networkService
+        binding()
         getAllCharacters()
+    }
+    
+    func getImages(characters: [Result]) {
+        
     }
     
     func getAllCharacters() {
@@ -39,14 +50,23 @@ final class EpisodesViewModel: ObservableObject, EpisodesViewModelProtocol {
                 guard let self = self else { return }
                 switch value {
                 case .failure(let error):
-                    self.characters = []
+                    print("Error fetching characters: \(error.localizedDescription)")
                 case .finished:
-                    break
+                    print("Characters fetched succesfully")
                 }
             }, receiveValue: { [weak self] (char: Characters) in
                 guard let self = self else { return }
                 self.characters = char.results
             })
+            .store(in: &cancellables)
+    }
+    
+    private func binding() {
+        $characters
+            .flatMap { characters in
+                self.networkService.loadImagesData(for: characters)
+            }
+            .assign(to: \.images, on: self)
             .store(in: &cancellables)
     }
     

@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import Combine
 
 class CharacterCell: UICollectionViewCell {
     
     static let identifier = "episodesCell"
+    
+    var cancellables = Set<AnyCancellable>()
     
     //MARK: Variables
     
@@ -35,7 +38,6 @@ class CharacterCell: UICollectionViewCell {
         imageView.image = UIImage(systemName: ImageName.systemQuestionmark)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
-        imageView.tintColor = .yellow
         imageView.clipsToBounds = true
         
         return imageView
@@ -115,16 +117,20 @@ class CharacterCell: UICollectionViewCell {
         super.prepareForReuse()
         // nil image and other ui props
         imageView.image = nil
+        cancellables.removeAll()
     }
     
     //MARK: configure()
-    
-    // config method (later need to pass character model here)
-    public func configure(with character: Result) {
-        self.imageView.image = UIImage(systemName: "sun.fill")
+
+    public func configure(with character: Result, image: UIImage) {
+        self.imageView.image = image
         self.characterNameLabel.text = character.name
 //        self.episodeLabel.text = character.
         setupUI()
+    }
+    
+    func updateImage(_ image: UIImage) {
+        self.imageView.image = image
     }
     
     //MARK: Objc methods
