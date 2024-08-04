@@ -15,6 +15,9 @@ protocol EpisodesViewModelProtocol {
     var images: [Data?] { get }
     var imagesPublisher: Published<[Data?]>.Publisher { get }
     
+    var currentPage: Int {get set}
+    func loadNextPage()
+    
     func getAllCharacters(by page: Int)
 }
 
@@ -29,6 +32,8 @@ final class EpisodesViewModel: ObservableObject, EpisodesViewModelProtocol {
     @Published var searchString: String = ""
     @Published var episode: String?
     
+    var currentPage: Int = 1
+    
     private var cancellables: Set<AnyCancellable> = []
     
     private var networkService: NetworkService
@@ -37,14 +42,13 @@ final class EpisodesViewModel: ObservableObject, EpisodesViewModelProtocol {
         self.networkService = dependencies.networkService
         binding()
         getAllCharacters()
+        loadNextPage()
+       
     }
     
-    func getImages(characters: [Result]) {
-        
-    }
-    
-    func getAllCharacters(by page: Int = 1) {
+    public func getAllCharacters(by page: Int = 1) {
         let url = EndpointCases.getAllCharacters(page).url
+        print(url)
         networkService.request(for: Characters.self, url: url)
             .sink(receiveCompletion: { value in
                 switch value {
@@ -53,11 +57,17 @@ final class EpisodesViewModel: ObservableObject, EpisodesViewModelProtocol {
                 case .finished:
                     print("Characters fetched succesfully")
                 }
-            }, receiveValue: { [weak self] (char: Characters) in
+            }, receiveValue: { [weak self] (fetchedChar: Characters) in
                 guard let self = self else { return }
-                self.characters = char.results
+                self.characters.append(contentsOf: fetchedChar.results)
             })
             .store(in: &cancellables)
+    }
+    
+    public func loadNextPage() {
+        currentPage += 1
+        print(currentPage)
+        getAllCharacters(by: currentPage)
     }
     
     private func binding() {

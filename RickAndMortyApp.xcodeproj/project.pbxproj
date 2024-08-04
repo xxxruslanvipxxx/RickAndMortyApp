@@ -12,6 +12,7 @@
 		14458D482C47CC6D009C5912 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14458D472C47CC6D009C5912 /* NetworkError.swift */; };
 		14458D4B2C492543009C5912 /* Characters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14458D4A2C492543009C5912 /* Characters.swift */; };
 		14458D4D2C4FA63E009C5912 /* Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14458D4C2C4FA63E009C5912 /* Episode.swift */; };
+		14458D502C5FD588009C5912 /* UIScrollView_InfiniteScroll in Frameworks */ = {isa = PBXBuildFile; productRef = 14458D4F2C5FD588009C5912 /* UIScrollView_InfiniteScroll */; };
 		14BC61AC2C316D4A007EDA07 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC61AB2C316D4A007EDA07 /* AppDelegate.swift */; };
 		14BC61AE2C316D4A007EDA07 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC61AD2C316D4A007EDA07 /* SceneDelegate.swift */; };
 		14BC61B52C316D4C007EDA07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14BC61B42C316D4C007EDA07 /* Assets.xcassets */; };
@@ -79,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14458D502C5FD588009C5912 /* UIScrollView_InfiniteScroll in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,6 +261,9 @@
 			dependencies = (
 			);
 			name = RickAndMortyApp;
+			packageProductDependencies = (
+				14458D4F2C5FD588009C5912 /* UIScrollView_InfiniteScroll */,
+			);
 			productName = RickAndMortyApp;
 			productReference = 14BC61A82C316D4A007EDA07 /* RickAndMortyApp.app */;
 			productType = "com.apple.product-type.application";
@@ -287,6 +292,9 @@
 				Base,
 			);
 			mainGroup = 14BC619F2C316D4A007EDA07;
+			packageReferences = (
+				14458D4E2C5FD588009C5912 /* XCRemoteSwiftPackageReference "UIScrollView-InfiniteScroll" */,
+			);
 			productRefGroup = 14BC61A92C316D4A007EDA07 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -553,6 +561,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		14458D4E2C5FD588009C5912 /* XCRemoteSwiftPackageReference "UIScrollView-InfiniteScroll" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pronebird/UIScrollView-InfiniteScroll";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		14458D4F2C5FD588009C5912 /* UIScrollView_InfiniteScroll */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 14458D4E2C5FD588009C5912 /* XCRemoteSwiftPackageReference "UIScrollView-InfiniteScroll" */;
+			productName = UIScrollView_InfiniteScroll;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 14BC61A02C316D4A007EDA07 /* Project object */;
 }

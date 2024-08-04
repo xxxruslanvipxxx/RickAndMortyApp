@@ -14,7 +14,7 @@ class EpisodesViewController: EpisodesUI {
     private var characters: [Result] = [] {
         didSet {
             self.collectionViewHeight.constant = (cellSize.height + 40) * CGFloat(characters.count)
-            // paste here reload data?
+            self.collectionView.reloadData()
         }
     }
     
@@ -41,12 +41,29 @@ class EpisodesViewController: EpisodesUI {
         viewModel.charactersPublisher
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [weak self] characters in
-                self?.characters = characters
-                self?.collectionView.reloadData()
+                guard let self else { return }
+                self.characters = characters
+                self.images = Array(repeating: nil, count: characters.count)
             })
             .store(in: &cancellables)
         
+        viewModel.imagesPublisher
+            .receive(on: RunLoop.main)
+            .sink { [weak self] imageDataArray in
+                guard let self = self else { return }
+                
+                // Обновляем массив изображений
+                for (index, imageData) in imageDataArray.enumerated() where index < self.images.count {
+                    self.images[index] = imageData.flatMap { UIImage(data: $0) }
+                }
+                
+                // Обновляем только видимые ячейки
+                self.collectionView.reloadItems(at: self.collectionView.indexPathsForVisibleItems)
+            }
+            .store(in: &cancellables)
+        
     }
+    
     private func setupDelegates() {
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -66,18 +83,14 @@ extension EpisodesViewController: UICollectionViewDataSource {
         }
         
         let character = characters[indexPath.row]
-                
-        cell.configure(with: character, image: UIImage(systemName: "photo")!)
-                
-        viewModel.imagesPublisher
-            .compactMap { $0[indexPath.row] }
-            .receive(on: RunLoop.main)
-            .sink { imageData in
-                guard let image = UIImage(data: imageData) else { return }
-                cell.updateImage(image)
-            }
-            .store(in: &cell.cancellables)
-                
+          
+        cell.configure(with: character, image: UIImage(systemName: ImageName.systemPlaceholder)!)
+        
+        // Устанавливаем изображение, если оно уже загружено
+        if indexPath.row < images.count, let image = images[indexPath.row] {
+            cell.updateImage(image)
+        }
+        
         return cell
     }
     

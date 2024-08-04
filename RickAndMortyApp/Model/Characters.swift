@@ -52,6 +52,8 @@ enum Species: String, Decodable {
     case human = "Human"
     case humanoid = "Humanoid"
     case mythologicalCreature = "Mythological Creature"
+    case poopybutthole = "Poopybutthole"
+    case unknown = "unknown"
 }
 
 enum Status: String, Decodable {

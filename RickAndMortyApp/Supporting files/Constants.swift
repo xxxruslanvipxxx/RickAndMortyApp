@@ -27,6 +27,7 @@ enum ImageName {
     static let monitorPlay = "monitorPlay"
     static let heart = "heart"
     static let heartFilled = "heartFilled"
+    static let systemPlaceholder = "photo"
 }
 
 enum ColorName {
