@@ -14,6 +14,7 @@ class EpisodesViewController: EpisodesUI {
     private var characters: [Result] = [] {
         didSet {
             self.collectionViewHeight.constant = (cellSize.height + 40) * CGFloat(characters.count)
+            // paste here reload data?
         }
     }
     
@@ -84,9 +85,7 @@ extension EpisodesViewController: UICollectionViewDataSource {
 }
 
 //MARK: - UICollectionViewDelegate
-extension EpisodesViewController: UICollectionViewDelegate {
-    
-}
+extension EpisodesViewController: UICollectionViewDelegate {}
 
 //extension EpisodesViewController: UICollectionViewDelegateFlowLayout {
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

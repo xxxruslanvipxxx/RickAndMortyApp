@@ -31,8 +31,8 @@ enum EndpointCases: Endpoint {
     
     var path: String{
         switch self {
-        case .getAllCharacters:
-            return "\(API.characterPath)"
+        case .getAllCharacters(let page):
+            return "\(API.characterPath + API.pagePath + String(page))"
         }
     }
     
@@ -50,5 +50,5 @@ enum EndpointCases: Endpoint {
         }
     }
     
-    case getAllCharacters
+    case getAllCharacters(Int)
 }

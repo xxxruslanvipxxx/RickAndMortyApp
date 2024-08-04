@@ -11,6 +11,7 @@ enum API {
     static let baseURL = "https://rickandmortyapi.com/api"
     static let characterPath = "/character"
     static let episodePath = "/episode"
+    static let pagePath = "?page="
 }
 
 enum ImageName {

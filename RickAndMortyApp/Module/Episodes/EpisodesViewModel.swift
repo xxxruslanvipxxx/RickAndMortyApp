@@ -15,7 +15,7 @@ protocol EpisodesViewModelProtocol {
     var images: [Data?] { get }
     var imagesPublisher: Published<[Data?]>.Publisher { get }
     
-    func getAllCharacters()
+    func getAllCharacters(by page: Int)
 }
 
 final class EpisodesViewModel: ObservableObject, EpisodesViewModelProtocol {
@@ -43,11 +43,10 @@ final class EpisodesViewModel: ObservableObject, EpisodesViewModelProtocol {
         
     }
     
-    func getAllCharacters() {
-        let url = EndpointCases.getAllCharacters.url
+    func getAllCharacters(by page: Int = 1) {
+        let url = EndpointCases.getAllCharacters(page).url
         networkService.request(for: Characters.self, url: url)
-            .sink(receiveCompletion: { [weak self] value in
-                guard let self = self else { return }
+            .sink(receiveCompletion: { value in
                 switch value {
                 case .failure(let error):
                     print("Error fetching characters: \(error.localizedDescription)")
