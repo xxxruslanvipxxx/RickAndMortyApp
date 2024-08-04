@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import UIScrollView_InfiniteScroll
 
 class EpisodesViewController: EpisodesUI {
     
@@ -35,6 +36,7 @@ class EpisodesViewController: EpisodesUI {
         super.viewDidLoad()
         setupDelegates()
         binding()
+        viewModel.getAllCharacters(by: 1)
     }
     
     private func binding() {
@@ -62,6 +64,14 @@ class EpisodesViewController: EpisodesUI {
             }
             .store(in: &cancellables)
         
+        // Setup infiniteScroll binding
+        scrollView.infiniteScrollDirection = .vertical
+        scrollView.addInfiniteScroll { [weak self] collection in
+            guard let self else { return }
+            self.viewModel.loadNextPage()
+            
+            self.scrollView.finishInfiniteScroll()
+        }
     }
     
     private func setupDelegates() {

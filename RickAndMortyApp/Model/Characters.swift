@@ -24,7 +24,7 @@ struct Result: Decodable, Identifiable {
     let id: Int
     let name: String
     let status: Status
-    let species: Species
+    let species: String
     let type: String
     let gender: Gender
     let origin, location: Location
@@ -45,15 +45,6 @@ enum Gender: String, Decodable {
 struct Location: Decodable {
     let name: String
     let url: String
-}
-
-enum Species: String, Decodable {
-    case alien = "Alien"
-    case human = "Human"
-    case humanoid = "Humanoid"
-    case mythologicalCreature = "Mythological Creature"
-    case poopybutthole = "Poopybutthole"
-    case unknown = "unknown"
 }
 
 enum Status: String, Decodable {

@@ -41,14 +41,11 @@ final class EpisodesViewModel: ObservableObject, EpisodesViewModelProtocol {
     init(_ dependencies: IDependencies) {
         self.networkService = dependencies.networkService
         binding()
-        getAllCharacters()
-        loadNextPage()
        
     }
     
     public func getAllCharacters(by page: Int = 1) {
         let url = EndpointCases.getAllCharacters(page).url
-        print(url)
         networkService.request(for: Characters.self, url: url)
             .sink(receiveCompletion: { value in
                 switch value {
@@ -66,7 +63,6 @@ final class EpisodesViewModel: ObservableObject, EpisodesViewModelProtocol {
     
     public func loadNextPage() {
         currentPage += 1
-        print(currentPage)
         getAllCharacters(by: currentPage)
     }
     

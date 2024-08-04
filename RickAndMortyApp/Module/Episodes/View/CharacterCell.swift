@@ -37,6 +37,7 @@ class CharacterCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: ImageName.systemQuestionmark)
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.tintColor = .gray
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         
