@@ -117,7 +117,7 @@ class CharacterCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         // nil image and other ui props
-        imageView.image = nil
+        imageView.image = UIImage(systemName: ImageName.systemPlaceholder)
         cancellables.removeAll()
     }
     

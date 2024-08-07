@@ -19,7 +19,7 @@ class EpisodesViewController: EpisodesUI {
         }
     }
     
-    private var images: [UIImage?] = []
+    private var images: [Int: UIImage] = [:]
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -36,7 +36,7 @@ class EpisodesViewController: EpisodesUI {
         super.viewDidLoad()
         setupDelegates()
         binding()
-        viewModel.getAllCharacters(by: 1)
+        viewModel.getAllCharacters(page: 1)
     }
     
     private func binding() {
@@ -45,21 +45,22 @@ class EpisodesViewController: EpisodesUI {
             .sink(receiveValue: { [weak self] characters in
                 guard let self else { return }
                 self.characters = characters
-                self.images = Array(repeating: nil, count: characters.count)
             })
             .store(in: &cancellables)
         
         viewModel.imagesPublisher
             .receive(on: RunLoop.main)
-            .sink { [weak self] imageDataArray in
+            .sink { [weak self] imageDataDict in
                 guard let self = self else { return }
                 
-                // Обновляем массив изображений
-                for (index, imageData) in imageDataArray.enumerated() where index < self.images.count {
-                    self.images[index] = imageData.flatMap { UIImage(data: $0) }
+                for (key, imageData) in imageDataDict {
+                    if let data = imageData, let image = UIImage(data: data) {
+                        self.images[key] = image
+                    } else {
+                        self.images[key] = nil
+                    }
                 }
-                
-                // Обновляем только видимые ячейки
+
                 self.collectionView.reloadItems(at: self.collectionView.indexPathsForVisibleItems)
             }
             .store(in: &cancellables)
@@ -93,11 +94,11 @@ extension EpisodesViewController: UICollectionViewDataSource {
         }
         
         let character = characters[indexPath.row]
-          
+        
+        cell.tag = character.id
         cell.configure(with: character, image: UIImage(systemName: ImageName.systemPlaceholder)!)
         
-        // Устанавливаем изображение, если оно уже загружено
-        if indexPath.row < images.count, let image = images[indexPath.row] {
+        if let image = images[character.id], cell.tag == character.id {
             cell.updateImage(image)
         }
         
@@ -109,12 +110,3 @@ extension EpisodesViewController: UICollectionViewDataSource {
 
 //MARK: - UICollectionViewDelegate
 extension EpisodesViewController: UICollectionViewDelegate {}
-
-//extension EpisodesViewController: UICollectionViewDelegateFlowLayout {
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let width = self.view.frame.size.width
-//        let cellSize = CGSize(width: width, height: width * 1.1)
-//        
-//        return cellSize
-//    }
-//}

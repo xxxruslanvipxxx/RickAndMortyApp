@@ -14,7 +14,7 @@ protocol NetworkService {
 }
 
 struct NetworkServiceImpl: NetworkService {
-
+    
     func request<T : Decodable>(for type: T.Type, url: String) -> AnyPublisher<T, NetworkError> {
         guard let url = URL(string: url) else {
             return Fail(error: NetworkError.urlValidationError(url: url)).eraseToAnyPublisher()
@@ -51,16 +51,16 @@ struct NetworkServiceImpl: NetworkService {
             return Just(nil).eraseToAnyPublisher()
         }
         return URLSession.shared.dataTaskPublisher(for: url)
-                .map { data, _ in data }
-                .catch { _ in Just(nil) }
-                .eraseToAnyPublisher()
-    }
-
-    // Функция для загрузки массива изображений персонажей
-    func loadImagesData(for characters: [Result]) -> AnyPublisher<[Data?], Never> {
-        Publishers.MergeMany(characters.map { loadImageData(from: $0.image) })
-            .collect()
+            .map { data, _ in data }
+            .catch { _ in Just(nil) }
             .eraseToAnyPublisher()
     }
+    
+//     Функция для загрузки массива изображений персонажей
+        func loadImagesData(for characters: [Result]) -> AnyPublisher<[Data?], Never> {
+            Publishers.MergeMany(characters.map { loadImageData(from: $0.image) })
+                .collect()
+                .eraseToAnyPublisher()
+        }
     
 }
