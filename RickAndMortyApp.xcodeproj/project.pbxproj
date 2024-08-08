@@ -16,6 +16,8 @@
 		14458D522C63D7A8009C5912 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14458D512C63D7A8009C5912 /* DetailViewController.swift */; };
 		14458D552C63DBDC009C5912 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14458D542C63DBDC009C5912 /* DetailViewModel.swift */; };
 		14458D572C63DC21009C5912 /* DetailAssemblyBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14458D562C63DC21009C5912 /* DetailAssemblyBuilder.swift */; };
+		14458D592C651E84009C5912 /* DetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14458D582C651E84009C5912 /* DetailCoordinator.swift */; };
+		14458D5C2C6526F1009C5912 /* DetailUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14458D5B2C6526F1009C5912 /* DetailUI.swift */; };
 		14BC61AC2C316D4A007EDA07 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC61AB2C316D4A007EDA07 /* AppDelegate.swift */; };
 		14BC61AE2C316D4A007EDA07 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC61AD2C316D4A007EDA07 /* SceneDelegate.swift */; };
 		14BC61B52C316D4C007EDA07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14BC61B42C316D4C007EDA07 /* Assets.xcassets */; };
@@ -52,6 +54,8 @@
 		14458D512C63D7A8009C5912 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		14458D542C63DBDC009C5912 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		14458D562C63DC21009C5912 /* DetailAssemblyBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAssemblyBuilder.swift; sourceTree = "<group>"; };
+		14458D582C651E84009C5912 /* DetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCoordinator.swift; sourceTree = "<group>"; };
+		14458D5B2C6526F1009C5912 /* DetailUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailUI.swift; sourceTree = "<group>"; };
 		14BC61A82C316D4A007EDA07 /* RickAndMortyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RickAndMortyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14BC61AB2C316D4A007EDA07 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		14BC61AD2C316D4A007EDA07 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -125,8 +129,17 @@
 				14458D562C63DC21009C5912 /* DetailAssemblyBuilder.swift */,
 				14458D542C63DBDC009C5912 /* DetailViewModel.swift */,
 				14458D512C63D7A8009C5912 /* DetailViewController.swift */,
+				14458D5A2C6526E2009C5912 /* View */,
 			);
 			path = CharacterDetail;
+			sourceTree = "<group>";
+		};
+		14458D5A2C6526E2009C5912 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				14458D5B2C6526F1009C5912 /* DetailUI.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		14BC619F2C316D4A007EDA07 = {
@@ -219,6 +232,7 @@
 				14BC61D52C31BD12007EDA07 /* LaunchCoordinator.swift */,
 				14BC61E92C3AB355007EDA07 /* MainTabBarCoordinator.swift */,
 				14BC61CB2C31B473007EDA07 /* EpisodesCoordinator.swift */,
+				14458D582C651E84009C5912 /* DetailCoordinator.swift */,
 				14BC61CF2C31B4F6007EDA07 /* FavouritesCoordinator.swift */,
 			);
 			path = Coordinators;
@@ -346,7 +360,9 @@
 				14BC61E42C3881ED007EDA07 /* LaunchViewController.swift in Sources */,
 				14BC61EA2C3AB355007EDA07 /* MainTabBarCoordinator.swift in Sources */,
 				14BC61D22C31B504007EDA07 /* FavouritesViewModel.swift in Sources */,
+				14458D5C2C6526F1009C5912 /* DetailUI.swift in Sources */,
 				14BC61CA2C31B465007EDA07 /* EpisodesViewController.swift in Sources */,
+				14458D592C651E84009C5912 /* DetailCoordinator.swift in Sources */,
 				14BC61CC2C31B473007EDA07 /* EpisodesCoordinator.swift in Sources */,
 				14458D522C63D7A8009C5912 /* DetailViewController.swift in Sources */,
 				14458D4D2C4FA63E009C5912 /* Episode.swift in Sources */,

@@ -8,8 +8,8 @@
 import Foundation
 import UIKit
 
-class EpisodesAssemblyBuilder: AssemblyBuilder {
-    static func configure(_ dependencies: IDependencies) -> UIViewController {
-        dependencies.moduleContainer.createEpisodesView()
+class EpisodesAssemblyBuilder {
+    static func configure(_ dependencies: IDependencies, coordinator: EpisodesCoordinatorProtocol) -> UIViewController {
+        dependencies.moduleContainer.createEpisodesView(coordinator: coordinator)
     }
 }

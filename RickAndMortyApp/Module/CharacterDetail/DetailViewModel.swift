@@ -14,4 +14,11 @@ protocol DetailViewModelProtocol {
 
 class DetailViewModel: ObservableObject, DetailViewModelProtocol {
     
+    private var character: Result
+
+    // later inject dependencies
+    init(character: Result) {
+        self.character = character
+    }
+    
 }

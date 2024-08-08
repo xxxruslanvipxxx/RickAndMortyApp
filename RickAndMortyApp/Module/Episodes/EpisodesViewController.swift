@@ -11,6 +11,7 @@ import UIScrollView_InfiniteScroll
 
 class EpisodesViewController: EpisodesUI {
     
+    private let coordinator: EpisodesCoordinatorProtocol
     private let viewModel: EpisodesViewModelProtocol
     private var characters: [Result] = [] {
         didSet {
@@ -20,11 +21,11 @@ class EpisodesViewController: EpisodesUI {
     }
     
     private var images: [Int: UIImage] = [:]
-    
     private var cancellables = Set<AnyCancellable>()
     
-    init(viewModel: EpisodesViewModelProtocol) {
+    init(viewModel: EpisodesViewModelProtocol, coordinator: EpisodesCoordinatorProtocol) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -40,6 +41,7 @@ class EpisodesViewController: EpisodesUI {
     }
     
     private func binding() {
+        // Characters loaded binding
         viewModel.charactersPublisher
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [weak self] characters in
@@ -48,6 +50,7 @@ class EpisodesViewController: EpisodesUI {
             })
             .store(in: &cancellables)
         
+        // Images loaded binding
         viewModel.imagesPublisher
             .receive(on: RunLoop.main)
             .sink { [weak self] imageDataDict in
@@ -64,6 +67,12 @@ class EpisodesViewController: EpisodesUI {
                 self.collectionView.reloadItems(at: self.collectionView.indexPathsForVisibleItems)
             }
             .store(in: &cancellables)
+        
+        // Character selected binding
+        viewModel.characterSelected.sink { result in
+            self.coordinator.showDetail(for: result)
+        }
+        .store(in: &cancellables)
         
         // Setup infiniteScroll binding
         scrollView.infiniteScrollDirection = .vertical
@@ -112,7 +121,9 @@ extension EpisodesViewController: UICollectionViewDataSource {
 extension EpisodesViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Go to detail of \(characters[indexPath.row].name)")
+        let character = characters[indexPath.row]
+        print("Go to detail of \(character.name)")
+        self.viewModel.characterSelected.send(character)
     }
     
 }

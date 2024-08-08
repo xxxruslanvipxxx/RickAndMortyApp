@@ -17,6 +17,7 @@ protocol EpisodesViewModelProtocol {
     
     var currentPage: Int {get set}
     
+    var characterSelected: PassthroughSubject<Result, Never> { get set }
     func loadNextPage()
     func getAllCharacters(page: Int)
 }
@@ -31,11 +32,11 @@ final class EpisodesViewModel: ObservableObject, EpisodesViewModelProtocol {
     
     @Published var searchString: String = ""
     @Published var episode: String?
+    var characterSelected = PassthroughSubject<Result, Never>()
     
     var currentPage: Int = 1
     
     private var cancellables: Set<AnyCancellable> = []
-    
     private var networkService: NetworkService
     
     init(_ dependencies: IDependencies) {

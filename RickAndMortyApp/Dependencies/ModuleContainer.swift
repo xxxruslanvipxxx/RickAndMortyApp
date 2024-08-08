@@ -9,9 +9,9 @@ import UIKit
 
 protocol ModuleContainerProtocol {
     func createLaunchView() -> UIViewController
-    func createEpisodesView() -> UIViewController
+    func createEpisodesView(coordinator: EpisodesCoordinatorProtocol) -> UIViewController
     func createFavouritesView() -> UIViewController
-    func createDetailView() -> UIViewController
+    func createDetailView(with character: Result) -> UIViewController
 }
 
 final class ModuleContainer: ModuleContainerProtocol {
@@ -29,17 +29,17 @@ extension ModuleContainer {
 }
 
 extension ModuleContainer {
-    func createEpisodesView() -> UIViewController {
+    func createEpisodesView(coordinator: EpisodesCoordinatorProtocol) -> UIViewController {
         let vm = EpisodesViewModel(dependencies)
-        let vc = EpisodesViewController(viewModel: vm)
+        let vc = EpisodesViewController(viewModel: vm, coordinator: coordinator)
         
         return vc
     }
 }
 
 extension ModuleContainer {
-    func createDetailView() -> UIViewController {
-        let vm = DetailViewModel()
+    func createDetailView(with character: Result) -> UIViewController {
+        let vm = DetailViewModel(character: character)
         let vc = DetailViewController(viewModel: vm)
         
         return vc

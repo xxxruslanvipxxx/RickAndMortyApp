@@ -9,6 +9,7 @@ import UIKit
 
 protocol EpisodesCoordinatorProtocol: Coordinator {
     func start()
+    func showDetail(for character: Result)
 }
 
 class EpisodesCoordinator: EpisodesCoordinatorProtocol {
@@ -24,8 +25,13 @@ class EpisodesCoordinator: EpisodesCoordinatorProtocol {
     }
     
     func start() {
-        let episodesVC = EpisodesAssemblyBuilder.configure(dependencies)
+        let episodesVC = EpisodesAssemblyBuilder.configure(dependencies, coordinator: self)
         rootViewController.pushViewController(episodesVC, animated: false)
+    }
+    
+    func showDetail(for character: Result) {
+        let detailCoordinator = DetailCoordinator(rootViewController: rootViewController, character: character, dependencies: dependencies)
+        detailCoordinator.start()
     }
     
 }
