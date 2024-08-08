@@ -28,6 +28,8 @@ enum ImageName {
     static let heart = "heart"
     static let heartFilled = "heartFilled"
     static let systemPlaceholder = "photo"
+    static let logoBlack = "logoBlack"
+    static let camera = "camera"
 }
 
 enum ColorName {

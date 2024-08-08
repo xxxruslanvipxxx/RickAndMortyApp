@@ -23,7 +23,6 @@ class DetailViewController: DetailUI {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .green
     }
 
 }
