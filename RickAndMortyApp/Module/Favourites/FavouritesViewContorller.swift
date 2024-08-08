@@ -9,7 +9,7 @@ import UIKit
 
 class FavouritesViewContorller: UIViewController {
     
-    public var viewModel: FavouritesViewModel
+    public var viewModel: FavouritesViewModelProtocol
 
     init(viewModel: FavouritesViewModel) {
         self.viewModel = viewModel

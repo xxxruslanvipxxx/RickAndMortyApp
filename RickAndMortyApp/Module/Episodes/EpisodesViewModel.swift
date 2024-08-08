@@ -16,8 +16,8 @@ protocol EpisodesViewModelProtocol {
     var imagesPublisher: Published<[Int: Data?]>.Publisher { get }
     
     var currentPage: Int {get set}
-    func loadNextPage()
     
+    func loadNextPage()
     func getAllCharacters(page: Int)
 }
 

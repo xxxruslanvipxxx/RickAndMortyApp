@@ -11,6 +11,7 @@ protocol ModuleContainerProtocol {
     func createLaunchView() -> UIViewController
     func createEpisodesView() -> UIViewController
     func createFavouritesView() -> UIViewController
+    func createDetailView() -> UIViewController
 }
 
 final class ModuleContainer: ModuleContainerProtocol {
@@ -31,6 +32,15 @@ extension ModuleContainer {
     func createEpisodesView() -> UIViewController {
         let vm = EpisodesViewModel(dependencies)
         let vc = EpisodesViewController(viewModel: vm)
+        
+        return vc
+    }
+}
+
+extension ModuleContainer {
+    func createDetailView() -> UIViewController {
+        let vm = DetailViewModel()
+        let vc = DetailViewController(viewModel: vm)
         
         return vc
     }

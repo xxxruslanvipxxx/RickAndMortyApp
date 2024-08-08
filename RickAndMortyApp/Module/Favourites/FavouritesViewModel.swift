@@ -6,11 +6,12 @@
 //
 
 import Foundation
+import Combine
 
 protocol FavouritesViewModelProtocol {
     
 }
 
-class FavouritesViewModel: FavouritesViewModelProtocol {
+class FavouritesViewModel: ObservableObject, FavouritesViewModelProtocol {
     
 }

@@ -109,4 +109,10 @@ extension EpisodesViewController: UICollectionViewDataSource {
 }
 
 //MARK: - UICollectionViewDelegate
-extension EpisodesViewController: UICollectionViewDelegate {}
+extension EpisodesViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Go to detail of \(characters[indexPath.row].name)")
+    }
+    
+}
