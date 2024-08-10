@@ -58,7 +58,7 @@ class InfoTableViewCell: UITableViewCell {
         case .origin:
             self.infoString = character.origin.name
         case .type:
-            self.infoString = character.type
+            self.infoString = character.type != "" ? character.type : "Unknown"
         case .location:
             self.infoString = character.location.name
         }

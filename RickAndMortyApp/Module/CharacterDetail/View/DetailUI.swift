@@ -184,10 +184,10 @@ class DetailUI: UIViewController {
         let infoTableViewTop = infoTableView.topAnchor.constraint(equalTo: informationsLabel.bottomAnchor, constant: 25)
         let infoTableViewLeading = infoTableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 26)
         let infoTableViewTrailing = infoTableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -26)
-        let infoTableViewBottom = infoTableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -25)
-//        let infoTableViewHeight = infoTableView.heightAnchor.constraint(equalTo: contentView.heightAnchor, constant: 400)
+        let infoTableViewBottom = infoTableView.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -25)
+        let infoTableViewHeight = infoTableView.heightAnchor.constraint(equalToConstant: 360)
         
-        NSLayoutConstraint.activate([infoTableViewTop, infoTableViewLeading, infoTableViewTrailing, infoTableViewBottom/*, infoTableViewHeight*/])
+        NSLayoutConstraint.activate([infoTableViewTop, infoTableViewLeading, infoTableViewTrailing, infoTableViewBottom, infoTableViewHeight])
     }
     
     //MARK: Setup navigation bar

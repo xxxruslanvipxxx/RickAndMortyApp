@@ -16,7 +16,8 @@ class MainTabBarController: UITabBarController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        setTabBarHeight(height: 90)
+        let height = (view.window?.windowScene?.screen.bounds.height ?? 800) * 0.10
+        setTabBarHeight(height: height)
     }
     
     private func setupTabBarShadows() {
