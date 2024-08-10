@@ -30,12 +30,16 @@ enum ImageName {
     static let systemPlaceholder = "photo"
     static let logoBlack = "logoBlack"
     static let camera = "camera"
+    static let systemArrowBackward = "arrow.backward"
 }
 
 enum ColorName {
     static let customBackgroundColor = "customBackgroundColor"
+    static let mainDark = "mainDarkTextColor"
 }
 
 enum ConstantText {
     static let searchTextFieldPlaceholder = "Name or episode (ex.S01E01)..."
+    static let goBackButton = "GO BACK"
+    static let informationsLabel = "Informations"
 }

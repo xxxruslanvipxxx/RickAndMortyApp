@@ -12,8 +12,6 @@ class CharacterCell: UICollectionViewCell {
     
     static let identifier = "episodesCell"
     
-    var cancellables = Set<AnyCancellable>()
-    
     //MARK: Variables
     
     private var shadowLayer: CAShapeLayer!
@@ -47,7 +45,6 @@ class CharacterCell: UICollectionViewCell {
     private lazy var characterNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Rick Sanchez"
         label.textAlignment = .left
         label.font = UIFont.boldSystemFont(ofSize: 20)
         
@@ -118,7 +115,6 @@ class CharacterCell: UICollectionViewCell {
         super.prepareForReuse()
         // nil image and other ui props
         imageView.image = UIImage(systemName: ImageName.systemPlaceholder)
-        cancellables.removeAll()
     }
     
     //MARK: configure()

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class DetailAssemblyBuilder{
-    static func configure(_ dependencies: IDependencies, character: Result) -> UIViewController {
-        dependencies.moduleContainer.createDetailView(with: character)
+    static func configure(_ dependencies: IDependencies, character: Result, coordinator: DetailCoordinatorProtocol) -> UIViewController {
+        dependencies.moduleContainer.createDetailView(coordinator: coordinator, with: character)
     }
 }

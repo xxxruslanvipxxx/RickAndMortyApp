@@ -26,7 +26,7 @@ class DetailCoordinator: DetailCoordinatorProtocol {
     }
     
     func start() {
-        let detailVC = DetailAssemblyBuilder.configure(dependencies, character: character)
+        let detailVC = DetailAssemblyBuilder.configure(dependencies, character: character, coordinator: self)
         rootViewController.pushViewController(detailVC, animated: true)
     }
 
