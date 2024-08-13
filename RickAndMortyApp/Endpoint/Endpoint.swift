@@ -24,31 +24,31 @@ enum EndpointCases: Endpoint {
     
     var baseURL: String {
         switch self {
-        case .getAllCharacters:
+        case .getBaseData:
             return "\(API.baseURL)"
         }
     }
     
     var path: String{
         switch self {
-        case .getAllCharacters(let page):
-            return "\(API.characterPath + API.pagePath + String(page))"
+        case .getBaseData:
+            return "\(API.characterPath)"
         }
     }
     
     var headers: [String : Any]? {
         switch self {
-        case .getAllCharacters:
+        case .getBaseData:
             return [:]
         }
     }
     
     var body: [String : Any]? {
         switch self {
-        case .getAllCharacters:
+        case .getBaseData:
             return [:]
         }
     }
     
-    case getAllCharacters(Int)
+    case getBaseData
 }

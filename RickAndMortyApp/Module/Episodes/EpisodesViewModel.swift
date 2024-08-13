@@ -9,82 +9,89 @@ import Foundation
 import Combine
 
 protocol EpisodesViewModelProtocol {
-    var characters: [Character] { get }
-    var charactersPublisher: Published<[Character]>.Publisher { get }
-    
-    var images: [Int: Data?] { get }
-    var imagesPublisher: Published<[Int: Data?]>.Publisher { get }
-    
-    var currentPage: Int {get set}
-    
-    var characterSelected: PassthroughSubject<Character, Never> { get set }
-    func loadNextPage()
-    func getAllCharacters(page: Int)
+    func transform( input: AnyPublisher<EpisodesViewModel.Input, Never>) -> AnyPublisher<EpisodesViewModel.Output, Never>
 }
 
 final class EpisodesViewModel: ObservableObject, EpisodesViewModelProtocol {
 
-    @Published var characters: [Character] = []
-    var charactersPublisher: Published<[Character]>.Publisher { $characters }
-    
-    @Published var images: [Int: Data?] = [:]
-    var imagesPublisher: Published<[Int: Data?]>.Publisher { $images }
-    
-    @Published var searchString: String = ""
-    @Published var episode: String?
-    var characterSelected = PassthroughSubject<Character, Never>()
-    
-    var currentPage: Int = 1
-    
+    private var output: PassthroughSubject<Output, Never> = .init()
     private var cancellables: Set<AnyCancellable> = []
     private var networkService: NetworkService
     
     init(_ dependencies: IDependencies) {
         self.networkService = dependencies.networkService
-        binding()
-       
     }
     
-    public func getAllCharacters(page: Int = 1) {
-        let url = EndpointCases.getAllCharacters(page).url
+    enum Input {
+        case viewDidLoad
+        case paginationRequest(nextPageUrl: String?)
+    }
+    
+    enum Output {
+        case loadBaseCharacters(isLoading: Bool)
+        case fetchBaseCharactersSucceed(characters: [Character], nextPageUrl: String?)
+        
+        case loadNextPage(isLoading: Bool)
+        case fetchNextPageDidSucceed(characters: [Character], nextPageUrl: String?)
+        
+        case fetchDidFail(error: NetworkError)
+    }
+    
+    func transform( input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
+        input.sink { input in
+            switch input {
+            case .viewDidLoad:
+                self.fetchBaseCharacters()
+            case .paginationRequest(nextPageUrl: let url):
+                guard let url = url else { return }
+                self.fetchNextPage(with: url)
+            }
+        }
+        .store(in: &cancellables)
+        
+        return output.eraseToAnyPublisher()
+    }
+    
+    func fetchBaseCharacters() {
+        output.send(.loadBaseCharacters(isLoading: true))
+        
+        let url = EndpointCases.getBaseData.url
         networkService.request(for: Result.self, url: url)
-            .sink(receiveCompletion: { value in
-                switch value {
-                case .failure(let error):
-                    print("Error fetching characters: \(error.localizedDescription)")
+            .sink { error in
+                switch error {
                 case .finished:
-                    print("Characters fetched succesfully")
+                    self.output.send(.loadBaseCharacters(isLoading: false))
+                case .failure(let error):
+                    self.output.send(.fetchDidFail(error: error))
                 }
-            }, receiveValue: { [weak self] (fetchedChar: Result) in
-                guard let self = self else { return }
-                self.characters.append(contentsOf: fetchedChar.results)
-            })
+            } receiveValue: { result in
+                let characters = result.results
+                let nextPage = result.info.next
+                self.output.send(.fetchBaseCharactersSucceed(characters: characters, nextPageUrl: nextPage))
+            }
             .store(in: &cancellables)
+
     }
     
-    public func loadNextPage() {
-        currentPage += 1
-        getAllCharacters(page: currentPage)
+    func fetchNextPage(with url: String) {
+        output.send(.loadNextPage(isLoading: true))
+        
+        networkService.request(for: Result.self, url: url)
+            .sink { error in
+                switch error {
+                case .finished:
+                    self.output.send(.loadNextPage(isLoading: false))
+                case .failure(let error):
+                    self.output.send(.fetchDidFail(error: error))
+                }
+            } receiveValue: { result in
+                let characters = result.results
+                let nextPage = result.info.next
+                self.output.send(.fetchNextPageDidSucceed(characters: characters, nextPageUrl: nextPage))
+            }
+            .store(in: &cancellables)
+
     }
     
-    private func binding() {
-        $characters
-            .receive(on: RunLoop.main)
-            .map { characters in
-                // Фильтруем только новых персонажей, для которых еще нет загруженных изображений
-                characters.filter { self.images[$0.id] == nil }
-            }
-            .filter { !$0.isEmpty } // Если нет новых персонажей, пропускаем загрузку
-            .flatMap { newCharacters in
-                self.networkService.loadImagesData(for: newCharacters)
-                    .map { zip(newCharacters.map { $0.id }, $0) }
-                    .map { Dictionary(uniqueKeysWithValues: $0) }
-            }
-            .map { newImages in
-                self.images.merging(newImages) { (_, new) in new }
-            }
-            .assign(to: \.images, on: self)
-            .store(in: &cancellables)
-    }
     
 }

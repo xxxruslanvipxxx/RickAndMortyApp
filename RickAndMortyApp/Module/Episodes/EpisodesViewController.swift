@@ -11,17 +11,17 @@ import UIScrollView_InfiniteScroll
 
 class EpisodesViewController: EpisodesUI {
     
-    private let coordinator: EpisodesCoordinatorProtocol
+    weak private var coordinator: EpisodesCoordinatorProtocol?
     private let viewModel: EpisodesViewModelProtocol
+    private var input: PassthroughSubject<EpisodesViewModel.Input, Never> = .init()
+    private var nextPageUrl: String?
+    private var cancellables = Set<AnyCancellable>()
     private var characters: [Character] = [] {
         didSet {
             self.collectionViewHeight.constant = (cellSize.height + 40) * CGFloat(characters.count)
             self.collectionView.reloadData()
         }
     }
-    
-    private var images: [Int: UIImage] = [:]
-    private var cancellables = Set<AnyCancellable>()
     
     init(viewModel: EpisodesViewModelProtocol, coordinator: EpisodesCoordinatorProtocol) {
         self.viewModel = viewModel
@@ -37,50 +37,44 @@ class EpisodesViewController: EpisodesUI {
         super.viewDidLoad()
         setupDelegates()
         binding()
-        viewModel.getAllCharacters(page: 1)
+        input.send(.viewDidLoad)
     }
     
     private func binding() {
-        // Characters loaded binding
-        viewModel.charactersPublisher
-            .receive(on: RunLoop.main)
-            .sink(receiveValue: { [weak self] characters in
-                guard let self else { return }
-                self.characters = characters
-            })
-            .store(in: &cancellables)
+        let output = viewModel.transform(input: input.eraseToAnyPublisher())
         
-        // Images loaded binding
-        viewModel.imagesPublisher
+        output
             .receive(on: RunLoop.main)
-            .sink { [weak self] imageDataDict in
-                guard let self = self else { return }
-                
-                for (key, imageData) in imageDataDict {
-                    if let data = imageData, let image = UIImage(data: data) {
-                        self.images[key] = image
+            .sink { [weak self] output in
+                switch output {
+                case .loadBaseCharacters(isLoading: let isLoading):
+                    if isLoading {
+                        // loading animation here (activity indicator of skeletons)
                     } else {
-                        self.images[key] = nil
+                        // stop animation
                     }
+                case .fetchBaseCharactersSucceed(characters: let characters, nextPageUrl: let nextPageUrl):
+                    self?.characters = characters
+                    self?.nextPageUrl = nextPageUrl
+                case .loadNextPage(isLoading: let isLoading):
+                    if isLoading {
+                        // start infinite scroll
+                    } else {
+                        self?.scrollView.finishInfiniteScroll()
+                    }
+                case .fetchNextPageDidSucceed(characters: let characters, nextPageUrl: let nextPageUrl):
+                    self?.characters.append(contentsOf: characters)
+                    self?.nextPageUrl = nextPageUrl
+                case .fetchDidFail(error: let error):
+                    print(error.localizedDescription)
                 }
-
-                self.collectionView.reloadItems(at: self.collectionView.indexPathsForVisibleItems)
             }
             .store(in: &cancellables)
-        
-        // Character selected binding
-        viewModel.characterSelected.sink { result in
-            self.coordinator.showDetail(for: result)
-        }
-        .store(in: &cancellables)
         
         // Setup infiniteScroll binding
         scrollView.infiniteScrollDirection = .vertical
         scrollView.addInfiniteScroll { [weak self] collection in
-            guard let self else { return }
-            self.viewModel.loadNextPage()
-            
-            self.scrollView.finishInfiniteScroll()
+            self?.input.send(.paginationRequest(nextPageUrl: self?.nextPageUrl))
         }
     }
     
@@ -107,10 +101,6 @@ extension EpisodesViewController: UICollectionViewDataSource {
         cell.tag = character.id
         cell.configure(with: character, image: UIImage(systemName: ImageName.systemPlaceholder)!)
         
-        if let image = images[character.id], cell.tag == character.id {
-            cell.updateImage(image)
-        }
-        
         return cell
     }
     
@@ -123,7 +113,7 @@ extension EpisodesViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let character = characters[indexPath.row]
         print("Go to detail of \(character.name)")
-        self.viewModel.characterSelected.send(character)
+        coordinator?.showDetail(for: character)
     }
     
 }
