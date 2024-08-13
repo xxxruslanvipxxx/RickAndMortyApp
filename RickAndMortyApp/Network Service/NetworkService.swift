@@ -10,7 +10,7 @@ import Combine
 
 protocol NetworkService {
     func request<T: Decodable>(for type: T.Type, url: String) -> AnyPublisher<T, NetworkError>
-    func loadImagesData(for characters: [Result]) -> AnyPublisher<[Data?], Never>
+    func loadImagesData(for characters: [Character]) -> AnyPublisher<[Data?], Never>
 }
 
 struct NetworkServiceImpl: NetworkService {
@@ -41,7 +41,6 @@ struct NetworkServiceImpl: NetworkService {
                     return NetworkError.unclassifiedError(error)
                 }
             }
-            .receive(on: RunLoop.main)
             .eraseToAnyPublisher()
     }
     
@@ -56,11 +55,11 @@ struct NetworkServiceImpl: NetworkService {
             .eraseToAnyPublisher()
     }
     
-//     Функция для загрузки массива изображений персонажей
-        func loadImagesData(for characters: [Result]) -> AnyPublisher<[Data?], Never> {
-            Publishers.MergeMany(characters.map { loadImageData(from: $0.image) })
-                .collect()
-                .eraseToAnyPublisher()
-        }
+    //     Функция для загрузки массива изображений персонажей
+    func loadImagesData(for characters: [Character]) -> AnyPublisher<[Data?], Never> {
+        Publishers.MergeMany(characters.map { loadImageData(from: $0.image) })
+            .collect()
+            .eraseToAnyPublisher()
+    }
     
 }

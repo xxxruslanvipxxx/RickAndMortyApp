@@ -9,19 +9,19 @@ import Foundation
 import Combine
 
 protocol DetailViewModelProtocol {
-    var character: Result { get }
-    var characterPublished: Published<Result> { get }
-    var characterPublisher: Published<Result>.Publisher { get }
+    var character: Character { get }
+    var characterPublished: Published<Character> { get }
+    var characterPublisher: Published<Character>.Publisher { get }
 }
 
 class DetailViewModel: ObservableObject, DetailViewModelProtocol {
     
-    @Published var character: Result
-    var characterPublished: Published<Result> { _character }
-    var characterPublisher: Published<Result>.Publisher { $character }
+    @Published var character: Character
+    var characterPublished: Published<Character> { _character }
+    var characterPublisher: Published<Character>.Publisher { $character }
     
     // later inject dependencies
-    init(character: Result) {
+    init(character: Character) {
         self.character = character
     }
     

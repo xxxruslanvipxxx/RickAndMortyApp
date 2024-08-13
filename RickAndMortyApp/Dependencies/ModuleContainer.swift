@@ -11,7 +11,7 @@ protocol ModuleContainerProtocol {
     func createLaunchView() -> UIViewController
     func createEpisodesView(coordinator: EpisodesCoordinatorProtocol) -> UIViewController
     func createFavouritesView() -> UIViewController
-    func createDetailView(coordinator: DetailCoordinatorProtocol, with character: Result) -> UIViewController
+    func createDetailView(coordinator: DetailCoordinatorProtocol, with character: Character) -> UIViewController
 }
 
 final class ModuleContainer: ModuleContainerProtocol {
@@ -38,7 +38,7 @@ extension ModuleContainer {
 }
 
 extension ModuleContainer {
-    func createDetailView(coordinator: DetailCoordinatorProtocol, with character: Result) -> UIViewController {
+    func createDetailView(coordinator: DetailCoordinatorProtocol, with character: Character) -> UIViewController {
         let vm = DetailViewModel(character: character)
         let vc = DetailViewController(viewModel: vm, coordinator: coordinator)
         

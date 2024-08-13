@@ -7,10 +7,10 @@
 
 import Foundation
 
-// MARK: - Character
-struct Characters: Decodable {
+// MARK: - Result
+struct Result: Decodable {
     let info: Info
-    let results: [Result]
+    let results: [Character]
 }
 
 // MARK: - Info
@@ -19,8 +19,8 @@ struct Info: Decodable {
     let next, prev: String?
 }
 
-// MARK: - Result
-struct Result: Decodable, Identifiable {
+// MARK: - Character
+struct Character: Decodable, Identifiable {
     let id: Int
     let name: String
     let status: Status

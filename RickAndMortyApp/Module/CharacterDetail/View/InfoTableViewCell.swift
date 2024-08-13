@@ -46,7 +46,7 @@ class InfoTableViewCell: UITableViewCell {
     
     //MARK: configure()
 
-    public func configure(with character: Result, infoType: InfoType) {
+    public func configure(with character: Character, infoType: InfoType) {
         self.infoTypeString = infoType.rawValue
         switch infoType {
         case .gender:

@@ -9,30 +9,30 @@ import Foundation
 import Combine
 
 protocol EpisodesViewModelProtocol {
-    var characters: [Result] { get }
-    var charactersPublisher: Published<[Result]>.Publisher { get }
+    var characters: [Character] { get }
+    var charactersPublisher: Published<[Character]>.Publisher { get }
     
     var images: [Int: Data?] { get }
     var imagesPublisher: Published<[Int: Data?]>.Publisher { get }
     
     var currentPage: Int {get set}
     
-    var characterSelected: PassthroughSubject<Result, Never> { get set }
+    var characterSelected: PassthroughSubject<Character, Never> { get set }
     func loadNextPage()
     func getAllCharacters(page: Int)
 }
 
 final class EpisodesViewModel: ObservableObject, EpisodesViewModelProtocol {
 
-    @Published var characters: [Result] = []
-    var charactersPublisher: Published<[Result]>.Publisher { $characters }
+    @Published var characters: [Character] = []
+    var charactersPublisher: Published<[Character]>.Publisher { $characters }
     
     @Published var images: [Int: Data?] = [:]
     var imagesPublisher: Published<[Int: Data?]>.Publisher { $images }
     
     @Published var searchString: String = ""
     @Published var episode: String?
-    var characterSelected = PassthroughSubject<Result, Never>()
+    var characterSelected = PassthroughSubject<Character, Never>()
     
     var currentPage: Int = 1
     
@@ -47,7 +47,7 @@ final class EpisodesViewModel: ObservableObject, EpisodesViewModelProtocol {
     
     public func getAllCharacters(page: Int = 1) {
         let url = EndpointCases.getAllCharacters(page).url
-        networkService.request(for: Characters.self, url: url)
+        networkService.request(for: Result.self, url: url)
             .sink(receiveCompletion: { value in
                 switch value {
                 case .failure(let error):
@@ -55,7 +55,7 @@ final class EpisodesViewModel: ObservableObject, EpisodesViewModelProtocol {
                 case .finished:
                     print("Characters fetched succesfully")
                 }
-            }, receiveValue: { [weak self] (fetchedChar: Characters) in
+            }, receiveValue: { [weak self] (fetchedChar: Result) in
                 guard let self = self else { return }
                 self.characters.append(contentsOf: fetchedChar.results)
             })

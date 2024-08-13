@@ -119,7 +119,7 @@ class CharacterCell: UICollectionViewCell {
     
     //MARK: configure()
 
-    public func configure(with character: Result, image: UIImage) {
+    public func configure(with character: Character, image: UIImage) {
         self.imageView.image = image
         self.characterNameLabel.text = character.name
 //        self.episodeLabel.text = character.

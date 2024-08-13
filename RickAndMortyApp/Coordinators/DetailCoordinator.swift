@@ -17,9 +17,9 @@ class DetailCoordinator: DetailCoordinatorProtocol {
     var type: CoordinatorType = .episodes
     var dependencies: IDependencies
     var childCoordinators = [Coordinator]()
-    var character: Result
+    var character: Character
     
-    init(rootViewController: UINavigationController = UINavigationController(), character: Result, dependencies: IDependencies) {
+    init(rootViewController: UINavigationController = UINavigationController(), character: Character, dependencies: IDependencies) {
         self.rootViewController = rootViewController
         self.character = character
         self.dependencies = dependencies
