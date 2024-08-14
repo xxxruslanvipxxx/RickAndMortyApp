@@ -9,7 +9,7 @@ import UIKit
 
 protocol ModuleContainerProtocol {
     func createLaunchView() -> UIViewController
-    func createEpisodesView(coordinator: EpisodesCoordinatorProtocol) -> UIViewController
+    func createCharactersView(coordinator: CharactersCoordinatorProtocol) -> UIViewController
     func createFavouritesView() -> UIViewController
     func createDetailView(coordinator: DetailCoordinatorProtocol, with character: Character) -> UIViewController
 }
@@ -29,9 +29,9 @@ extension ModuleContainer {
 }
 
 extension ModuleContainer {
-    func createEpisodesView(coordinator: EpisodesCoordinatorProtocol) -> UIViewController {
-        let vm = EpisodesViewModel(dependencies)
-        let vc = EpisodesViewController(viewModel: vm, coordinator: coordinator)
+    func createCharactersView(coordinator: CharactersCoordinatorProtocol) -> UIViewController {
+        let vm = CharactersViewModel(dependencies)
+        let vc = CharactersViewController(viewModel: vm, coordinator: coordinator)
         
         return vc
     }

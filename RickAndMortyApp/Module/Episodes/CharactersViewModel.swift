@@ -1,5 +1,5 @@
 //
-//  EpisodesViewModel.swift
+//  CharactersViewModel.swift
 //  RickAndMortyApp
 //
 //  Created by Руслан Забиран on 30.06.24.
@@ -8,11 +8,11 @@
 import Foundation
 import Combine
 
-protocol EpisodesViewModelProtocol {
-    func transform( input: AnyPublisher<EpisodesViewModel.Input, Never>) -> AnyPublisher<EpisodesViewModel.Output, Never>
+protocol CharactersViewModelProtocol {
+    func transform( input: AnyPublisher<CharactersViewModel.Input, Never>) -> AnyPublisher<CharactersViewModel.Output, Never>
 }
 
-final class EpisodesViewModel: ObservableObject, EpisodesViewModelProtocol {
+final class CharactersViewModel: ObservableObject, CharactersViewModelProtocol {
 
     private var output: PassthroughSubject<Output, Never> = .init()
     private var cancellables: Set<AnyCancellable> = []

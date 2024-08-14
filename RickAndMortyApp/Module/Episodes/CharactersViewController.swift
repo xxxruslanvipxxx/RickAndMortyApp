@@ -1,5 +1,5 @@
 //
-//  EpisodesVC.swift
+//  CharactersViewController.swift
 //  RickAndMortyApp
 //
 //  Created by Руслан Забиран on 30.06.24.
@@ -9,11 +9,11 @@ import UIKit
 import Combine
 import UIScrollView_InfiniteScroll
 
-class EpisodesViewController: EpisodesUI {
+class CharactersViewController: CharactersUI {
     
-    weak private var coordinator: EpisodesCoordinatorProtocol?
-    private let viewModel: EpisodesViewModelProtocol
-    private var input: PassthroughSubject<EpisodesViewModel.Input, Never> = .init()
+    weak private var coordinator: CharactersCoordinatorProtocol?
+    private let viewModel: CharactersViewModelProtocol
+    private var input: PassthroughSubject<CharactersViewModel.Input, Never> = .init()
     private var nextPageUrl: String?
     private var cancellables = Set<AnyCancellable>()
     private var characters: [Character] = [] {
@@ -23,7 +23,7 @@ class EpisodesViewController: EpisodesUI {
         }
     }
     
-    init(viewModel: EpisodesViewModelProtocol, coordinator: EpisodesCoordinatorProtocol) {
+    init(viewModel: CharactersViewModelProtocol, coordinator: CharactersCoordinatorProtocol) {
         self.viewModel = viewModel
         self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
@@ -86,7 +86,7 @@ class EpisodesViewController: EpisodesUI {
 }
 
 //MARK: - UICollectionViewDataSource
-extension EpisodesViewController: UICollectionViewDataSource {
+extension CharactersViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         characters.count
     }
@@ -108,7 +108,7 @@ extension EpisodesViewController: UICollectionViewDataSource {
 }
 
 //MARK: - UICollectionViewDelegate
-extension EpisodesViewController: UICollectionViewDelegate {
+extension CharactersViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let character = characters[indexPath.row]

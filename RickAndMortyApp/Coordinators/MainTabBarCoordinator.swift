@@ -24,7 +24,7 @@ class MainTabBarCoordinator: MainTabBarCoordinatorProtocol {
     }
     
     func start() {
-        let episodesCoordinator = EpisodesCoordinator(dependencies: dependencies)
+        let episodesCoordinator = CharactersCoordinator(dependencies: dependencies)
         episodesCoordinator.start()
         
         let favouritesCoordinator = FavouritesCoordinator(dependencies: dependencies)

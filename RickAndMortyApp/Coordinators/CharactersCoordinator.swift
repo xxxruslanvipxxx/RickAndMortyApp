@@ -1,5 +1,5 @@
 //
-//  EpisodesCoordinator.swift
+//  CharactersCoordinator.swift
 //  RickAndMortyApp
 //
 //  Created by Руслан Забиран on 30.06.24.
@@ -7,12 +7,12 @@
 
 import UIKit
 
-protocol EpisodesCoordinatorProtocol: Coordinator {
+protocol CharactersCoordinatorProtocol: Coordinator {
     func start()
     func showDetail(for character: Character)
 }
 
-class EpisodesCoordinator: EpisodesCoordinatorProtocol {
+class CharactersCoordinator: CharactersCoordinatorProtocol {
     
     var rootViewController = UINavigationController()
     var type: CoordinatorType = .episodes
@@ -25,7 +25,7 @@ class EpisodesCoordinator: EpisodesCoordinatorProtocol {
     }
     
     func start() {
-        let episodesVC = EpisodesAssemblyBuilder.configure(dependencies, coordinator: self)
+        let episodesVC = CharactersAssemblyBuilder.configure(dependencies, coordinator: self)
         rootViewController.pushViewController(episodesVC, animated: false)
     }
     

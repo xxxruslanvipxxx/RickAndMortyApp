@@ -1,5 +1,5 @@
 //
-//  EpisodesUI.swift
+//  CharactersUI.swift
 //  RickAndMortyApp
 //
 //  Created by Руслан Забиран on 8.07.24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EpisodesUI: UIViewController {
+class CharactersUI: UIViewController {
     
     //MARK: Variables
     var collectionViewHeight = NSLayoutConstraint()
