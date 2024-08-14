@@ -67,6 +67,7 @@ final class CharactersViewModel: ObservableObject, CharactersViewModelProtocol {
             } receiveValue: { result in
                 let characters = result.results
                 let nextPage = result.info.next
+                // paste mapper later
                 self.output.send(.fetchBaseCharactersSucceed(characters: characters, nextPageUrl: nextPage))
             }
             .store(in: &cancellables)

@@ -42,4 +42,5 @@ enum ConstantText {
     static let searchTextFieldPlaceholder = "Name or episode (ex.S01E01)..."
     static let goBackButton = "GO BACK"
     static let informationsLabel = "Informations"
+    static let verticalBar = "|"
 }
