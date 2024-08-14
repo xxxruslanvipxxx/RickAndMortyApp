@@ -27,10 +27,10 @@ class MainTabBarCoordinator: MainTabBarCoordinatorProtocol {
         let episodesCoordinator = CharactersCoordinator(dependencies: dependencies)
         episodesCoordinator.start()
         
-        let favouritesCoordinator = FavouritesCoordinator(dependencies: dependencies)
-        favouritesCoordinator.start()
+        let favoritesCoordinator = FavoritesCoordinator(dependencies: dependencies)
+        favoritesCoordinator.start()
         
-        rootViewController.viewControllers = [episodesCoordinator.rootViewController, favouritesCoordinator.rootViewController]
+        rootViewController.viewControllers = [episodesCoordinator.rootViewController, favoritesCoordinator.rootViewController]
     }
     
 }

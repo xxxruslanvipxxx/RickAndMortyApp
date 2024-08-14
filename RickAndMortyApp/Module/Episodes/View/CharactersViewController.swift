@@ -97,9 +97,10 @@ extension CharactersViewController: UICollectionViewDataSource {
         }
         
         let character = characters[indexPath.row]
+        let viewModel = CharacterCellViewModel(character: character)
         
         cell.tag = character.id
-        cell.configure(with: character, image: UIImage(systemName: ImageName.systemPlaceholder)!)
+        cell.configure(viewModel: viewModel)
         
         return cell
     }

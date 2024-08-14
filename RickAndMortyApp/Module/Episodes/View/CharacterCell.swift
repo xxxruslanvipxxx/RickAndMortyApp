@@ -13,19 +13,21 @@ class CharacterCell: UICollectionViewCell {
     static let identifier = "episodesCell"
     
     //MARK: Variables
-    
+    private var viewModel: CharacterCellViewModelProtocol?
+    private var input: PassthroughSubject<CharacterCellViewModel.Input, Never> = .init()
+    private var cancellables: Set<AnyCancellable> = .init()
     private var shadowLayer: CAShapeLayer!
     
-    var isFavourite: Bool = false {
+    var isFavorite: Bool = false {
         didSet {
-            if isFavourite{
+            if isFavorite{
                 let image = UIImage(named: ImageName.heartFilled)
-                addToFavouriteButton.setImage(image, for: .normal)
+                addToFavoriteButton.setImage(image, for: .normal)
             } else {
                 let image = UIImage(named: ImageName.heart)
-                addToFavouriteButton.setImage(image, for: .normal)
+                addToFavoriteButton.setImage(image, for: .normal)
             }
-            print(isFavourite)
+            print(isFavorite)
         }
     }
     
@@ -33,7 +35,7 @@ class CharacterCell: UICollectionViewCell {
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: ImageName.systemQuestionmark)
+        imageView.image = UIImage(systemName: ImageName.systemPlaceholder)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.tintColor = .gray
         imageView.contentMode = .scaleAspectFill
@@ -70,7 +72,7 @@ class CharacterCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var addToFavouriteButton: UIButton = {
+    private lazy var addToFavoriteButton: UIButton = {
         let button = UIButton()
         let image = UIImage(named: ImageName.heart)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -90,7 +92,7 @@ class CharacterCell: UICollectionViewCell {
     }()
     
     private lazy var episodeAndFavouritesStack: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [monitorPlayImageView, episodeLabel, addToFavouriteButton])
+        let stackView = UIStackView(arrangedSubviews: [monitorPlayImageView, episodeLabel, addToFavoriteButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.distribution = .fillProportionally
@@ -115,26 +117,50 @@ class CharacterCell: UICollectionViewCell {
         super.prepareForReuse()
         // nil image and other ui props
         imageView.image = UIImage(systemName: ImageName.systemPlaceholder)
+        cancellables.removeAll()
     }
     
     //MARK: configure()
 
-    public func configure(with character: Character, image: UIImage) {
-        self.imageView.image = image
-        self.characterNameLabel.text = character.name
-//        self.episodeLabel.text = character.
+    public func configure(viewModel: CharacterCellViewModelProtocol) {
+        self.viewModel = viewModel
+        binding()
+        input.send(.configureCell)
+
         setupUI()
     }
     
-    func updateImage(_ image: UIImage) {
-        self.imageView.image = image
+    private func binding() {
+        guard let output = viewModel?.transform(input: input.eraseToAnyPublisher()) else {
+            print("cell binding error")
+            return
+        }
+        
+        output
+            .receive(on: RunLoop.main)
+            .sink { [weak self] output in
+            switch output {
+            case .configureImage(with: let data):
+                guard let data = data, let image = UIImage(data: data) else {
+                    self?.imageView.image = UIImage(named: ImageName.systemPlaceholder)
+                    return
+                }
+                self?.imageView.image = image
+            case .configureEpisode(with: let episode):
+                self?.episodeLabel.text = episode
+            case .configureName(with: let name):
+                self?.characterNameLabel.text = name
+            }
+        }
+        .store(in: &cancellables)
     }
     
     //MARK: Objc methods
     
     @objc
     private func heartButtonPressed() {
-        isFavourite.toggle()
+        isFavorite.toggle()
+        input.send(.favoriteButtonPressed(isFavorite: isFavorite))
     }
     
     

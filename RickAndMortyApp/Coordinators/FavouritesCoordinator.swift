@@ -7,11 +7,11 @@
 
 import UIKit
 
-protocol FavouritesCoordinatorProtocol: Coordinator {
+protocol FavoritesCoordinatorProtocol: Coordinator {
     func start()
 }
 
-class FavouritesCoordinator: FavouritesCoordinatorProtocol {
+class FavoritesCoordinator: FavoritesCoordinatorProtocol {
     
     var rootViewController = UINavigationController()
     var type: CoordinatorType = .favourites
@@ -24,8 +24,8 @@ class FavouritesCoordinator: FavouritesCoordinatorProtocol {
     }
     
     func start() {
-        let favouritesVC = FavouritesAssemblyBuilder.configure(dependencies)
-        rootViewController.pushViewController(favouritesVC, animated: false)
+        let favoritesVC = FavoritesAssemblyBuilder.configure(dependencies)
+        rootViewController.pushViewController(favoritesVC, animated: false)
     }
     
 }

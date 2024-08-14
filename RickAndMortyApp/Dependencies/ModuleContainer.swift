@@ -10,7 +10,7 @@ import UIKit
 protocol ModuleContainerProtocol {
     func createLaunchView() -> UIViewController
     func createCharactersView(coordinator: CharactersCoordinatorProtocol) -> UIViewController
-    func createFavouritesView() -> UIViewController
+    func createFavoritesView() -> UIViewController
     func createDetailView(coordinator: DetailCoordinatorProtocol, with character: Character) -> UIViewController
 }
 
@@ -47,9 +47,9 @@ extension ModuleContainer {
 }
 
 extension ModuleContainer {
-    func createFavouritesView() -> UIViewController {
-        let vm = FavouritesViewModel()
-        let vc = FavouritesViewContorller(viewModel: vm)
+    func createFavoritesView() -> UIViewController {
+        let vm = FavoritesViewModel()
+        let vc = FavoritesViewContorller(viewModel: vm)
 
         return vc
     }

@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 protocol CharacterCellViewModelProtocol {
-    
+    func transform(input: AnyPublisher<CharacterCellViewModel.Input, Never>) -> AnyPublisher<CharacterCellViewModel.Output, Never>
 }
 
 final class CharacterCellViewModel: CharacterCellViewModelProtocol {
@@ -23,7 +23,7 @@ final class CharacterCellViewModel: CharacterCellViewModelProtocol {
     
     enum Input {
         case configureCell
-        case favouriteButtonPressed(isFavourite: Bool)
+        case favoriteButtonPressed(isFavorite: Bool)
     }
     
     enum Output {
@@ -47,8 +47,8 @@ final class CharacterCellViewModel: CharacterCellViewModelProtocol {
                 self.getImage()
                 self.getEpisodeString()
                 self.getName()
-            case .favouriteButtonPressed(isFavourite: let isFavourite):
-                break
+            case .favoriteButtonPressed(isFavorite: let isFavourite):
+                isFavourite ? print("\(self.name) in favorites") : print("\(self.name) not in favorites") 
             }
         }
         .store(in: &cancellables)
@@ -81,7 +81,7 @@ final class CharacterCellViewModel: CharacterCellViewModelProtocol {
             .sink { result in
                 switch result {
                 case .finished:
-                    print("Episode loaded succesfully")
+                    break
                 case .failure(let error):
                     print("Episode load error: \(error)")
                 }

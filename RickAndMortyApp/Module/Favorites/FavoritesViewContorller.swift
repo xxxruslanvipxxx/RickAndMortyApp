@@ -1,5 +1,5 @@
 //
-//  FavouritesVC.swift
+//  FavoritesVC.swift
 //  RickAndMortyApp
 //
 //  Created by Руслан Забиран on 30.06.24.
@@ -7,11 +7,11 @@
 
 import UIKit
 
-class FavouritesViewContorller: UIViewController {
+class FavoritesViewContorller: UIViewController {
     
-    public var viewModel: FavouritesViewModelProtocol
+    public var viewModel: FavoritesViewModelProtocol
 
-    init(viewModel: FavouritesViewModel) {
+    init(viewModel: FavoritesViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.setupTabBar()
