@@ -147,12 +147,15 @@ class CharactersUI: UIViewController {
         NSLayoutConstraint.activate([scrollViewTop, scrollViewLeading, scrollViewTrailing, scrollViewBottom])
         
         //MARK: contentView constraints
-        let contentViewTop = contentView.topAnchor.constraint(equalTo: scrollView.topAnchor)
-        let contentViewLeading = contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor)
-        let contentViewTrailing = contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor)
-        let contentViewBottom = contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+        let contentViewTop = contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor)
+        let contentViewLeading = contentView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor)
+        let contentViewTrailing = contentView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor)
+        let contentViewBottom = contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor)
+        let contentViewWidth = contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
+        let contentViewHeight = contentView.heightAnchor.constraint(equalTo: scrollView.frameLayoutGuide.heightAnchor)
+        contentViewHeight.priority = .defaultLow
         
-        NSLayoutConstraint.activate([contentViewTop, contentViewLeading, contentViewTrailing, contentViewBottom])
+        NSLayoutConstraint.activate([contentViewTop, contentViewLeading, contentViewTrailing, contentViewBottom, contentViewWidth, contentViewHeight])
         
         //MARK: logoImageView constraints
         let logoImageViewCenterX = logoImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
