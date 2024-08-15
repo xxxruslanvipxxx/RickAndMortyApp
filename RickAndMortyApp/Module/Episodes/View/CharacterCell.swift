@@ -57,7 +57,7 @@ class CharacterCell: UICollectionViewCell {
         let image = UIImage(named: ImageName.monitorPlay)
         let imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .right
+        imageView.contentMode = .scaleAspectFit
         
         return imageView
     }()
@@ -91,12 +91,13 @@ class CharacterCell: UICollectionViewCell {
         return view
     }()
     
-    private lazy var episodeAndFavouritesStack: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [monitorPlayImageView, episodeLabel, addToFavoriteButton])
+    private lazy var imageAndEpisodeStack: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [monitorPlayImageView, episodeLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.distribution = .fillProportionally
+        stackView.alignment = .center
         stackView.spacing = 8
+        stackView.distribution = .fill
         
         return stackView
     }()
@@ -170,7 +171,8 @@ class CharacterCell: UICollectionViewCell {
         self.backgroundColor = UIColor(named: ColorName.customBackgroundColor)
         
         self.contentView.addSubview(finalStack)
-        episodeBackgroundView.addSubview(episodeAndFavouritesStack)
+        episodeBackgroundView.addSubview(imageAndEpisodeStack)
+        episodeBackgroundView.addSubview(addToFavoriteButton)
         setupConstraints()
         
     }
@@ -191,32 +193,40 @@ class CharacterCell: UICollectionViewCell {
         
         NSLayoutConstraint.activate([imageViewWidth, imageViewHeight])
         
-        //MARK: episodeBackgroundView constraints
-        let episodeBackgroundViewWidth = episodeBackgroundView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
-        let episodeBackgroundViewHeight = episodeBackgroundView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.2)
-        
-        NSLayoutConstraint.activate([episodeBackgroundViewWidth, episodeBackgroundViewHeight])
-        
-        //MARK: episodeAndFavouritesStack constraints
-        let episodeAndFavouritesStackTop = episodeAndFavouritesStack.topAnchor.constraint(equalTo: episodeBackgroundView.topAnchor)
-        let episodeAndFavouritesStackLeading = episodeAndFavouritesStack.leadingAnchor.constraint(equalTo: episodeBackgroundView.leadingAnchor)
-        let episodeAndFavouritesStackTrailing = episodeAndFavouritesStack.trailingAnchor.constraint(equalTo: episodeBackgroundView.trailingAnchor)
-        let episodeAndFavouritesStackBottom = episodeAndFavouritesStack.bottomAnchor.constraint(equalTo: episodeBackgroundView.bottomAnchor)
-        
-        NSLayoutConstraint.activate([episodeAndFavouritesStackTop, episodeAndFavouritesStackLeading, episodeAndFavouritesStackTrailing, episodeAndFavouritesStackBottom])
-        
         //MARK: characterNameLabel constraints
         let characterNameLabelLeading = characterNameLabel.leadingAnchor.constraint(equalTo: finalStack.leadingAnchor, constant: 16)
         let characterNameLabelTrailing = characterNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         
         NSLayoutConstraint.activate([characterNameLabelLeading, characterNameLabelTrailing])
         
-//        //MARK: monitorPlayImageView constraints
-//        let monitorPlayImageViewWidth = monitorPlayImageView.widthAnchor.constraint(equalToConstant: 26)
-//        let monitorPlayImageViewHeight = monitorPlayImageView.heightAnchor.constraint(equalToConstant: 26)
-//        
-//        NSLayoutConstraint.activate([monitorPlayImageViewWidth, monitorPlayImageViewHeight])
-
+        //MARK: episodeBackgroundView constraints
+        let episodeBackgroundViewWidth = episodeBackgroundView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
+        let episodeBackgroundViewHeight = episodeBackgroundView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.2)
+        
+        NSLayoutConstraint.activate([episodeBackgroundViewWidth, episodeBackgroundViewHeight])
+        
+        //MARK: imageAndEpisodeStack constraints
+        let imageAndEpisodeStackTop = imageAndEpisodeStack.topAnchor.constraint(equalTo: episodeBackgroundView.topAnchor)
+        let imageAndEpisodeStackLeading = imageAndEpisodeStack.leadingAnchor.constraint(equalTo: episodeBackgroundView.leadingAnchor, constant: 18)
+//        let imageAndEpisodeStackTrailing = imageAndEpisodeStack.trailingAnchor.constraint(equalTo: addToFavoriteButton.leadingAnchor, constant: -18)
+        let imageAndEpisodeStackBottom = imageAndEpisodeStack.bottomAnchor.constraint(equalTo: episodeBackgroundView.bottomAnchor)
+        let imageAndEpisodeStackWidth = imageAndEpisodeStack.widthAnchor.constraint(equalTo: episodeBackgroundView.widthAnchor, multiplier: 0.75)
+        
+        NSLayoutConstraint.activate([imageAndEpisodeStackTop, imageAndEpisodeStackLeading, imageAndEpisodeStackWidth, imageAndEpisodeStackBottom])
+        
+        //MARK: addToFavoriteButton constraints
+        let addToFavoriteButtonTrailing = addToFavoriteButton.trailingAnchor.constraint(equalTo: episodeBackgroundView.trailingAnchor, constant: -20)
+        let addToFavoriteButtonTop = addToFavoriteButton.topAnchor.constraint(equalTo: episodeBackgroundView.topAnchor, constant: 18)
+        let addToFavoriteButtonBottom = addToFavoriteButton.bottomAnchor.constraint(equalTo: episodeBackgroundView.bottomAnchor, constant: -18)
+        
+        NSLayoutConstraint.activate([addToFavoriteButtonTrailing, addToFavoriteButtonTop, addToFavoriteButtonBottom])
+        
+        //MARK: monitorPlayImageView constraints
+        let monitorPlayImageViewWidth = monitorPlayImageView.widthAnchor.constraint(equalToConstant: 40)
+        let monitorPlayImageViewHeight = monitorPlayImageView.heightAnchor.constraint(equalToConstant: 40)
+        
+        NSLayoutConstraint.activate([monitorPlayImageViewWidth, monitorPlayImageViewHeight])
+        
     }
     
 }
