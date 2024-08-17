@@ -57,8 +57,8 @@ final class CharactersViewModel: ObservableObject, CharactersViewModelProtocol {
         
         let url = EndpointCases.getBaseData.url
         networkService.request(for: Result.self, url: url)
-            .sink { error in
-                switch error {
+            .sink { result in
+                switch result {
                 case .finished:
                     self.output.send(.loadBaseCharacters(isLoading: false))
                 case .failure(let error):
