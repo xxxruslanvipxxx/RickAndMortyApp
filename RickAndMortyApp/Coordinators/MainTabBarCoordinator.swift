@@ -12,7 +12,8 @@ protocol MainTabBarCoordinatorProtocol: Coordinator {
 }
 
 class MainTabBarCoordinator: MainTabBarCoordinatorProtocol {
-
+    
+    var finishDelegate: (any CoordinatorFinishDelegate)?
     var rootViewController: UITabBarController
     var childCoordinators = [Coordinator]()
     var type: CoordinatorType = .main
@@ -25,12 +26,24 @@ class MainTabBarCoordinator: MainTabBarCoordinatorProtocol {
     
     func start() {
         let episodesCoordinator = CharactersCoordinator(dependencies: dependencies)
+        episodesCoordinator.finishDelegate = self
+        childCoordinators.append(episodesCoordinator)
         episodesCoordinator.start()
         
         let favoritesCoordinator = FavoritesCoordinator(dependencies: dependencies)
+        favoritesCoordinator.finishDelegate = self
+        childCoordinators.append(favoritesCoordinator)
         favoritesCoordinator.start()
         
         rootViewController.viewControllers = [episodesCoordinator.rootViewController, favoritesCoordinator.rootViewController]
+    }
+    
+}
+
+extension MainTabBarCoordinator: CoordinatorFinishDelegate {
+    
+    func coordinatorDidFinish(childCoordinator: Coordinator) {
+        
     }
     
 }

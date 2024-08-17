@@ -15,6 +15,7 @@ protocol AppCoordinatorProtocol: Coordinator {
 
 final class AppCoordinator: AppCoordinatorProtocol {
     
+    var finishDelegate: CoordinatorFinishDelegate?
     var navigationController: UINavigationController
     var tabBarController: UITabBarController = MainTabBarController()
     var window: UIWindow
@@ -31,24 +32,36 @@ final class AppCoordinator: AppCoordinatorProtocol {
     
     func start() {
         showLaunchFlow()
-//        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { timer in
-//            self.showMainFlow()
-//        }
-        self.showMainFlow()
+
     }
     
     func showLaunchFlow() {
         let launchCoordinator = LaunchCoordinator(navigationController, dependencies: dependencies)
+        launchCoordinator.finishDelegate = self
         launchCoordinator.start()
         childCoordinators.append(launchCoordinator)
     }
     
     func showMainFlow() {
         let mainTabCoordinator = MainTabBarCoordinator(rootViewController: tabBarController, dependencies: dependencies)
+        mainTabCoordinator.finishDelegate = self
         window.rootViewController = mainTabCoordinator.rootViewController
         mainTabCoordinator.start()
+        childCoordinators.append(mainTabCoordinator)
     }
     
 }
 
-
+extension AppCoordinator: CoordinatorFinishDelegate {
+    
+    func coordinatorDidFinish(childCoordinator: Coordinator) {
+        childCoordinators = childCoordinators.filter { $0.type != childCoordinator.type}
+        switch childCoordinator.type {
+        case .launch:
+            showMainFlow()
+        case .app, .main, .characters, .favorites, .detail:
+            break
+        }
+    }
+    
+}

@@ -14,8 +14,9 @@ protocol CharactersCoordinatorProtocol: Coordinator {
 
 class CharactersCoordinator: CharactersCoordinatorProtocol {
     
+    var finishDelegate: CoordinatorFinishDelegate?
     var rootViewController = UINavigationController()
-    var type: CoordinatorType = .episodes
+    var type: CoordinatorType = .characters
     var dependencies: IDependencies
     var childCoordinators = [Coordinator]()
     

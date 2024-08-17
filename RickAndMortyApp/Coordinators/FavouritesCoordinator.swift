@@ -13,8 +13,9 @@ protocol FavoritesCoordinatorProtocol: Coordinator {
 
 class FavoritesCoordinator: FavoritesCoordinatorProtocol {
     
+    var finishDelegate: CoordinatorFinishDelegate?
     var rootViewController = UINavigationController()
-    var type: CoordinatorType = .favourites
+    var type: CoordinatorType = .favorites
     var dependencies: IDependencies
     var childCoordinators = [Coordinator]()
     

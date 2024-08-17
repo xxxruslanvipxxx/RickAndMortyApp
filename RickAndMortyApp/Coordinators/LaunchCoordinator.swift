@@ -13,6 +13,7 @@ protocol LaunchCoordinatorProtocol: Coordinator {
 
 class LaunchCoordinator: LaunchCoordinatorProtocol {
     
+    var finishDelegate: CoordinatorFinishDelegate?
     var rootViewController: UINavigationController
     var type: CoordinatorType { .launch }
     var childCoordinators = [Coordinator]()
@@ -29,6 +30,15 @@ class LaunchCoordinator: LaunchCoordinatorProtocol {
     
     private func showLaunchViewController() {
         let launchViewController = LauchAssemblyBuilder.configure(dependencies)
+        if let launchViewController = launchViewController as? LaunchViewController {
+            launchViewController.didSendCompletionEvent = { [weak self] event in
+                switch event {
+                case .launchComplete:
+                    self?.finish()
+                }
+            }
+        }
+        
         rootViewController.show(launchViewController, sender: self)
     }
     

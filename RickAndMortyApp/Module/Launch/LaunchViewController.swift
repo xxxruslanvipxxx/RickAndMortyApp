@@ -10,7 +10,7 @@ import Combine
 
 class LaunchViewController: UIViewController {
     
-    @Published public var didSendCompletionEvent: (() -> Void)?
+    var didSendCompletionEvent: ((LaunchViewController.Event) -> Void)?
     
     private lazy var logoImageView: UIImageView = {
         let image = UIImage(named: ImageName.appLogo)
@@ -66,12 +66,29 @@ class LaunchViewController: UIViewController {
         rotateAnimation.toValue = CGFloat(Double.pi * 2)
         rotateAnimation.isRemovedOnCompletion = false
         rotateAnimation.duration = duration
-        rotateAnimation.repeatCount = Float.infinity
+        rotateAnimation.repeatCount = 1
         loadingImageView.layer.add(rotateAnimation, forKey: nil)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+            if let didSendCompletionEvent = self.didSendCompletionEvent {
+                didSendCompletionEvent(.launchComplete)
+            }
+        }
+        
     }
     
     func stopAnimation() {
         loadingImageView.layer.removeAllAnimations()
+    }
+    
+}
+
+//MARK: - LaunchViewController.Event
+
+extension LaunchViewController {
+    
+    enum Event {
+        case launchComplete
     }
     
 }

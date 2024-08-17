@@ -13,8 +13,9 @@ protocol DetailCoordinatorProtocol: Coordinator {
 
 class DetailCoordinator: DetailCoordinatorProtocol {
     
+    var finishDelegate: (any CoordinatorFinishDelegate)?
     var rootViewController: UINavigationController
-    var type: CoordinatorType = .episodes
+    var type: CoordinatorType = .detail
     var dependencies: IDependencies
     var childCoordinators = [Coordinator]()
     var character: Character

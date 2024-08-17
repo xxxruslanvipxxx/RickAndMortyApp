@@ -8,14 +8,15 @@
 import UIKit
 
 enum CoordinatorType {
-    case app, launch, main, episodes, favourites
+    case app, launch, main, characters, detail, favorites
 }
 
 protocol Coordinator: AnyObject {
-//    var rootViewController: UINavigationController {get set}
+    
+    var finishDelegate: CoordinatorFinishDelegate? { get set }
     var childCoordinators: [Coordinator] { get set }
-    var type: CoordinatorType {get}
-     var dependencies: IDependencies {get set}
+    var type: CoordinatorType { get }
+    var dependencies: IDependencies { get set }
     func start()
     func finish()
 }
@@ -23,5 +24,10 @@ protocol Coordinator: AnyObject {
 extension Coordinator {
     func finish() {
         childCoordinators.removeAll()
+        finishDelegate?.coordinatorDidFinish(childCoordinator: self)
     }
+}
+
+protocol CoordinatorFinishDelegate: AnyObject {
+    func coordinatorDidFinish(childCoordinator: Coordinator)
 }
