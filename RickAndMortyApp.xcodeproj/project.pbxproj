@@ -195,7 +195,7 @@
 			path = Launch;
 			sourceTree = "<group>";
 		};
-		14BC61C72C31B3BF007EDA07 /* Episodes */ = {
+		14BC61C72C31B3BF007EDA07 /* Characters */ = {
 			isa = PBXGroup;
 			children = (
 				14BC61F22C3AD0F9007EDA07 /* CharactersAssemblyBuilder.swift */,
@@ -203,7 +203,7 @@
 				14458D632C6CE649009C5912 /* CharacterCellViewModel.swift */,
 				14EC44F62C3EE4970076AC4D /* View */,
 			);
-			path = Episodes;
+			path = Characters;
 			sourceTree = "<group>";
 		};
 		14BC61C82C31B41C007EDA07 /* Favorites */ = {
@@ -248,7 +248,7 @@
 			children = (
 				14BC61EB2C3AB706007EDA07 /* Main */,
 				14BC61C62C31B39E007EDA07 /* Launch */,
-				14BC61C72C31B3BF007EDA07 /* Episodes */,
+				14BC61C72C31B3BF007EDA07 /* Characters */,
 				14458D532C63DB90009C5912 /* CharacterDetail */,
 				14BC61C82C31B41C007EDA07 /* Favorites */,
 			);

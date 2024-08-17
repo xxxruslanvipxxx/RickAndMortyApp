@@ -8,8 +8,8 @@
 import Foundation
 import UIKit
 
-class DetailAssemblyBuilder{
-    static func configure(_ dependencies: IDependencies, character: Character, coordinator: DetailCoordinatorProtocol) -> UIViewController {
-        dependencies.moduleContainer.createDetailView(coordinator: coordinator, with: character)
+class DetailAssemblyBuilder {
+    static func configure(_ dependencies: IDependencies, character: Character) -> UIViewController {
+        dependencies.moduleContainer.createDetailView(with: character)
     }
 }

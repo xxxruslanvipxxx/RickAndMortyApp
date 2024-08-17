@@ -11,7 +11,7 @@ import UIScrollView_InfiniteScroll
 
 class CharactersViewController: CharactersUI {
     
-    weak private var coordinator: CharactersCoordinatorProtocol?
+    var didSendCompletionEvent: ((CharactersViewController.Event) -> Void)?
     private let viewModel: CharactersViewModelProtocol
     private var input: PassthroughSubject<CharactersViewModel.Input, Never> = .init()
     private var nextPageUrl: String?
@@ -23,9 +23,8 @@ class CharactersViewController: CharactersUI {
         }
     }
     
-    init(viewModel: CharactersViewModelProtocol, coordinator: CharactersCoordinatorProtocol) {
+    init(viewModel: CharactersViewModelProtocol) {
         self.viewModel = viewModel
-        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -114,7 +113,16 @@ extension CharactersViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let character = characters[indexPath.row]
         print("Go to detail of \(character.name)")
-        coordinator?.showDetail(for: character)
+        if let didSendCompletionEvent = didSendCompletionEvent {
+            didSendCompletionEvent(.goToDetail(character))
+        }
     }
     
+}
+
+//MARK: - CharactersViewController.Event
+extension CharactersViewController {
+    enum Event {
+        case goToDetail(Character)
+    }
 }

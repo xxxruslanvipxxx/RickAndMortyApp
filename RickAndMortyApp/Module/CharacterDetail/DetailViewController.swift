@@ -19,14 +19,12 @@ enum InfoType: String, CaseIterable {
 
 class DetailViewController: DetailUI{
     
-    private let coordinator: DetailCoordinatorProtocol
     private let viewModel: DetailViewModelProtocol
     private let infoTypes = InfoType.allCases
     private var cancellables: Set<AnyCancellable> = []
     
-    init(viewModel: DetailViewModelProtocol, coordinator: DetailCoordinatorProtocol) {
+    init(viewModel: DetailViewModelProtocol) {
         self.viewModel = viewModel
-        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
     
