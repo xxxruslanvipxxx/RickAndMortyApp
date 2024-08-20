@@ -26,7 +26,7 @@ class DetailUI: UIViewController {
         return scrollView
     }()
     
-    private lazy var roundedImageView: UIImageView = {
+    lazy var roundedImageView: UIImageView = {
         let defaultImage = UIImage(systemName: ImageName.systemPlaceholder)
         let imageView = UIImageView(image: defaultImage)
         imageView.translatesAutoresizingMaskIntoConstraints = false

@@ -19,9 +19,12 @@ enum InfoType: String, CaseIterable {
 
 class DetailViewController: DetailUI{
     
+    private var character: Character?
     private let viewModel: DetailViewModelProtocol
-    private let infoTypes = InfoType.allCases
+    private var input: PassthroughSubject<DetailViewModel.Input, Never> = .init()
     private var cancellables: Set<AnyCancellable> = []
+    private let infoTypes = InfoType.allCases
+    var didSendCompletionEvent: ((DetailViewController.Event) -> Void)?
     
     init(viewModel: DetailViewModelProtocol) {
         self.viewModel = viewModel
@@ -36,17 +39,37 @@ class DetailViewController: DetailUI{
         super.viewDidLoad()
         setupDelegates()
         binding()
+        input.send(.viewDidLoad)
     }
     
     private func binding() {
-        viewModel.characterPublisher
-            .map { character in
-                character.name
+        let output = viewModel.transform(input: input.eraseToAnyPublisher())
+        
+        output
+            .receive(on: RunLoop.main)
+            .sink { [weak self] output in
+                switch output {
+                case .fetchCharacterImage(isLoading: let isLoading):
+                    if isLoading {
+                        // start animating
+                    } else {
+                        // stop animating
+                    }
+                case .updateCharacterInfo(character: let character):
+                    self?.character = character
+                    self?.nameLabel.text = character.name
+                    self?.infoTableView.reloadData()
+                case .updateImage(imageData: let imageData):
+                    let image = UIImage(data: imageData)
+                    self?.roundedImageView.image = image
+                case .fetchDidFail(error: let error):
+                    let image = UIImage(named: ImageName.systemQuestionmark)
+                    self?.roundedImageView.image = image
+                    print(error.localizedDescription)
+                }
             }
-            .sink(receiveValue: { name in
-                self.nameLabel.text = name
-            })
             .store(in: &cancellables)
+        
     }
     
     private func setupDelegates() {
@@ -65,15 +88,15 @@ extension DetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: InfoTableViewCell.identifier, for: indexPath) as? InfoTableViewCell else { fatalError("Failed to dequeue CharacterCell")
         }
+        guard let character = character else { return cell }
+        
         let infoType = infoTypes[indexPath.row]
-        let character = viewModel.character
         cell.configure(with: character, infoType: infoType)
         
         return cell
     }
     
 }
-
 
 extension DetailViewController: UITableViewDelegate {
     
@@ -85,4 +108,11 @@ extension DetailViewController: UITableViewDelegate {
         false
     }
     
+}
+
+//MARK: - DetailViewController.Event
+extension DetailViewController {
+    enum Event {
+        case goToPhotoScreen
+    }
 }

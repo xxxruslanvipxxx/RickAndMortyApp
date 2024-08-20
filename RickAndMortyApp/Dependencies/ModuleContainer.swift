@@ -39,7 +39,7 @@ extension ModuleContainer {
 
 extension ModuleContainer {
     func createDetailView(with character: Character) -> UIViewController {
-        let vm = DetailViewModel(character: character)
+        let vm = DetailViewModel(dependencies, character: character)
         let vc = DetailViewController(viewModel: vm)
         
         return vc

@@ -16,6 +16,7 @@ public enum NetworkError: LocalizedError {
     case serverError(statusCode: Int, reason: String? = nil, retryAfter: String? = nil)
     // The server sent data in an unexpected format
     case badURL(url: URL)
+    case imageFetchError
     case urlValidationError(url: String)
     case decodingError
     case timedOut(url: URL)
@@ -41,6 +42,7 @@ public enum NetworkError: LocalizedError {
         case .unclassifiedError(let error): return "Error \(error)"
         case .unknown: return "Unknown error occured"
         case .urlValidationError(url: let url): return "Bad url string: \(url)"
+        case .imageFetchError: return "Image fetch failure"
         }
     }
 }

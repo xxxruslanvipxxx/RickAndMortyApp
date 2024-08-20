@@ -10,6 +10,7 @@ import Combine
 
 protocol NetworkService {
     func request<T: Decodable>(for type: T.Type, url: String) -> AnyPublisher<T, NetworkError>
+    func loadImageData(from url: String) -> AnyPublisher<Data?, Never>
     func loadImagesData(for characters: [Character]) -> AnyPublisher<[Data?], Never>
 }
 

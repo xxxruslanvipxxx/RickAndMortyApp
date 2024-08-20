@@ -37,7 +37,7 @@ final class CharactersViewModel: ObservableObject, CharactersViewModelProtocol {
         case fetchDidFail(error: NetworkError)
     }
     
-    func transform( input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
+    func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { input in
             switch input {
             case .viewDidLoad:

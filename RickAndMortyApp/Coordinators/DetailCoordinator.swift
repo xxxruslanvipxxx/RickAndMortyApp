@@ -13,7 +13,7 @@ protocol DetailCoordinatorProtocol: Coordinator {
 
 class DetailCoordinator: DetailCoordinatorProtocol {
     
-    var finishDelegate: (any CoordinatorFinishDelegate)?
+    var finishDelegate: CoordinatorFinishDelegate?
     var rootViewController: UINavigationController
     var type: CoordinatorType = .detail
     var dependencies: IDependencies
