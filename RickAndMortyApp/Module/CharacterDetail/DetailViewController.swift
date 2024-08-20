@@ -38,6 +38,7 @@ class DetailViewController: DetailUI{
     override func viewDidLoad() {
         super.viewDidLoad()
         setupDelegates()
+        setupButtonAction()
         binding()
         input.send(.viewDidLoad)
     }
@@ -72,9 +73,18 @@ class DetailViewController: DetailUI{
         
     }
     
+    private func setupButtonAction() {
+        photoButton.addTarget(self, action: #selector(photoButtonPressed), for: .touchUpInside)
+    }
+    
     private func setupDelegates() {
         infoTableView.dataSource = self
         infoTableView.delegate = self
+    }
+    
+    @objc
+    private func photoButtonPressed() {
+        input.send(.photoButtonPressed)
     }
 
 }

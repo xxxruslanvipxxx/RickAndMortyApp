@@ -46,7 +46,7 @@ class DetailUI: UIViewController {
         return view
     }()
     
-    private lazy var photoButton: UIButton = {
+    lazy var photoButton: UIButton = {
         let button = UIButton()
         let image = UIImage(named: ImageName.camera)
         button.setImage(image, for: .normal)
