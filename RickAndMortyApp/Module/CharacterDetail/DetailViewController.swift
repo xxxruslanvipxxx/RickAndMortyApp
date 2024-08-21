@@ -7,6 +7,8 @@
 
 import UIKit
 import Combine
+import Photos
+import PhotosUI
 
 enum InfoType: String, CaseIterable {
     case gender = "Gender"
@@ -67,6 +69,10 @@ class DetailViewController: DetailUI{
                     let image = UIImage(named: ImageName.systemQuestionmark)
                     self?.roundedImageView.image = image
                     print(error.localizedDescription)
+                case .showCamera:
+                    self?.showPicker(for: .camera)
+                case .showPhotoLibrary:
+                    self?.showPicker(for: .photoLibrary)
                 }
             }
             .store(in: &cancellables)
@@ -82,13 +88,92 @@ class DetailViewController: DetailUI{
         infoTableView.delegate = self
     }
     
+    private func showActionSheet() {
+        let controller = UIAlertController(title: ConstantText.actionSheetTitle, message: nil, preferredStyle: .actionSheet)
+        let cameraAction = UIAlertAction(title: ConstantText.actionSheetButtonCamera, style: .default) { action in
+            self.input.send(.changePhoto(sourceType: .camera))
+        }
+        let galleryAction = UIAlertAction(title: ConstantText.actionSheetButtonGallery, style: .default) { action in
+            self.input.send(.changePhoto(sourceType: .photoLibrary))
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        controller.addAction(cameraAction)
+        controller.addAction(galleryAction)
+        controller.addAction(cancelAction)
+        present(controller, animated: true)
+        
+    }
+    
+    private func showPicker(for sourceType: DetailViewModel.PhotoSourceType) {
+        switch sourceType {
+        case .camera:
+            let vc = UIImagePickerController()
+            vc.sourceType = .camera
+            vc.delegate = self
+            vc.allowsEditing = true
+            
+            present(vc, animated: true)
+        case .photoLibrary:
+            var config = PHPickerConfiguration(photoLibrary: .shared())
+            config.mode = .default
+            config.filter = .images
+            config.selectionLimit = 1
+            let vc = PHPickerViewController(configuration: config)
+            vc.delegate = self
+            
+            present(vc, animated: true)
+        }
+    }
+    
     @objc
     private func photoButtonPressed() {
-        input.send(.photoButtonPressed)
+        showActionSheet()
     }
 
 }
 
+//MARK: - PHPickerViewControllerDelegate
+extension DetailViewController: PHPickerViewControllerDelegate {
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        
+        let itemProvider = results.first?.itemProvider
+        if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
+            itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+                if let image = image as? UIImage {
+                    DispatchQueue.main.async {
+                        self.roundedImageView.image = image
+                    }
+                }
+            }
+        }
+        
+    }
+    
+}
+
+//MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
+extension DetailViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        let key = UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")
+        if let image = info[key] as? UIImage {
+            roundedImageView.image = image
+        }
+        
+        picker.dismiss(animated: true)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+    }
+    
+}
+
+//MARK: - UITableViewDataSource
 extension DetailViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -108,6 +193,7 @@ extension DetailViewController: UITableViewDataSource {
     
 }
 
+//MARK: - UITableViewDelegate
 extension DetailViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -19,15 +19,21 @@ class DetailViewModel: ObservableObject, DetailViewModelProtocol {
     private var cancellables: Set<AnyCancellable> = []
     private var networkService: NetworkService
     
+    enum PhotoSourceType {
+        case camera
+        case photoLibrary
+    }
     enum Input {
         case viewDidLoad
-        case photoButtonPressed
+        case changePhoto(sourceType: PhotoSourceType)
     }
     
     enum Output {
         case fetchCharacterImage(isLoading: Bool)
         case updateCharacterInfo(character: Character)
         case updateImage(imageData: Data)
+        case showCamera
+        case showPhotoLibrary
         
         case fetchDidFail(error: NetworkError)
     }
@@ -43,9 +49,13 @@ class DetailViewModel: ObservableObject, DetailViewModelProtocol {
             case .viewDidLoad:
                 self.updateCharacterInfo()
                 self.downloadImage()
-            case .photoButtonPressed:
-                /// WORK IN PROGRESS
-                self.photoButtonPressed()
+            case .changePhoto(sourceType: let type):
+                switch type {
+                case .camera:
+                    self.changePhotoWithCamera()
+                case .photoLibrary:
+                    self.changePhotoWithPhotoLibrary()
+                }
             }
         }
         .store(in: &cancellables)
@@ -73,8 +83,12 @@ class DetailViewModel: ObservableObject, DetailViewModelProtocol {
             .store(in: &cancellables)
     }
     
-    private func photoButtonPressed() {
-        print("photoButtonPressed")
+    private func changePhotoWithCamera() {
+        output.send(.showCamera)
+    }
+    
+    private func changePhotoWithPhotoLibrary() {
+        output.send(.showPhotoLibrary)
     }
     
 }

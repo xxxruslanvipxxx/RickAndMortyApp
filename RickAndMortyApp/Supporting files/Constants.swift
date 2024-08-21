@@ -43,4 +43,7 @@ enum ConstantText {
     static let goBackButton = "GO BACK"
     static let informationsLabel = "Informations"
     static let verticalBar = "|"
+    static let actionSheetTitle = "Upload image"
+    static let actionSheetButtonCamera = "Camera"
+    static let actionSheetButtonGallery = "Gallery"
 }
