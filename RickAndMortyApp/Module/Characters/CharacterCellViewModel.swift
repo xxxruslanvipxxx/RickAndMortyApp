@@ -14,7 +14,7 @@ protocol CharacterCellViewModelProtocol {
 
 final class CharacterCellViewModel: CharacterCellViewModelProtocol {
     
-    var imageURL: String
+    var character: Character
     var name: String
     var episodesURL: [String]
     
@@ -32,10 +32,11 @@ final class CharacterCellViewModel: CharacterCellViewModelProtocol {
         case configureEpisode(with: String)
     }
     
-    private var networkService: NetworkServiceImpl = .init()
+    private var networkService: NetworkService
     
-    init(character: Character) {
-        self.imageURL = character.image
+    init(character: Character, dependencies: IDependencies) {
+        self.character = character
+        self.networkService = dependencies.networkService
         self.name = character.name
         self.episodesURL = character.episode
     }
@@ -57,7 +58,7 @@ final class CharacterCellViewModel: CharacterCellViewModelProtocol {
     }
     
     func getImage() {
-        networkService.loadImageData(from: imageURL)
+        networkService.loadImageData(for: character)
             .sink { [weak self] data in
                 self?.output.send(.configureImage(with: data))
             }

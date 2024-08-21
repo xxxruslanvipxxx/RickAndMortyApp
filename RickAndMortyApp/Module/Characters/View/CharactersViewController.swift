@@ -13,6 +13,7 @@ class CharactersViewController: CharactersUI {
     
     var didSendCompletionEvent: ((CharactersViewController.Event) -> Void)?
     private let viewModel: CharactersViewModelProtocol
+    private var dependencies: IDependencies
     private var input: PassthroughSubject<CharactersViewModel.Input, Never> = .init()
     private var nextPageUrl: String?
     private var cancellables = Set<AnyCancellable>()
@@ -23,8 +24,9 @@ class CharactersViewController: CharactersUI {
         }
     }
     
-    init(viewModel: CharactersViewModelProtocol) {
+    init(viewModel: CharactersViewModelProtocol, dependencies: IDependencies) {
         self.viewModel = viewModel
+        self.dependencies = dependencies
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -96,7 +98,7 @@ extension CharactersViewController: UICollectionViewDataSource {
         }
         
         let character = characters[indexPath.row]
-        let viewModel = CharacterCellViewModel(character: character)
+        let viewModel = CharacterCellViewModel(character: character, dependencies: dependencies)
         
         cell.tag = character.id
         cell.configure(viewModel: viewModel)
@@ -112,7 +114,6 @@ extension CharactersViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let character = characters[indexPath.row]
-        print("Go to detail of \(character.name)")
         if let didSendCompletionEvent = didSendCompletionEvent {
             didSendCompletionEvent(.goToDetail(character))
         }

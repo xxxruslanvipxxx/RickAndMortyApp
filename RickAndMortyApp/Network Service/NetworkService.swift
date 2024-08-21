@@ -10,11 +10,13 @@ import Combine
 
 protocol NetworkService {
     func request<T: Decodable>(for type: T.Type, url: String) -> AnyPublisher<T, NetworkError>
-    func loadImageData(from url: String) -> AnyPublisher<Data?, Never>
+    func loadImageData(for character: Character) -> AnyPublisher<Data?, Never>
     func loadImagesData(for characters: [Character]) -> AnyPublisher<[Data?], Never>
 }
 
 struct NetworkServiceImpl: NetworkService {
+    
+    private let cache: NSCache<NSString, NSData> = .init()
     
     func request<T : Decodable>(for type: T.Type, url: String) -> AnyPublisher<T, NetworkError> {
         guard let url = URL(string: url) else {
@@ -46,19 +48,28 @@ struct NetworkServiceImpl: NetworkService {
     }
     
     // Функция для загрузки данных изображения по URL
-    func loadImageData(from url: String) -> AnyPublisher<Data?, Never> {
-        guard let url = URL(string: url) else {
-            return Just(nil).eraseToAnyPublisher()
+    func loadImageData(for character: Character) -> AnyPublisher<Data?, Never> {
+        let id = NSString(string: "\(character.id)")
+        
+        if let imageData = cache.object(forKey: id) as? Data {
+            print("from cache: \(imageData)")
+            return Just(imageData).eraseToAnyPublisher()
+        } else {
+            guard let url = URL(string: character.image) else { return Just(nil).eraseToAnyPublisher() }
+            return URLSession.shared.dataTaskPublisher(for: url)
+                .map { data, _ in
+                    self.cache.setObject(NSData(data: data), forKey: id)
+                    print("from urlrequest: \(data)")
+                    return data
+                }
+                .catch { _ in Just(nil) }
+                .eraseToAnyPublisher()
         }
-        return URLSession.shared.dataTaskPublisher(for: url)
-            .map { data, _ in data }
-            .catch { _ in Just(nil) }
-            .eraseToAnyPublisher()
     }
     
     //     Функция для загрузки массива изображений персонажей
     func loadImagesData(for characters: [Character]) -> AnyPublisher<[Data?], Never> {
-        Publishers.MergeMany(characters.map { loadImageData(from: $0.image) })
+        Publishers.MergeMany(characters.map { loadImageData(for: $0) })
             .collect()
             .eraseToAnyPublisher()
     }

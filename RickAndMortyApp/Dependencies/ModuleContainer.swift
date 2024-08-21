@@ -31,7 +31,7 @@ extension ModuleContainer {
 extension ModuleContainer {
     func createCharactersView() -> UIViewController {
         let vm = CharactersViewModel(dependencies)
-        let vc = CharactersViewController(viewModel: vm)
+        let vc = CharactersViewController(viewModel: vm, dependencies: dependencies)
         
         return vc
     }

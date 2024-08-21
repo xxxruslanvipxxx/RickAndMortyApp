@@ -70,9 +70,7 @@ class DetailViewModel: ObservableObject, DetailViewModelProtocol {
     private func downloadImage() {
         output.send(.fetchCharacterImage(isLoading: true))
         
-        let imageURL = character.image
-        
-        networkService.loadImageData(from: imageURL)
+        networkService.loadImageData(for: character)
             .sink { data in
                 guard let data = data else {
                     return self.output.send(.fetchDidFail(error: .imageFetchError))
