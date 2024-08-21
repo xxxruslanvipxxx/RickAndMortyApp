@@ -46,4 +46,5 @@ enum ConstantText {
     static let actionSheetTitle = "Upload image"
     static let actionSheetButtonCamera = "Camera"
     static let actionSheetButtonGallery = "Gallery"
+    static let favoritesLabelText =  "Favorite characters"
 }

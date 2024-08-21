@@ -48,8 +48,8 @@ extension ModuleContainer {
 
 extension ModuleContainer {
     func createFavoritesView() -> UIViewController {
-        let vm = FavoritesViewModel()
-        let vc = FavoritesViewContorller(viewModel: vm)
+        let vm = FavoritesViewModel(dependencies)
+        let vc = FavoritesViewContorller(viewModel: vm, dependencies: dependencies)
 
         return vc
     }
