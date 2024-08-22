@@ -17,6 +17,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         configureScene(windowScene)
     }
     
+    func sceneDidEnterBackground(_ scene: UIScene) {
+        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+    }
+    
     private func configureScene(_ windowScene: UIWindowScene) {
         let navController = UINavigationController()
         let window = UIWindow(windowScene: windowScene)
