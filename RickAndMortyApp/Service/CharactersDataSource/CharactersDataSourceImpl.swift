@@ -63,7 +63,7 @@ class CharactersDataSourceImpl: CharactersDataSource {
     private func getEntityById(_ id: Int) throws -> CharacterEntity? {
         let request = CharacterEntity.fetchRequest()
         request.fetchLimit = 1
-        request.predicate = NSPredicate(format: "id = %@", id)
+        request.predicate = NSPredicate(format: "id = %@", String(id))
         let characterEntity = try viewContext.fetch(request).first
         return characterEntity
     }

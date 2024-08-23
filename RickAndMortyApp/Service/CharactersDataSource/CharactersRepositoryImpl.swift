@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CharacterRepositoryImpl: CharactersRepository {
+class CharactersRepositoryImpl: CharactersRepository {
     
     var dataSource: CharactersDataSource
     

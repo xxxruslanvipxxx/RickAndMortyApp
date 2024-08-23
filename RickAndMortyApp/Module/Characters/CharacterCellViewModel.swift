@@ -33,10 +33,12 @@ final class CharacterCellViewModel: CharacterCellViewModelProtocol {
     }
     
     private var networkService: NetworkService
+    private var charactersRepository: CharactersRepository
     
     init(character: Character, dependencies: IDependencies) {
-        self.character = character
         self.networkService = dependencies.networkService
+        self.charactersRepository = dependencies.charactersRepository
+        self.character = character
         self.name = character.name
         self.episodesURL = character.episode
     }
@@ -49,7 +51,15 @@ final class CharacterCellViewModel: CharacterCellViewModelProtocol {
                 self.getEpisodeString()
                 self.getName()
             case .favoriteButtonPressed(isFavorite: let isFavourite):
-                isFavourite ? print("\(self.name) in favorites") : print("\(self.name) not in favorites") 
+//                isFavourite ? print("\(self.name) in favorites") : print("\(self.name) not in favorites")
+                if isFavourite {
+                    print("\(self.name) in favorites")
+                    self.addToFavorites()
+                } else {
+                    print("\(self.name) not in favorites")
+                    self.removeFromFavorites()
+                }
+                
             }
         }
         .store(in: &cancellables)
@@ -90,7 +100,30 @@ final class CharacterCellViewModel: CharacterCellViewModelProtocol {
                 self?.output.send(.configureEpisode(with: episodeString))
             }
             .store(in: &cancellables)
-
+    }
+    
+    func addToFavorites() {
+        Task {
+            let result = await charactersRepository.createCharacter(character)
+            switch result {
+            case .success(_):
+                print("Character created successfully")
+            case .failure(let error):
+                print("Creation of character failure: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func removeFromFavorites() {
+        Task {
+            let result = await charactersRepository.deleteCharacter(character.id)
+            switch result {
+            case .success(_):
+                print("Character deleted successfully")
+            case .failure(let error):
+                print("Character delete failure: \(error.localizedDescription)")
+            }
+        }
     }
     
 }

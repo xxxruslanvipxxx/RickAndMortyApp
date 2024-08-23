@@ -12,13 +12,13 @@
         <attribute name="status" attributeType="String"/>
         <attribute name="type" attributeType="String"/>
         <attribute name="url" attributeType="String"/>
-        <relationship name="currentLocation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LocationEntity" inverseName="charactersCurrent" inverseEntity="LocationEntity"/>
-        <relationship name="originLocation" maxCount="1" deletionRule="Deny" destinationEntity="LocationEntity" inverseName="charactersOrigin" inverseEntity="LocationEntity"/>
+        <relationship name="currentLocation" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="LocationEntity" inverseName="charactersCurrent" inverseEntity="LocationEntity"/>
+        <relationship name="originLocation" maxCount="1" deletionRule="Cascade" destinationEntity="LocationEntity" inverseName="charactersOrigin" inverseEntity="LocationEntity"/>
     </entity>
     <entity name="LocationEntity" representedClassName="LocationEntity" syncable="YES">
         <attribute name="name" attributeType="String"/>
         <attribute name="url" attributeType="String"/>
         <relationship name="charactersCurrent" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CharacterEntity" inverseName="currentLocation" inverseEntity="CharacterEntity"/>
-        <relationship name="charactersOrigin" toMany="YES" deletionRule="Deny" destinationEntity="CharacterEntity" inverseName="originLocation" inverseEntity="CharacterEntity"/>
+        <relationship name="charactersOrigin" toMany="YES" deletionRule="Nullify" destinationEntity="CharacterEntity" inverseName="originLocation" inverseEntity="CharacterEntity"/>
     </entity>
 </model>

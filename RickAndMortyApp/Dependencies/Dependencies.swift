@@ -18,5 +18,5 @@ final class Dependencies: IDependencies {
     lazy var moduleContainer: ModuleContainer = ModuleContainer(self)
     lazy var networkService: NetworkService = NetworkServiceImpl()
     lazy var charactersDataSource: CharactersDataSource = CharactersDataSourceImpl()
-    lazy var charactersRepository: CharactersRepository = CharacterRepositoryImpl(dataSource: charactersDataSource)
+    lazy var charactersRepository: CharactersRepository = CharactersRepositoryImpl(dataSource: charactersDataSource)
 }
