@@ -56,7 +56,7 @@ final class CharactersViewModel: ObservableObject, CharactersViewModelProtocol {
         output.send(.loadBaseCharacters(isLoading: true))
         
         let url = EndpointCases.getBaseData.url
-        networkService.request(for: Result.self, url: url)
+        networkService.request(for: CharactersResult.self, url: url)
             .sink { result in
                 switch result {
                 case .finished:
@@ -77,7 +77,7 @@ final class CharactersViewModel: ObservableObject, CharactersViewModelProtocol {
     func fetchNextPage(with url: String) {
         output.send(.loadNextPage(isLoading: true))
         
-        networkService.request(for: Result.self, url: url)
+        networkService.request(for: CharactersResult.self, url: url)
             .sink { error in
                 switch error {
                 case .finished:

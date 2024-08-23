@@ -13,18 +13,7 @@ class FavoritesViewContorller: FavoritesUI {
     private var viewModel: FavoritesViewModelProtocol
     private var input: PassthroughSubject<FavoritesViewModel.Input, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
-    private var characters: [Character] = [Character(id: 5,
-                                                     name: "Nigger",
-                                                     status: .alive,
-                                                     species: "Wha",
-                                                     type: "nigger",
-                                                     gender: .unknown,
-                                                     origin: Location(name: "Africa", url: "bb"),
-                                                     location: Location(name: "Africa", url: "bb"),
-                                                     image: "https://thispersondoesnotexist.com",
-                                                     episode: ["first episode"],
-                                                     url: "ff",
-                                                     created: "05.08")]
+    private var characters: [Character] = []
     private var dependencies: IDependencies
     
     init(viewModel: FavoritesViewModelProtocol, dependencies: IDependencies) {

@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23G93" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
-    <entity name="CharacterCoreDataModel" representedClassName="CharacterCoreDataModel" syncable="YES">
+    <entity name="CharacterEntity" representedClassName="CharacterEntity" syncable="YES">
         <attribute name="created" attributeType="String"/>
         <attribute name="episode" attributeType="String"/>
         <attribute name="gender" attributeType="String"/>
         <attribute name="id" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="image" attributeType="String"/>
+        <attribute name="isFavorite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
         <attribute name="species" attributeType="String"/>
         <attribute name="status" attributeType="String"/>
         <attribute name="type" attributeType="String"/>
         <attribute name="url" attributeType="String"/>
-        <relationship name="origin" maxCount="1" deletionRule="Deny" destinationEntity="LocationCoreDataModel" inverseName="character" inverseEntity="LocationCoreDataModel"/>
+        <relationship name="currentLocation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LocationEntity" inverseName="charactersCurrent" inverseEntity="LocationEntity"/>
+        <relationship name="originLocation" maxCount="1" deletionRule="Deny" destinationEntity="LocationEntity" inverseName="charactersOrigin" inverseEntity="LocationEntity"/>
     </entity>
-    <entity name="LocationCoreDataModel" representedClassName="LocationCoreDataModel" syncable="YES">
+    <entity name="LocationEntity" representedClassName="LocationEntity" syncable="YES">
         <attribute name="name" attributeType="String"/>
         <attribute name="url" attributeType="String"/>
-        <relationship name="character" toMany="YES" deletionRule="Deny" destinationEntity="CharacterCoreDataModel" inverseName="origin" inverseEntity="CharacterCoreDataModel"/>
+        <relationship name="charactersCurrent" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CharacterEntity" inverseName="currentLocation" inverseEntity="CharacterEntity"/>
+        <relationship name="charactersOrigin" toMany="YES" deletionRule="Deny" destinationEntity="CharacterEntity" inverseName="originLocation" inverseEntity="CharacterEntity"/>
     </entity>
 </model>

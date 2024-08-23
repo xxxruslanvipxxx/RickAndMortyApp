@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        dependencies.charactersDataSource.saveContext()
     }
     
     private func configureScene(_ windowScene: UIWindowScene) {

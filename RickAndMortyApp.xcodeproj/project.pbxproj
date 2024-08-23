@@ -10,7 +10,7 @@
 		143412F32C42980200F48889 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143412F22C42980200F48889 /* Endpoint.swift */; };
 		143412F62C42C61500F48889 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143412F52C42C61500F48889 /* NetworkService.swift */; };
 		14458D482C47CC6D009C5912 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14458D472C47CC6D009C5912 /* NetworkError.swift */; };
-		14458D4B2C492543009C5912 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14458D4A2C492543009C5912 /* Result.swift */; };
+		14458D4B2C492543009C5912 /* CharactersResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14458D4A2C492543009C5912 /* CharactersResult.swift */; };
 		14458D4D2C4FA63E009C5912 /* Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14458D4C2C4FA63E009C5912 /* Episode.swift */; };
 		14458D502C5FD588009C5912 /* UIScrollView_InfiniteScroll in Frameworks */ = {isa = PBXBuildFile; productRef = 14458D4F2C5FD588009C5912 /* UIScrollView_InfiniteScroll */; };
 		14458D522C63D7A8009C5912 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14458D512C63D7A8009C5912 /* DetailViewController.swift */; };
@@ -22,10 +22,15 @@
 		14458D642C6CE649009C5912 /* CharacterCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14458D632C6CE649009C5912 /* CharacterCellViewModel.swift */; };
 		14A2CA722C763338008A7AFD /* FavoritesUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A2CA712C763338008A7AFD /* FavoritesUI.swift */; };
 		14A2CA7B2C7784B5008A7AFD /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 14A2CA792C7784B5008A7AFD /* CoreDataModel.xcdatamodeld */; };
-		14A2CA802C779A48008A7AFD /* CharacterCoreDataModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A2CA7C2C779A47008A7AFD /* CharacterCoreDataModel+CoreDataClass.swift */; };
-		14A2CA812C779A48008A7AFD /* CharacterCoreDataModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A2CA7D2C779A47008A7AFD /* CharacterCoreDataModel+CoreDataProperties.swift */; };
-		14A2CA822C779A48008A7AFD /* LocationCoreDataModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A2CA7E2C779A47008A7AFD /* LocationCoreDataModel+CoreDataClass.swift */; };
-		14A2CA832C779A48008A7AFD /* LocationCoreDataModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A2CA7F2C779A47008A7AFD /* LocationCoreDataModel+CoreDataProperties.swift */; };
+		14A2CA872C788F7D008A7AFD /* CharactersDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A2CA862C788F7D008A7AFD /* CharactersDataSource.swift */; };
+		14A2CA892C789044008A7AFD /* CharactersDataSourceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A2CA882C789044008A7AFD /* CharactersDataSourceImpl.swift */; };
+		14A2CA962C78AC0B008A7AFD /* CharacterEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A2CA922C78AC0B008A7AFD /* CharacterEntity+CoreDataClass.swift */; };
+		14A2CA982C78AC0B008A7AFD /* LocationEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A2CA942C78AC0B008A7AFD /* LocationEntity+CoreDataClass.swift */; };
+		14A2CA992C78AC0B008A7AFD /* LocationEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A2CA952C78AC0B008A7AFD /* LocationEntity+CoreDataProperties.swift */; };
+		14A2CA9D2C78BAC4008A7AFD /* CharacterEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A2CA9C2C78BAC4008A7AFD /* CharacterEntity+CoreDataProperties.swift */; };
+		14A2CA9F2C78C68B008A7AFD /* CharactersRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A2CA9E2C78C68B008A7AFD /* CharactersRepository.swift */; };
+		14A2CAA12C78C76C008A7AFD /* CharactersError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A2CAA02C78C76C008A7AFD /* CharactersError.swift */; };
+		14A2CAA32C78CC8B008A7AFD /* CharacterRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A2CAA22C78CC8B008A7AFD /* CharacterRepositoryImpl.swift */; };
 		14BC61AC2C316D4A007EDA07 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC61AB2C316D4A007EDA07 /* AppDelegate.swift */; };
 		14BC61AE2C316D4A007EDA07 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC61AD2C316D4A007EDA07 /* SceneDelegate.swift */; };
 		14BC61B52C316D4C007EDA07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14BC61B42C316D4C007EDA07 /* Assets.xcassets */; };
@@ -57,7 +62,7 @@
 		143412F22C42980200F48889 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		143412F52C42C61500F48889 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		14458D472C47CC6D009C5912 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
-		14458D4A2C492543009C5912 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		14458D4A2C492543009C5912 /* CharactersResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersResult.swift; sourceTree = "<group>"; };
 		14458D4C2C4FA63E009C5912 /* Episode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Episode.swift; sourceTree = "<group>"; };
 		14458D512C63D7A8009C5912 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		14458D542C63DBDC009C5912 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
@@ -68,10 +73,15 @@
 		14458D632C6CE649009C5912 /* CharacterCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterCellViewModel.swift; sourceTree = "<group>"; };
 		14A2CA712C763338008A7AFD /* FavoritesUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesUI.swift; sourceTree = "<group>"; };
 		14A2CA7A2C7784B5008A7AFD /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
-		14A2CA7C2C779A47008A7AFD /* CharacterCoreDataModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CharacterCoreDataModel+CoreDataClass.swift"; path = "RickAndMortyApp/PersistenceModel/CharacterCoreDataModel+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		14A2CA7D2C779A47008A7AFD /* CharacterCoreDataModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CharacterCoreDataModel+CoreDataProperties.swift"; path = "RickAndMortyApp/PersistenceModel/CharacterCoreDataModel+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
-		14A2CA7E2C779A47008A7AFD /* LocationCoreDataModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "LocationCoreDataModel+CoreDataClass.swift"; path = "RickAndMortyApp/PersistenceModel/LocationCoreDataModel+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		14A2CA7F2C779A47008A7AFD /* LocationCoreDataModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "LocationCoreDataModel+CoreDataProperties.swift"; path = "RickAndMortyApp/PersistenceModel/LocationCoreDataModel+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		14A2CA862C788F7D008A7AFD /* CharactersDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersDataSource.swift; sourceTree = "<group>"; };
+		14A2CA882C789044008A7AFD /* CharactersDataSourceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersDataSourceImpl.swift; sourceTree = "<group>"; };
+		14A2CA922C78AC0B008A7AFD /* CharacterEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CharacterEntity+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		14A2CA942C78AC0B008A7AFD /* LocationEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationEntity+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		14A2CA952C78AC0B008A7AFD /* LocationEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		14A2CA9C2C78BAC4008A7AFD /* CharacterEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CharacterEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		14A2CA9E2C78C68B008A7AFD /* CharactersRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersRepository.swift; sourceTree = "<group>"; };
+		14A2CAA02C78C76C008A7AFD /* CharactersError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersError.swift; sourceTree = "<group>"; };
+		14A2CAA22C78CC8B008A7AFD /* CharacterRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterRepositoryImpl.swift; sourceTree = "<group>"; };
 		14BC61A82C316D4A007EDA07 /* RickAndMortyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RickAndMortyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14BC61AB2C316D4A007EDA07 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		14BC61AD2C316D4A007EDA07 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -133,7 +143,7 @@
 		14458D492C49251F009C5912 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				14458D4A2C492543009C5912 /* Result.swift */,
+				14458D4A2C492543009C5912 /* CharactersResult.swift */,
 				14458D4C2C4FA63E009C5912 /* Episode.swift */,
 			);
 			path = Model;
@@ -171,6 +181,7 @@
 		14A2CA742C764C7A008A7AFD /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				14A2CA852C788F13008A7AFD /* CharactersDataSource */,
 				143412F42C42C5ED00F48889 /* Network Service */,
 			);
 			path = Service;
@@ -179,12 +190,24 @@
 		14A2CA842C779A59008A7AFD /* PersistenceModel */ = {
 			isa = PBXGroup;
 			children = (
-				14A2CA7C2C779A47008A7AFD /* CharacterCoreDataModel+CoreDataClass.swift */,
-				14A2CA7D2C779A47008A7AFD /* CharacterCoreDataModel+CoreDataProperties.swift */,
-				14A2CA7E2C779A47008A7AFD /* LocationCoreDataModel+CoreDataClass.swift */,
-				14A2CA7F2C779A47008A7AFD /* LocationCoreDataModel+CoreDataProperties.swift */,
+				14A2CA922C78AC0B008A7AFD /* CharacterEntity+CoreDataClass.swift */,
+				14A2CA9C2C78BAC4008A7AFD /* CharacterEntity+CoreDataProperties.swift */,
+				14A2CA942C78AC0B008A7AFD /* LocationEntity+CoreDataClass.swift */,
+				14A2CA952C78AC0B008A7AFD /* LocationEntity+CoreDataProperties.swift */,
 			);
 			path = PersistenceModel;
+			sourceTree = "<group>";
+		};
+		14A2CA852C788F13008A7AFD /* CharactersDataSource */ = {
+			isa = PBXGroup;
+			children = (
+				14A2CA862C788F7D008A7AFD /* CharactersDataSource.swift */,
+				14A2CA882C789044008A7AFD /* CharactersDataSourceImpl.swift */,
+				14A2CA9E2C78C68B008A7AFD /* CharactersRepository.swift */,
+				14A2CAA22C78CC8B008A7AFD /* CharacterRepositoryImpl.swift */,
+				14A2CAA02C78C76C008A7AFD /* CharactersError.swift */,
+			);
+			path = CharactersDataSource;
 			sourceTree = "<group>";
 		};
 		14BC619F2C316D4A007EDA07 = {
@@ -400,16 +423,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14458D4B2C492543009C5912 /* Result.swift in Sources */,
+				14458D4B2C492543009C5912 /* CharactersResult.swift in Sources */,
 				14BC61E22C38814D007EDA07 /* Dependencies.swift in Sources */,
-				14A2CA802C779A48008A7AFD /* CharacterCoreDataModel+CoreDataClass.swift in Sources */,
-				14A2CA812C779A48008A7AFD /* CharacterCoreDataModel+CoreDataProperties.swift in Sources */,
-				14A2CA822C779A48008A7AFD /* LocationCoreDataModel+CoreDataClass.swift in Sources */,
-				14A2CA832C779A48008A7AFD /* LocationCoreDataModel+CoreDataProperties.swift in Sources */,
 				14458D572C63DC21009C5912 /* DetailAssemblyBuilder.swift in Sources */,
 				14458D642C6CE649009C5912 /* CharacterCellViewModel.swift in Sources */,
+				14A2CA872C788F7D008A7AFD /* CharactersDataSource.swift in Sources */,
+				14A2CA9F2C78C68B008A7AFD /* CharactersRepository.swift in Sources */,
 				14BC61E82C39AB55007EDA07 /* Constants.swift in Sources */,
 				14BC61EF2C3AB75A007EDA07 /* MainTabBarController.swift in Sources */,
+				14A2CA892C789044008A7AFD /* CharactersDataSourceImpl.swift in Sources */,
+				14A2CA9D2C78BAC4008A7AFD /* CharacterEntity+CoreDataProperties.swift in Sources */,
 				14BC61E42C3881ED007EDA07 /* LaunchViewController.swift in Sources */,
 				14BC61EA2C3AB355007EDA07 /* MainTabBarCoordinator.swift in Sources */,
 				14A2CA7B2C7784B5008A7AFD /* CoreDataModel.xcdatamodeld in Sources */,
@@ -431,13 +454,18 @@
 				14BC61E62C3990C0007EDA07 /* ModuleContainer.swift in Sources */,
 				143412F62C42C61500F48889 /* NetworkService.swift in Sources */,
 				14458D602C679553009C5912 /* InfoTableViewCell.swift in Sources */,
+				14A2CAA32C78CC8B008A7AFD /* CharacterRepositoryImpl.swift in Sources */,
 				14BC61F12C3AD0E5007EDA07 /* FavoritesAssemblyBuilder.swift in Sources */,
 				14BC61C52C31A673007EDA07 /* AppCoordinator.swift in Sources */,
 				14BC61AC2C316D4A007EDA07 /* AppDelegate.swift in Sources */,
 				14BC61F32C3AD0F9007EDA07 /* CharactersAssemblyBuilder.swift in Sources */,
 				14BC61DC2C332900007EDA07 /* LauchAssemblyBuilder.swift in Sources */,
+				14A2CA962C78AC0B008A7AFD /* CharacterEntity+CoreDataClass.swift in Sources */,
+				14A2CA982C78AC0B008A7AFD /* LocationEntity+CoreDataClass.swift in Sources */,
+				14A2CA992C78AC0B008A7AFD /* LocationEntity+CoreDataProperties.swift in Sources */,
 				14BC61C32C31A61C007EDA07 /* Coordinator.swift in Sources */,
 				14BC61AE2C316D4A007EDA07 /* SceneDelegate.swift in Sources */,
+				14A2CAA12C78C76C008A7AFD /* CharactersError.swift in Sources */,
 				14458D482C47CC6D009C5912 /* NetworkError.swift in Sources */,
 				14EC44F82C3EE6AF0076AC4D /* CharacterCell.swift in Sources */,
 				14BC61D42C31B514007EDA07 /* FavoritesViewContorller.swift in Sources */,
