@@ -32,6 +32,7 @@ public class CharacterEntity: NSManagedObject {
         self.episode = character.episode[0]
         self.url = character.url
         self.created = character.created
+        self.isFavorite = character.isFavorite
     }
     
 }

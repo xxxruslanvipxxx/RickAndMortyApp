@@ -42,7 +42,7 @@ class FavoritesUI: UIViewController {
         collectionView.register(CharacterCell.self, forCellWithReuseIdentifier: CharacterCell.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.isScrollEnabled = true
-        collectionView.backgroundColor = /*UIColor(named: ColorName.customBackgroundColor)*/ .red
+        collectionView.backgroundColor = UIColor(named: ColorName.customBackgroundColor)
         
         return collectionView
     }()

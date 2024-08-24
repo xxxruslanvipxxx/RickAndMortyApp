@@ -22,7 +22,10 @@ class CharactersDataSourceImpl: CharactersDataSource {
     }()
     
     lazy var viewContext: NSManagedObjectContext = {
-        persistentContainer.viewContext
+        if let url = persistentContainer.persistentStoreCoordinator.persistentStores.first?.url {
+            print(url)
+        }
+        return persistentContainer.viewContext
     }()
     
     func create(character: Character) throws {

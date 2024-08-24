@@ -52,14 +52,12 @@ struct NetworkServiceImpl: NetworkService {
         let id = NSString(string: "\(character.id)")
         
         if let imageData = cache.object(forKey: id) as? Data {
-            print("from cache: \(imageData)")
             return Just(imageData).eraseToAnyPublisher()
         } else {
             guard let url = URL(string: character.image) else { return Just(nil).eraseToAnyPublisher() }
             return URLSession.shared.dataTaskPublisher(for: url)
                 .map { data, _ in
                     self.cache.setObject(NSData(data: data), forKey: id)
-                    print("from urlrequest: \(data)")
                     return data
                 }
                 .catch { _ in Just(nil) }

@@ -20,20 +20,21 @@ final class CharacterCellViewModel: CharacterCellViewModelProtocol {
     
     private var output: PassthroughSubject<Output, Never> = .init()
     private var cancellables: Set<AnyCancellable> = .init()
+    private var networkService: NetworkService
+    private var charactersRepository: CharactersRepository
     
     enum Input {
         case configureCell
         case favoriteButtonPressed(isFavorite: Bool)
+        case updateInFavoriteStatus
     }
     
     enum Output {
         case configureImage(with: Data?)
         case configureName(with: String)
         case configureEpisode(with: String)
+        case configureIsFavorite(with: Bool)
     }
-    
-    private var networkService: NetworkService
-    private var charactersRepository: CharactersRepository
     
     init(character: Character, dependencies: IDependencies) {
         self.networkService = dependencies.networkService
@@ -44,14 +45,16 @@ final class CharacterCellViewModel: CharacterCellViewModelProtocol {
     }
     
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
-        input.sink { input in
+        input.sink { [weak self] input in
+            guard let self else { return }
             switch input {
             case .configureCell:
                 self.getImage()
                 self.getEpisodeString()
                 self.getName()
+                self.checkIfInFavorites()
             case .favoriteButtonPressed(isFavorite: let isFavourite):
-//                isFavourite ? print("\(self.name) in favorites") : print("\(self.name) not in favorites")
+                self.character.isFavorite = isFavourite
                 if isFavourite {
                     print("\(self.name) in favorites")
                     self.addToFavorites()
@@ -59,7 +62,8 @@ final class CharacterCellViewModel: CharacterCellViewModelProtocol {
                     print("\(self.name) not in favorites")
                     self.removeFromFavorites()
                 }
-                
+            case .updateInFavoriteStatus:
+                self.checkIfInFavorites()
             }
         }
         .store(in: &cancellables)
@@ -122,6 +126,20 @@ final class CharacterCellViewModel: CharacterCellViewModelProtocol {
                 print("Character deleted successfully")
             case .failure(let error):
                 print("Character delete failure: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func checkIfInFavorites() {
+        Task {
+            let result = await charactersRepository.getCharacter(id: character.id)
+            switch result {
+            case .success(let character):
+//                print("Success character check. isFavorite:\(String(describing: character?.isFavorite))")
+                print("IN VM cancellables \(character?.name ?? "nil") \(cancellables.count)")
+                output.send(.configureIsFavorite(with: character?.isFavorite ?? false))
+            case .failure(_):
+                output.send(.configureIsFavorite(with: false))
             }
         }
     }

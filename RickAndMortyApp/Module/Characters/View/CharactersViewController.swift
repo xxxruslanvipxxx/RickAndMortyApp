@@ -41,6 +41,11 @@ class CharactersViewController: CharactersUI {
         input.send(.viewDidLoad)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        collectionView.reloadData()
+    }
+    
     private func binding() {
         let output = viewModel.transform(input: input.eraseToAnyPublisher())
         

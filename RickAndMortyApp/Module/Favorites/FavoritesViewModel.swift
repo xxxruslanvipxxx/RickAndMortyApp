@@ -16,30 +16,31 @@ class FavoritesViewModel: ObservableObject, FavoritesViewModelProtocol {
     
     private var output: PassthroughSubject<Output, Never> = .init()
     private var cancellables: Set<AnyCancellable> = []
+    private var charactersRepository: CharactersRepository
     
     init(_ dependencies: IDependencies) {
-        
+        self.charactersRepository = dependencies.charactersRepository
     }
     
     enum Input {
-        case viewDidLoad
-        case updateCells
+        case fetchFavorites
     }
     
     enum Output {
         case fetchCompleted(isCompleted: Bool)
-        case favoritesFetched(character: Character)
+        case favoritesFetched(characters: [Character])
     }
     
     func transform(_ input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         output.send(.fetchCompleted(isCompleted: false))
         
-        input.sink { [weak self] input in
+        input.sink { input in
             switch input {
-            case .viewDidLoad:
-                self?.fetchCharacters()
-            case .updateCells:
-                break
+            case .fetchFavorites:
+                Task {
+                    let characters = await self.fetchCharacters()
+                    self.output.send(.favoritesFetched(characters: characters))
+                }
             }
         }
         .store(in: &cancellables)
@@ -47,8 +48,17 @@ class FavoritesViewModel: ObservableObject, FavoritesViewModelProtocol {
         return output.eraseToAnyPublisher()
     }
     
-    private func fetchCharacters() {
-        // fetch from CoreData
+    private func fetchCharacters() async -> [Character] {
+        
+        let results = await charactersRepository.getCharacters()
+        switch results {
+        case .success(let characters):
+            print(characters.count)
+            return characters
+        case .failure(let error):
+            print(error.localizedDescription)
+            return []
+        }
     }
     
 }

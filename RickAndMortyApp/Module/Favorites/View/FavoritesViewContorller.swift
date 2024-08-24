@@ -30,6 +30,31 @@ class FavoritesViewContorller: FavoritesUI {
         super.viewDidLoad()
         
         setupDelegates()
+        binding()
+//        input.send(.fetchFavorites)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        input.send(.fetchFavorites)
+    }
+    
+    private func binding() {
+        let output = viewModel.transform(input.eraseToAnyPublisher())
+        
+        output
+            .receive(on: RunLoop.main)
+            .sink { [weak self] output in
+                switch output {
+                case .fetchCompleted(isCompleted:_):
+                    break
+                case .favoritesFetched(characters: let characters):
+                    self?.characters = characters
+                    self?.collectionView.reloadData()
+                }
+            }
+            .store(in: &cancellables)
     }
     
     private func setupDelegates() {

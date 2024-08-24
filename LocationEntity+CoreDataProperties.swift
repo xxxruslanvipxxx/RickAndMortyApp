@@ -2,7 +2,7 @@
 //  LocationEntity+CoreDataProperties.swift
 //  RickAndMortyApp
 //
-//  Created by Руслан Забиран on 23.08.24.
+//  Created by Руслан Забиран on 24.08.24.
 //
 //
 
@@ -16,10 +16,10 @@ extension LocationEntity {
         return NSFetchRequest<LocationEntity>(entityName: "LocationEntity")
     }
 
-    @NSManaged public var name: String
-    @NSManaged public var url: String
-    @NSManaged public var charactersOrigin: NSSet
-    @NSManaged public var charactersCurrent: NSSet
+    @NSManaged public var name: String?
+    @NSManaged public var url: String?
+    @NSManaged public var charactersOrigin: NSSet?
+    @NSManaged public var charactersCurrent: NSSet?
 
 }
 

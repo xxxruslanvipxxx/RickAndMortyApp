@@ -2,7 +2,7 @@
 //  LocationEntity+CoreDataClass.swift
 //  RickAndMortyApp
 //
-//  Created by Руслан Забиран on 23.08.24.
+//  Created by Руслан Забиран on 24.08.24.
 //
 //
 

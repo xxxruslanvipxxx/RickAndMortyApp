@@ -27,7 +27,6 @@ class CharacterCell: UICollectionViewCell {
                 let image = UIImage(named: ImageName.heart)
                 addToFavoriteButton.setImage(image, for: .normal)
             }
-            print(isFavorite)
         }
     }
     
@@ -116,8 +115,8 @@ class CharacterCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        // nil image and other ui props
         imageView.image = UIImage(systemName: ImageName.systemPlaceholder)
+        characterNameLabel.text = nil
         cancellables.removeAll()
     }
     
@@ -127,7 +126,7 @@ class CharacterCell: UICollectionViewCell {
         self.viewModel = viewModel
         binding()
         input.send(.configureCell)
-
+        print("IN CELL cancellables \(cancellables.count)")
         setupUI()
     }
     
@@ -151,6 +150,8 @@ class CharacterCell: UICollectionViewCell {
                 self?.episodeLabel.text = episode
             case .configureName(with: let name):
                 self?.characterNameLabel.text = name
+            case .configureIsFavorite(with: let isFavorite):
+                self?.isFavorite = isFavorite
             }
         }
         .store(in: &cancellables)

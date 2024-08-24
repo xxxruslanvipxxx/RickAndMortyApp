@@ -37,17 +37,17 @@ struct Character: Decodable, Identifiable {
     
     init(entity: CharacterEntity) {
         self.id = Int(entity.id)
-        self.name = entity.name
-        self.status = Status(rawValue: entity.status) ?? Status.unknown
-        self.species = entity.species
-        self.type = entity.type
-        self.gender = Gender(rawValue: entity.gender) ?? Gender.unknown
-        self.origin = Location(name: entity.originLocation.name, url: entity.originLocation.url)
-        self.location = Location(name: entity.currentLocation.name, url: entity.currentLocation.url)
-        self.image = entity.image
-        self.episode = [entity.episode]
-        self.url = entity.url
-        self.created = entity.created
+        self.name = entity.name!
+        self.status = Status(rawValue: entity.status!) ?? Status.unknown
+        self.species = entity.species!
+        self.type = entity.type!
+        self.gender = Gender(rawValue: entity.gender!) ?? Gender.unknown
+        self.origin = Location(name: entity.originLocation!.name!, url: entity.originLocation!.url!)
+        self.location = Location(name: entity.currentLocation!.name!, url: entity.currentLocation!.url!)
+        self.image = entity.image!
+        self.episode = [entity.episode!]
+        self.url = entity.url!
+        self.created = entity.created!
         self.isFavorite = entity.isFavorite
     }
     
