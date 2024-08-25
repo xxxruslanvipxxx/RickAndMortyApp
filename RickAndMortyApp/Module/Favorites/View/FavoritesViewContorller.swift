@@ -10,6 +10,7 @@ import Combine
 
 class FavoritesViewContorller: FavoritesUI {
     
+    var didSendCompletionEvent: ((FavoritesViewContorller.Event) -> Void)?
     private var viewModel: FavoritesViewModelProtocol
     private var input: PassthroughSubject<FavoritesViewModel.Input, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
@@ -91,10 +92,16 @@ extension FavoritesViewContorller: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let character = characters[indexPath.row]
-        print("Go to \(character.name)")
-//        if let didSendCompletionEvent = didSendCompletionEvent {
-//            didSendCompletionEvent(.goToDetail(character))
-//        }
+        if let didSendCompletionEvent = didSendCompletionEvent {
+            didSendCompletionEvent(.goToDetail(character))
+        }
     }
     
+}
+
+//MARK: - CharactersViewController.Event
+extension FavoritesViewContorller {
+    enum Event {
+        case goToDetail(Character)
+    }
 }

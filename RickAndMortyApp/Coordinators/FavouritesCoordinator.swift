@@ -25,8 +25,27 @@ class FavoritesCoordinator: FavoritesCoordinatorProtocol {
     }
     
     func start() {
+        showFavorites()
+    }
+    
+    func showFavorites() {
         let favoritesVC = FavoritesAssemblyBuilder.configure(dependencies)
-        rootViewController.pushViewController(favoritesVC, animated: false)
+        if let favoritesVC = favoritesVC as? FavoritesViewContorller {
+            favoritesVC.didSendCompletionEvent = { [weak self] event in
+                switch event {
+                case .goToDetail(let character):
+                    self?.finish()
+                    self?.showDetail(for: character)
+                }
+            }
+        }
+        rootViewController.pushViewController(favoritesVC, animated: true)
+    }
+    
+    func showDetail(for character: Character) {
+        let detailCoordinator = DetailCoordinator(rootViewController: rootViewController, character: character, dependencies: dependencies)
+        childCoordinators.append(detailCoordinator)
+        detailCoordinator.start()
     }
     
 }

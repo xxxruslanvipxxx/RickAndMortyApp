@@ -53,7 +53,6 @@ class FavoritesViewModel: ObservableObject, FavoritesViewModelProtocol {
         let results = await charactersRepository.getCharacters()
         switch results {
         case .success(let characters):
-            print(characters.count)
             return characters
         case .failure(let error):
             print(error.localizedDescription)
