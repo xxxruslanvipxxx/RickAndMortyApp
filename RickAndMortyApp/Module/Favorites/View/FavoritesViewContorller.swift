@@ -31,7 +31,6 @@ class FavoritesViewContorller: FavoritesUI {
         
         setupDelegates()
         binding()
-//        input.send(.fetchFavorites)
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -56,10 +56,8 @@ final class CharacterCellViewModel: CharacterCellViewModelProtocol {
             case .favoriteButtonPressed(isFavorite: let isFavourite):
                 self.character.isFavorite = isFavourite
                 if isFavourite {
-                    print("\(self.name) in favorites")
                     self.addToFavorites()
                 } else {
-                    print("\(self.name) not in favorites")
                     self.removeFromFavorites()
                 }
             case .updateInFavoriteStatus:
@@ -73,6 +71,7 @@ final class CharacterCellViewModel: CharacterCellViewModelProtocol {
     
     func getImage() {
         networkService.loadImageData(for: character)
+            .receive(on: RunLoop.main)
             .sink { [weak self] data in
                 self?.output.send(.configureImage(with: data))
             }
@@ -135,8 +134,6 @@ final class CharacterCellViewModel: CharacterCellViewModelProtocol {
             let result = await charactersRepository.getCharacter(id: character.id)
             switch result {
             case .success(let character):
-//                print("Success character check. isFavorite:\(String(describing: character?.isFavorite))")
-                print("IN VM cancellables \(character?.name ?? "nil") \(cancellables.count)")
                 output.send(.configureIsFavorite(with: character?.isFavorite ?? false))
             case .failure(_):
                 output.send(.configureIsFavorite(with: false))

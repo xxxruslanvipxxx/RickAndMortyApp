@@ -126,7 +126,6 @@ class CharacterCell: UICollectionViewCell {
         self.viewModel = viewModel
         binding()
         input.send(.configureCell)
-        print("IN CELL cancellables \(cancellables.count)")
         setupUI()
     }
     
