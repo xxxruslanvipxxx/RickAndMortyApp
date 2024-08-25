@@ -12,6 +12,7 @@ enum API {
     static let characterPath = "/character"
     static let episodePath = "/episode"
     static let pagePath = "?page="
+    static let nameFilterPath = "/?name="
 }
 
 enum ImageName {

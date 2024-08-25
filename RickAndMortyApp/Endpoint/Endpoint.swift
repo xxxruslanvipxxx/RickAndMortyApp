@@ -26,6 +26,8 @@ enum EndpointCases: Endpoint {
         switch self {
         case .getBaseData:
             return "\(API.baseURL)"
+        case .getCharactersByName(_):
+            return "\(API.baseURL)"
         }
     }
     
@@ -33,12 +35,16 @@ enum EndpointCases: Endpoint {
         switch self {
         case .getBaseData:
             return "\(API.characterPath)"
+        case .getCharactersByName(let string):
+            return API.characterPath + API.nameFilterPath + string
         }
     }
     
     var headers: [String : Any]? {
         switch self {
         case .getBaseData:
+            return [:]
+        case .getCharactersByName(_):
             return [:]
         }
     }
@@ -47,8 +53,11 @@ enum EndpointCases: Endpoint {
         switch self {
         case .getBaseData:
             return [:]
+        case .getCharactersByName(_):
+            return [:]
         }
     }
     
     case getBaseData
+    case getCharactersByName(String)
 }
