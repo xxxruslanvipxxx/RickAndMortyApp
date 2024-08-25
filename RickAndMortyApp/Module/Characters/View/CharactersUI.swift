@@ -28,7 +28,7 @@ class CharactersUI: UIViewController {
         return imageView
     }()
     
-    private lazy var searchTextField: UITextField = {
+    lazy var searchTextField: UITextField = {
         let tf = UITextField()
         tf.translatesAutoresizingMaskIntoConstraints = false
         // Add color to placeholder text
@@ -41,6 +41,7 @@ class CharactersUI: UIViewController {
         tf.layer.borderColor = UIColor.darkGray.cgColor
         tf.layer.borderWidth = 1
         tf.layer.cornerRadius = 8
+        tf.returnKeyType = .search
         // Set leading image
         let image = UIImage(named: ImageName.leadingTextView)
         let imageView = UIImageView(frame: CGRect(x: 10, y: 8, width: 24, height: 24))
@@ -118,6 +119,7 @@ class CharactersUI: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
+        searchTextField.delegate = self
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -200,5 +202,12 @@ class CharactersUI: UIViewController {
         let selectedImage = UIImage(named: ImageName.homeTabBarImageSelected)
         self.tabBarItem.tag = 1
         self.tabBarItem = UITabBarItem(title: nil, image: image, selectedImage: selectedImage)
+    }
+}
+
+extension CharactersUI: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        searchTextField.resignFirstResponder()
+        return true
     }
 }

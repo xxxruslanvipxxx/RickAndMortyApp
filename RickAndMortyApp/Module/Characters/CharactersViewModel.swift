@@ -25,6 +25,7 @@ final class CharactersViewModel: ObservableObject, CharactersViewModelProtocol {
     enum Input {
         case viewDidLoad
         case paginationRequest(nextPageUrl: String?)
+        case searchRequest(searchString: String)
     }
     
     enum Output {
@@ -33,6 +34,9 @@ final class CharactersViewModel: ObservableObject, CharactersViewModelProtocol {
         
         case loadNextPage(isLoading: Bool)
         case fetchNextPageDidSucceed(characters: [Character], nextPageUrl: String?)
+        
+        case loadCharactersByName(isLoading: Bool)
+        case fetchCharactersByNameSucceed(characters: [Character], nextPageUrl: String?)
         
         case fetchDidFail(error: NetworkError)
     }
@@ -43,8 +47,17 @@ final class CharactersViewModel: ObservableObject, CharactersViewModelProtocol {
             case .viewDidLoad:
                 self.fetchBaseCharacters()
             case .paginationRequest(nextPageUrl: let url):
-                guard let url = url else { return }
+                guard let url = url else { 
+                    self.output.send(.loadNextPage(isLoading: false))
+                    return
+                }
                 self.fetchNextPage(with: url)
+            case .searchRequest(searchString: let searchString):
+                guard searchString.count > 0 else {
+                    self.fetchBaseCharacters()
+                    return
+                }
+                self.fetchCharactersByName(name: searchString)
             }
         }
         .store(in: &cancellables)
@@ -75,10 +88,31 @@ final class CharactersViewModel: ObservableObject, CharactersViewModelProtocol {
 
     }
     
+    func fetchCharactersByName(name: String) {
+        let url = EndpointCases.getCharactersByName(name).url
+        
+        networkService.request(for: CharactersResult.self, url: url)
+            .receive(on: RunLoop.main)
+            .sink { error in
+                switch error {
+                case .finished:
+                    self.output.send(.loadCharactersByName(isLoading: false))
+                case .failure(let error):
+                    self.output.send(.fetchDidFail(error: error))
+                }
+            } receiveValue: { result in
+                let characters = result.results
+                let nextPage = result.info.next
+                self.output.send(.fetchCharactersByNameSucceed(characters: characters, nextPageUrl: nextPage))
+            }
+            .store(in: &cancellables)
+    }
+    
     func fetchNextPage(with url: String) {
         output.send(.loadNextPage(isLoading: true))
         
         networkService.request(for: CharactersResult.self, url: url)
+            .receive(on: RunLoop.main)
             .sink { error in
                 switch error {
                 case .finished:
