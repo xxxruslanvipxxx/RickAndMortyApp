@@ -159,9 +159,10 @@ class CharacterCell: UICollectionViewCell {
     //MARK: Objc methods
     
     @objc
-    private func heartButtonPressed() {
+    private func heartButtonPressed(sender: UIButton) {
         isFavorite.toggle()
         input.send(.favoriteButtonPressed(isFavorite: isFavorite))
+        addBounceAnimation(view: sender)
     }
     
     
@@ -253,4 +254,18 @@ extension CharacterCell {
             }
         }
     
+}
+
+
+//MARK: - Animations
+extension CharacterCell {
+    private func addBounceAnimation(view: UIView) {
+        UIView.animate(withDuration: 0.15, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.1, options: .curveEaseIn, animations: {
+            view.transform = CGAffineTransform.init(scaleX: 0.92, y: 0.92)
+        }) { _ in
+            UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.1, options: .curveEaseIn) {
+                view.transform = CGAffineTransform.identity
+            }
+        }
+    }
 }
