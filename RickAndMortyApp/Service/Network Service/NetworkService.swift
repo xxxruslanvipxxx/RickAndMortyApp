@@ -11,7 +11,6 @@ import Combine
 protocol NetworkService {
     func request<T: Decodable>(for type: T.Type, url: String) -> AnyPublisher<T, NetworkError>
     func loadImageData(for character: Character) -> AnyPublisher<Data?, Never>
-    func loadImagesData(for characters: [Character]) -> AnyPublisher<[Data?], Never>
 }
 
 struct NetworkServiceImpl: NetworkService {
@@ -63,13 +62,6 @@ struct NetworkServiceImpl: NetworkService {
                 .catch { _ in Just(nil) }
                 .eraseToAnyPublisher()
         }
-    }
-    
-    //     Функция для загрузки массива изображений персонажей
-    func loadImagesData(for characters: [Character]) -> AnyPublisher<[Data?], Never> {
-        Publishers.MergeMany(characters.map { loadImageData(for: $0) })
-            .collect()
-            .eraseToAnyPublisher()
     }
     
 }
