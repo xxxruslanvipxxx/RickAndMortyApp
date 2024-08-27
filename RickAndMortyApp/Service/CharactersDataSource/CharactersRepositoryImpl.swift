@@ -11,8 +11,8 @@ class CharactersRepositoryImpl: CharactersRepository {
     
     var dataSource: CharactersDataSource
     
-    init(dataSource: CharactersDataSource) {
-        self.dataSource = dataSource
+    init(_ dependencies: IDependencies) {
+        self.dataSource = dependencies.charactersDataSource
     }
     
     func getCharacters() async -> Result<[Character], CharacterError> {
