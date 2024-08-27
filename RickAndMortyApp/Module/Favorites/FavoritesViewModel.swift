@@ -34,9 +34,10 @@ class FavoritesViewModel: ObservableObject, FavoritesViewModelProtocol {
     func transform(_ input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         output.send(.fetchCompleted(isCompleted: false))
         
-        input.sink { input in
+        input.sink { [weak self] input in
             switch input {
             case .fetchFavorites:
+                guard let self else { return }
                 Task {
                     let characters = await self.fetchCharacters()
                     self.output.send(.favoritesFetched(characters: characters))

@@ -42,22 +42,22 @@ final class CharactersViewModel: ObservableObject, CharactersViewModelProtocol {
     }
     
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
-        input.sink { input in
+        input.sink { [weak self] input in
             switch input {
             case .viewDidLoad:
-                self.fetchBaseCharacters()
+                self?.fetchBaseCharacters()
             case .paginationRequest(nextPageUrl: let url):
                 guard let url = url else { 
-                    self.output.send(.loadNextPage(isLoading: false))
+                    self?.output.send(.loadNextPage(isLoading: false))
                     return
                 }
-                self.fetchNextPage(with: url)
+                self?.fetchNextPage(with: url)
             case .searchRequest(searchString: let searchString):
                 guard searchString.count > 0 else {
-                    self.fetchBaseCharacters()
+                    self?.fetchBaseCharacters()
                     return
                 }
-                self.fetchCharactersByName(name: searchString)
+                self?.fetchCharactersByName(name: searchString)
             }
         }
         .store(in: &cancellables)
@@ -71,12 +71,12 @@ final class CharactersViewModel: ObservableObject, CharactersViewModelProtocol {
         let url = EndpointCases.getBaseData.url
         networkService.request(for: CharactersResult.self, url: url)
             .receive(on: RunLoop.main)
-            .sink { result in
+            .sink { [weak self] result in
                 switch result {
                 case .finished:
-                    self.output.send(.loadBaseCharacters(isLoading: false))
+                    self?.output.send(.loadBaseCharacters(isLoading: false))
                 case .failure(let error):
-                    self.output.send(.fetchDidFail(error: error))
+                    self?.output.send(.fetchDidFail(error: error))
                 }
             } receiveValue: { result in
                 let characters = result.results
@@ -100,10 +100,10 @@ final class CharactersViewModel: ObservableObject, CharactersViewModelProtocol {
                 case .failure(let error):
                     self.output.send(.fetchDidFail(error: error))
                 }
-            } receiveValue: { result in
+            } receiveValue: { [weak self] result in
                 let characters = result.results
                 let nextPage = result.info.next
-                self.output.send(.fetchCharactersByNameSucceed(characters: characters, nextPageUrl: nextPage))
+                self?.output.send(.fetchCharactersByNameSucceed(characters: characters, nextPageUrl: nextPage))
             }
             .store(in: &cancellables)
     }
@@ -120,10 +120,10 @@ final class CharactersViewModel: ObservableObject, CharactersViewModelProtocol {
                 case .failure(let error):
                     self.output.send(.fetchDidFail(error: error))
                 }
-            } receiveValue: { result in
+            } receiveValue: { [weak self] result in
                 let characters = result.results
                 let nextPage = result.info.next
-                self.output.send(.fetchNextPageDidSucceed(characters: characters, nextPageUrl: nextPage))
+                self?.output.send(.fetchNextPageDidSucceed(characters: characters, nextPageUrl: nextPage))
             }
             .store(in: &cancellables)
 
