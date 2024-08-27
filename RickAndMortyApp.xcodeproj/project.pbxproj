@@ -57,6 +57,7 @@
 		14EC44F52C3C1E290076AC4D /* CharactersUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14EC44F42C3C1E290076AC4D /* CharactersUI.swift */; };
 		14EC44F82C3EE6AF0076AC4D /* CharacterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14EC44F72C3EE6AF0076AC4D /* CharacterCell.swift */; };
 		14FAAE0E2C7E02DD0031A055 /* NetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FAAE0D2C7E02DD0031A055 /* NetworkServiceTests.swift */; };
+		14FAAE162C7E39B90031A055 /* ImageCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FAAE152C7E39B90031A055 /* ImageCacheService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,6 +123,7 @@
 		14EC44F72C3EE6AF0076AC4D /* CharacterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterCell.swift; sourceTree = "<group>"; };
 		14FAAE0B2C7E02DD0031A055 /* RickAndMortyAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RickAndMortyAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		14FAAE0D2C7E02DD0031A055 /* NetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceTests.swift; sourceTree = "<group>"; };
+		14FAAE152C7E39B90031A055 /* ImageCacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +203,7 @@
 		14A2CA742C764C7A008A7AFD /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				14FAAE142C7E399D0031A055 /* ImageCache */,
 				14A2CA852C788F13008A7AFD /* CharactersDataSource */,
 				143412F42C42C5ED00F48889 /* Network Service */,
 			);
@@ -377,6 +380,14 @@
 			path = RickAndMortyAppTests;
 			sourceTree = "<group>";
 		};
+		14FAAE142C7E399D0031A055 /* ImageCache */ = {
+			isa = PBXGroup;
+			children = (
+				14FAAE152C7E39B90031A055 /* ImageCacheService.swift */,
+			);
+			path = ImageCache;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -500,6 +511,7 @@
 				14A2CAAB2C7A0A3B008A7AFD /* LocationEntity+CoreDataProperties.swift in Sources */,
 				14BC61D22C31B504007EDA07 /* FavoritesViewModel.swift in Sources */,
 				14A2CA722C763338008A7AFD /* FavoritesUI.swift in Sources */,
+				14FAAE162C7E39B90031A055 /* ImageCacheService.swift in Sources */,
 				14458D5C2C6526F1009C5912 /* DetailUI.swift in Sources */,
 				14BC61CA2C31B465007EDA07 /* CharactersViewController.swift in Sources */,
 				14458D592C651E84009C5912 /* DetailCoordinator.swift in Sources */,

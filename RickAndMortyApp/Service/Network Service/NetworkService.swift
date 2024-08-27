@@ -15,7 +15,11 @@ protocol NetworkService {
 
 struct NetworkServiceImpl: NetworkService {
     
-    private let cache: NSCache<NSString, NSData> = .init()
+    private let imageCacheService: IImageCacheService
+    
+    init(_ dependencies: IDependencies) {
+        self.imageCacheService = dependencies.imageCacheService
+    }
     
     func request<T : Decodable>(for type: T.Type, url: String) -> AnyPublisher<T, NetworkError> {
         guard let url = URL(string: url) else {
@@ -48,15 +52,15 @@ struct NetworkServiceImpl: NetworkService {
     
     // Функция для загрузки данных изображения по URL
     func loadImageData(for character: Character) -> AnyPublisher<Data?, Never> {
-        let id = NSString(string: "\(character.id)")
+        let id = "\(character.id)"
         
-        if let imageData = cache.object(forKey: id) as? Data {
+        if let imageData = imageCacheService.getImage(forKey: id) {
             return Just(imageData).eraseToAnyPublisher()
         } else {
             guard let url = URL(string: character.image) else { return Just(nil).eraseToAnyPublisher() }
             return URLSession.shared.dataTaskPublisher(for: url)
                 .map { data, _ in
-                    self.cache.setObject(NSData(data: data), forKey: id)
+                    self.imageCacheService.setImage(data, forKey: id)
                     return data
                 }
                 .catch { _ in Just(nil) }
