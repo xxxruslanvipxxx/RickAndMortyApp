@@ -50,7 +50,6 @@ struct NetworkServiceImpl: NetworkService {
             .eraseToAnyPublisher()
     }
     
-    // Функция для загрузки данных изображения по URL
     func loadImageData(for character: Character) -> AnyPublisher<Data?, Never> {
         let id = "\(character.id)"
         

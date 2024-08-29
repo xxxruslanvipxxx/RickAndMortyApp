@@ -35,6 +35,12 @@ struct Character: Decodable, Identifiable {
     
     var isFavorite: Bool = false
     
+    enum CodingKeys: String, CodingKey {
+        case id, name, status, species, type, gender, origin, location, image, episode, url, created
+    }
+}
+
+extension Character {
     init(entity: CharacterEntity) {
         self.id = Int(entity.id)
         self.name = entity.name!
@@ -49,10 +55,6 @@ struct Character: Decodable, Identifiable {
         self.url = entity.url!
         self.created = entity.created!
         self.isFavorite = entity.isFavorite
-    }
-    
-    enum CodingKeys: String, CodingKey {
-        case id, name, status, species, type, gender, origin, location, image, episode, url, created
     }
 }
 

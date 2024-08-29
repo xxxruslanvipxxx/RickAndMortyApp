@@ -52,12 +52,12 @@ class LaunchViewController: UIViewController {
         // loadingImageView constraints layout
         view.addSubview(loadingImageView)
         
-        let loadingImageViewCenterX = loadingImageView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor)
-        let loadingImageViewTop = loadingImageView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
+        let loadingImageViewCenterX = loadingImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        let loadingImageViewCenterY = loadingImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         let loadingImageViewWidth = loadingImageView.widthAnchor.constraint(equalToConstant: 250)
         let loadingImageViewHeight = loadingImageView.heightAnchor.constraint(equalToConstant: 250)
         
-        NSLayoutConstraint.activate([loadingImageViewCenterX, loadingImageViewTop, loadingImageViewWidth, loadingImageViewHeight])
+        NSLayoutConstraint.activate([loadingImageViewCenterX, loadingImageViewCenterY, loadingImageViewWidth, loadingImageViewHeight])
     }
     
     func startLoadingAnimation(with duration: CFTimeInterval = 3) {
