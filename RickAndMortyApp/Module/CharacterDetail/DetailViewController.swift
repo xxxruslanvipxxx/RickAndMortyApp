@@ -59,7 +59,7 @@ class DetailViewController: DetailUI{
             .receive(on: RunLoop.main)
             .sink { [weak self] output in
                 switch output {
-                case .fetchCharacterImage(isLoading: let isLoading):
+                case .fetchCharacterImage(isLoading: _):
                     // control loading animation
                     break
                 case .updateCharacterInfo(character: let character):
