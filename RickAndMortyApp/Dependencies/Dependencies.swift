@@ -22,3 +22,12 @@ final class Dependencies: IDependencies {
     lazy var charactersDataSource: CharactersDataSource = CharactersDataSourceImpl()
     lazy var charactersRepository: CharactersRepository = CharactersRepositoryImpl(self)
 }
+
+final class DependenciesMock: IDependencies {
+    lazy var moduleContainer: ModuleContainer = ModuleContainer(self)
+    lazy var networkService: NetworkService = NetworkServiceMock()
+    lazy var charactersDataSource: CharactersDataSource = CharactersDataSourceImpl()
+    lazy var charactersRepository: CharactersRepository = CharactersRepositoryImpl(self)
+    lazy var imageCacheService: IImageCacheService = ImageCacheService()
+}
+    

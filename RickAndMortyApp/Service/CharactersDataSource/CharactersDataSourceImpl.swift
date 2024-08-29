@@ -22,9 +22,9 @@ class CharactersDataSourceImpl: CharactersDataSource {
     }()
     
     lazy var viewContext: NSManagedObjectContext = {
-        if let url = persistentContainer.persistentStoreCoordinator.persistentStores.first?.url {
-            print(url)
-        }
+//        if let url = persistentContainer.persistentStoreCoordinator.persistentStores.first?.url {
+//            print(url)
+//        }
         return persistentContainer.viewContext
     }()
     

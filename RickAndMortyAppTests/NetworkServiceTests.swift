@@ -9,35 +9,6 @@ import XCTest
 import Combine
 @testable import RickAndMortyApp
 
-final class NetworkServiceMock: NetworkService {
-    
-    var character: CharactersResult?
-    var episode: Episode?
-    
-    func request<T>(for type: T.Type, url: String) -> AnyPublisher<T, NetworkError> where T : Decodable {
-        if type is CharactersResult.Type {
-            guard let character = character as? T else { return Fail(error: NetworkError.invalidResponse).eraseToAnyPublisher() }
-            return Just(character)
-                .setFailureType(to: NetworkError.self)
-                .eraseToAnyPublisher()
-        } else if type is Episode.Type {
-            guard let episode = episode as? T else { return Fail(error: NetworkError.invalidResponse).eraseToAnyPublisher() }
-            return Just(episode)
-                .setFailureType(to: NetworkError.self)
-                .eraseToAnyPublisher()
-        }
-        return Empty().eraseToAnyPublisher()
-    }
-    
-    func loadImageData(for character: Character) -> AnyPublisher<Data?, Never> {
-        guard let url = URL(string: character.image) else { return Just(nil).eraseToAnyPublisher() }
-        let data = Data()
-        print(url)
-        return Just(data).eraseToAnyPublisher()
-    }
-    
-}
-
 final class NetworkServiceTests: XCTestCase {
 
     private var sut: NetworkServiceMock?
