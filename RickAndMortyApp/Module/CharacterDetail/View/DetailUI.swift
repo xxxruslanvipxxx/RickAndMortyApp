@@ -10,6 +10,7 @@ import UIKit
 
 class DetailUI: UIViewController {
     
+    //MARK: UI Variables
     lazy var contentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -110,7 +111,6 @@ class DetailUI: UIViewController {
     }
     
     private func roundViews() {
-        
         roundedImageBackView.layoutIfNeeded()
         roundedImageView.layoutIfNeeded()
         

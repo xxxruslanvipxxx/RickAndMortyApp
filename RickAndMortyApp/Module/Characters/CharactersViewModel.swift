@@ -8,26 +8,32 @@
 import Foundation
 import Combine
 
+//MARK: - CharactersViewModelProtocol
 protocol CharactersViewModelProtocol {
     func transform( input: AnyPublisher<CharactersViewModel.Input, Never>) -> AnyPublisher<CharactersViewModel.Output, Never>
 }
 
-final class CharactersViewModel: ObservableObject, CharactersViewModelProtocol {
+//MARK: - CharactersViewModel
+final class CharactersViewModel: CharactersViewModelProtocol {
 
+    //MARK: Private variables
     private var output: PassthroughSubject<Output, Never> = .init()
     private var cancellables: Set<AnyCancellable> = []
     private var networkService: NetworkService
     
+    //MARK: init()
     init(_ dependencies: IDependencies) {
         self.networkService = dependencies.networkService
     }
     
+    //MARK: Input
     enum Input {
         case viewDidLoad
         case paginationRequest(nextPageUrl: String?)
         case searchRequest(searchString: String)
     }
     
+    //MARK: Output
     enum Output {
         case loadBaseCharacters(isLoading: Bool)
         case fetchBaseCharactersSucceed(characters: [Character], nextPageUrl: String?)
@@ -41,6 +47,7 @@ final class CharactersViewModel: ObservableObject, CharactersViewModelProtocol {
         case fetchDidFail(error: NetworkError)
     }
     
+    //MARK: func transform()
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] input in
             switch input {
@@ -64,6 +71,11 @@ final class CharactersViewModel: ObservableObject, CharactersViewModelProtocol {
         
         return output.eraseToAnyPublisher()
     }
+    
+}
+
+//MARK: - Private methods
+private extension CharactersViewModel {
     
     func fetchBaseCharacters() {
         output.send(.loadBaseCharacters(isLoading: true))
@@ -126,8 +138,6 @@ final class CharactersViewModel: ObservableObject, CharactersViewModelProtocol {
                 self?.output.send(.fetchNextPageDidSucceed(characters: characters, nextPageUrl: nextPage))
             }
             .store(in: &cancellables)
-
     }
-    
     
 }

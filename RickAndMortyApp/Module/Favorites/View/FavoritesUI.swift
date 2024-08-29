@@ -7,11 +7,11 @@
 
 import UIKit
 
+//MARK: - FavoritesUI
 class FavoritesUI: UIViewController {
     
     //MARK: Variables
     var collectionViewHeight = NSLayoutConstraint()
-    
     var cellSize: CGSize {
         let width = self.view.frame.size.width - 48
         let cellSize = CGSize(width: width, height: width * 1.15)
@@ -47,7 +47,7 @@ class FavoritesUI: UIViewController {
         return collectionView
     }()
     
-    //MARK: Lifecicle
+    //MARK: Lifecycle methods
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         self.setupTabBar()
@@ -78,7 +78,6 @@ class FavoritesUI: UIViewController {
     }
     
     private func setupConstraints() {
-        
         //MARK: favoritesLabel constraints
 //        let favoritesLabelTop = favoritesLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0)
 //        let favoritesLabelLeading = favoritesLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8)

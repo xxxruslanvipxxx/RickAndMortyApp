@@ -7,8 +7,10 @@
 
 import UIKit
 
+//MARK: - MainTabBarController
 class MainTabBarController: UITabBarController {
 
+    //MARK: Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBarShadows()
@@ -20,6 +22,7 @@ class MainTabBarController: UITabBarController {
         setTabBarHeight(height: height)
     }
     
+    //MARK: Setup UI
     private func setupTabBarShadows() {
         tabBar.backgroundColor = .white
         tabBar.layer.shadowOffset = CGSize(width: -8, height: 0)

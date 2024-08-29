@@ -8,42 +8,44 @@
 import Foundation
 import Combine
 
+//MARK: - CharacterCellViewModelProtocol
 protocol CharacterCellViewModelProtocol {
     func transform(input: AnyPublisher<CharacterCellViewModel.Input, Never>) -> AnyPublisher<CharacterCellViewModel.Output, Never>
 }
 
+//MARK: - CharacterCellViewModel
 final class CharacterCellViewModel: CharacterCellViewModelProtocol {
     
-    var character: Character
-    var name: String
-    var episodesURL: [String]
-    
+    //MARK: Private variables
+    private var character: Character
     private var output: PassthroughSubject<Output, Never> = .init()
     private var cancellables: Set<AnyCancellable> = .init()
     private var networkService: NetworkService
     private var charactersRepository: CharactersRepository
     
+    //MARK: Input
     enum Input {
         case configureCell
         case favoriteButtonPressed(isFavorite: Bool)
         case updateInFavoriteStatus
     }
     
+    //MARK: Output
     enum Output {
-        case configureImage(with: Data?)
+        case configureImage(with: Data)
         case configureName(with: String)
         case configureEpisode(with: String)
         case configureIsFavorite(with: Bool)
     }
     
+    //MARK: init
     init(character: Character, dependencies: IDependencies) {
         self.networkService = dependencies.networkService
         self.charactersRepository = dependencies.charactersRepository
         self.character = character
-        self.name = character.name
-        self.episodesURL = character.episode
     }
     
+    //MARK: func transform()
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] input in
             guard let self else { return }
@@ -69,9 +71,15 @@ final class CharacterCellViewModel: CharacterCellViewModelProtocol {
         return output.eraseToAnyPublisher()
     }
     
+}
+
+//MARK: - Private methods
+private extension CharacterCellViewModel {
+    
     func getImage() {
         networkService.loadImageData(for: character)
             .receive(on: RunLoop.main)
+            .compactMap { $0 }
             .sink { [weak self] data in
                 self?.output.send(.configureImage(with: data))
             }
@@ -79,7 +87,7 @@ final class CharacterCellViewModel: CharacterCellViewModelProtocol {
     }
     
     func getName() {
-        Just(name)
+        Just(character.name)
             .sink { name in
                 self.output.send(.configureName(with: name))
             }
@@ -87,7 +95,7 @@ final class CharacterCellViewModel: CharacterCellViewModelProtocol {
     }
     
     func getEpisodeString() {
-        guard let firstEpisode = episodesURL.first else { return }
+        guard let firstEpisode = character.episode.first else { return }
         networkService.request(for: Episode.self, url: firstEpisode)
             .map { episode in
                 episode.name + ConstantText.verticalBar + episode.episode
@@ -140,5 +148,4 @@ final class CharacterCellViewModel: CharacterCellViewModelProtocol {
             }
         }
     }
-    
 }

@@ -8,29 +8,36 @@
 import Foundation
 import Combine
 
+//MARK: - FavoritesViewModelProtocol
 protocol FavoritesViewModelProtocol {
     func transform(_ input: AnyPublisher<FavoritesViewModel.Input, Never>) -> AnyPublisher<FavoritesViewModel.Output, Never>
 }
 
-class FavoritesViewModel: ObservableObject, FavoritesViewModelProtocol {
+//MARK: - FavoritesViewModel
+class FavoritesViewModel: FavoritesViewModelProtocol {
     
+    //MARK: Private variables
     private var output: PassthroughSubject<Output, Never> = .init()
     private var cancellables: Set<AnyCancellable> = []
     private var charactersRepository: CharactersRepository
     
+    //MARK: init()
     init(_ dependencies: IDependencies) {
         self.charactersRepository = dependencies.charactersRepository
     }
     
+    //MARK: Input
     enum Input {
         case fetchFavorites
     }
     
+    //MARK: Output
     enum Output {
         case fetchCompleted(isCompleted: Bool)
         case favoritesFetched(characters: [Character])
     }
     
+    //MARK: func transform()
     func transform(_ input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         output.send(.fetchCompleted(isCompleted: false))
         
@@ -49,7 +56,11 @@ class FavoritesViewModel: ObservableObject, FavoritesViewModelProtocol {
         return output.eraseToAnyPublisher()
     }
     
-    private func fetchCharacters() async -> [Character] {
+}
+
+//MARK: - Private methods
+private extension FavoritesViewModel {
+    func fetchCharacters() async -> [Character] {
         
         let results = await charactersRepository.getCharacters()
         switch results {
@@ -60,5 +71,4 @@ class FavoritesViewModel: ObservableObject, FavoritesViewModelProtocol {
             return []
         }
     }
-    
 }

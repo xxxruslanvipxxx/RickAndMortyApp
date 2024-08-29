@@ -58,6 +58,7 @@
 		14EC44F82C3EE6AF0076AC4D /* CharacterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14EC44F72C3EE6AF0076AC4D /* CharacterCell.swift */; };
 		14FAAE0E2C7E02DD0031A055 /* NetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FAAE0D2C7E02DD0031A055 /* NetworkServiceTests.swift */; };
 		14FAAE162C7E39B90031A055 /* ImageCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FAAE152C7E39B90031A055 /* ImageCacheService.swift */; };
+		14FAAE1C2C8097970031A055 /* CharactersViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FAAE1B2C8097970031A055 /* CharactersViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +125,7 @@
 		14FAAE0B2C7E02DD0031A055 /* RickAndMortyAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RickAndMortyAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		14FAAE0D2C7E02DD0031A055 /* NetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceTests.swift; sourceTree = "<group>"; };
 		14FAAE152C7E39B90031A055 /* ImageCacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheService.swift; sourceTree = "<group>"; };
+		14FAAE1B2C8097970031A055 /* CharactersViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -376,6 +378,7 @@
 			isa = PBXGroup;
 			children = (
 				14FAAE0D2C7E02DD0031A055 /* NetworkServiceTests.swift */,
+				14FAAE1B2C8097970031A055 /* CharactersViewModelTests.swift */,
 			);
 			path = RickAndMortyAppTests;
 			sourceTree = "<group>";
@@ -548,6 +551,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14FAAE1C2C8097970031A055 /* CharactersViewModelTests.swift in Sources */,
 				14FAAE0E2C7E02DD0031A055 /* NetworkServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

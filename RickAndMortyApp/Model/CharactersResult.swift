@@ -58,6 +58,7 @@ extension Character {
     }
 }
 
+//MARK: - Gender enum
 enum Gender: String, Decodable {
     case female = "Female"
     case genderless = "Genderless"
@@ -71,6 +72,7 @@ struct Location: Decodable {
     let url: String
 }
 
+//MARK: - Status enum
 enum Status: String, Decodable {
     case alive = "Alive"
     case dead = "Dead"

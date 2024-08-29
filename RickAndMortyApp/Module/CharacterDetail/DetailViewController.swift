@@ -10,6 +10,7 @@ import Combine
 import Photos
 import PhotosUI
 
+//MARK: - InfoType
 enum InfoType: String, CaseIterable {
     case gender = "Gender"
     case status = "Status"
@@ -19,15 +20,20 @@ enum InfoType: String, CaseIterable {
     case location = "Location"
 }
 
+//MARK: - DetailViewController
 class DetailViewController: DetailUI{
     
+    //MARK: Public
+    var didSendCompletionEvent: ((DetailViewController.Event) -> Void)?
+    
+    //MARK: Private
     private var character: Character?
     private let viewModel: DetailViewModelProtocol
     private var input: PassthroughSubject<DetailViewModel.Input, Never> = .init()
     private var cancellables: Set<AnyCancellable> = []
     private let infoTypes = InfoType.allCases
-    var didSendCompletionEvent: ((DetailViewController.Event) -> Void)?
     
+    //MARK: Lifecycle methods
     init(viewModel: DetailViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -45,6 +51,7 @@ class DetailViewController: DetailUI{
         input.send(.viewDidLoad)
     }
     
+    //MARK: - binding()
     private func binding() {
         let output = viewModel.transform(input: input.eraseToAnyPublisher())
         
@@ -53,11 +60,8 @@ class DetailViewController: DetailUI{
             .sink { [weak self] output in
                 switch output {
                 case .fetchCharacterImage(isLoading: let isLoading):
-                    if isLoading {
-                        // start animating
-                    } else {
-                        // stop animating
-                    }
+                    // control loading animation
+                    break
                 case .updateCharacterInfo(character: let character):
                     self?.character = character
                     self?.nameLabel.text = character.name
@@ -76,18 +80,15 @@ class DetailViewController: DetailUI{
                 }
             }
             .store(in: &cancellables)
-        
     }
     
-    private func setupButtonAction() {
-        photoButton.addTarget(self, action: #selector(photoButtonPressed), for: .touchUpInside)
-    }
-    
+    //MARK: setupDelegates()
     private func setupDelegates() {
         infoTableView.dataSource = self
         infoTableView.delegate = self
     }
     
+    //MARK: showActionSheet()
     private func showActionSheet() {
         let controller = UIAlertController(title: ConstantText.actionSheetTitle, message: nil, preferredStyle: .actionSheet)
         let cameraAction = UIAlertAction(title: ConstantText.actionSheetButtonCamera, style: .default) { action in
@@ -105,6 +106,7 @@ class DetailViewController: DetailUI{
         
     }
     
+    //MARK: showPicker()
     private func showPicker(for sourceType: DetailViewModel.PhotoSourceType) {
         switch sourceType {
         case .camera:
@@ -124,6 +126,10 @@ class DetailViewController: DetailUI{
             
             present(vc, animated: true)
         }
+    }
+    
+    private func setupButtonAction() {
+        photoButton.addTarget(self, action: #selector(photoButtonPressed), for: .touchUpInside)
     }
     
     @objc
@@ -158,12 +164,10 @@ extension DetailViewController: PHPickerViewControllerDelegate {
 extension DetailViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
         let key = UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")
         if let image = info[key] as? UIImage {
             roundedImageView.image = image
         }
-        
         picker.dismiss(animated: true)
     }
     

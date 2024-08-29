@@ -8,10 +8,12 @@
 import UIKit
 import Combine
 
+//MARK: - LaunchViewController
 class LaunchViewController: UIViewController {
     
     var didSendCompletionEvent: ((LaunchViewController.Event) -> Void)?
     
+    //MARK: - UI Variables
     private lazy var logoImageView: UIImageView = {
         let image = UIImage(named: ImageName.appLogo)
         let imageView = UIImageView(image: image)
@@ -28,6 +30,7 @@ class LaunchViewController: UIViewController {
         return imageView
     }()
     
+    //MARK: - Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,11 +38,12 @@ class LaunchViewController: UIViewController {
         startLoadingAnimation()
     }
     
+    //MARK: - Setup UI
     private func setupUI() {
         
         view.backgroundColor = UIColor(named: ColorName.customBackgroundColor)
         
-        // logoImageView constraints layout
+        //MARK: logoImageView constraints
         view.addSubview(logoImageView)
         
         let logoImageViewCenterX = logoImageView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor)
@@ -49,7 +53,7 @@ class LaunchViewController: UIViewController {
         
         NSLayoutConstraint.activate([logoImageViewCenterX, logoImageViewTop, logoImageViewWidth, logoImageViewHeight])
         
-        // loadingImageView constraints layout
+        //MARK: loadingImageView constraints
         view.addSubview(loadingImageView)
         
         let loadingImageViewCenterX = loadingImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
@@ -60,7 +64,8 @@ class LaunchViewController: UIViewController {
         NSLayoutConstraint.activate([loadingImageViewCenterX, loadingImageViewCenterY, loadingImageViewWidth, loadingImageViewHeight])
     }
     
-    func startLoadingAnimation(with duration: CFTimeInterval = 3) {
+    //MARK: - Animation methods
+    private func startLoadingAnimation(with duration: CFTimeInterval = 3) {
         let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation")
         rotateAnimation.fromValue = 0.0
         rotateAnimation.toValue = CGFloat(Double.pi * 2)
@@ -77,18 +82,15 @@ class LaunchViewController: UIViewController {
         
     }
     
-    func stopAnimation() {
+    private func stopAnimation() {
         loadingImageView.layer.removeAllAnimations()
     }
     
 }
 
 //MARK: - LaunchViewController.Event
-
 extension LaunchViewController {
-    
     enum Event {
         case launchComplete
     }
-    
 }

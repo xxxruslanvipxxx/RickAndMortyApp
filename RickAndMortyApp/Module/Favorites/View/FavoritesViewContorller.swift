@@ -8,15 +8,20 @@
 import UIKit
 import Combine
 
+//MARK: - FavoritesViewContorller
 class FavoritesViewContorller: FavoritesUI {
     
+    //MARK: Internal var's
     var didSendCompletionEvent: ((FavoritesViewContorller.Event) -> Void)?
+    
+    //MARK: Private var's
     private var viewModel: FavoritesViewModelProtocol
     private var input: PassthroughSubject<FavoritesViewModel.Input, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
     private var characters: [Character] = []
     private var dependencies: IDependencies
     
+    //MARK: Lifecycle methods
     init(viewModel: FavoritesViewModelProtocol, dependencies: IDependencies) {
         self.viewModel = viewModel
         self.dependencies = dependencies
@@ -40,6 +45,7 @@ class FavoritesViewContorller: FavoritesUI {
         input.send(.fetchFavorites)
     }
     
+    //MARK: binding()
     private func binding() {
         let output = viewModel.transform(input.eraseToAnyPublisher())
         
@@ -57,11 +63,12 @@ class FavoritesViewContorller: FavoritesUI {
             .store(in: &cancellables)
     }
     
+    //MARK: setupDelegates()
     private func setupDelegates() {
         collectionView.dataSource = self
         collectionView.delegate = self
     }
-
+    
 }
 
 //MARK: - UICollectionViewDataSource
@@ -83,7 +90,6 @@ extension FavoritesViewContorller: UICollectionViewDataSource {
         
         return cell
     }
-    
     
 }
 

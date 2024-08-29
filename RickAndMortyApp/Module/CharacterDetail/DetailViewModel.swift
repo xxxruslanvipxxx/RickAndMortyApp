@@ -8,41 +8,49 @@
 import Foundation
 import Combine
 
+//MARK: - DetailViewModelProtocol
 protocol DetailViewModelProtocol {
     func transform(input: AnyPublisher<DetailViewModel.Input, Never>) -> AnyPublisher<DetailViewModel.Output, Never>
 }
 
-class DetailViewModel: ObservableObject, DetailViewModelProtocol {
+//MARK: - DetailViewModel
+class DetailViewModel: DetailViewModelProtocol {
     
+    //MARK: Private variables
     private var character: Character
     private var output: PassthroughSubject<Output, Never> = .init()
     private var cancellables: Set<AnyCancellable> = []
     private var networkService: NetworkService
     
+    //MARK: PhotoSourceType
     enum PhotoSourceType {
         case camera
         case photoLibrary
     }
+    
+    //MARK: Input
     enum Input {
         case viewDidLoad
         case changePhoto(sourceType: PhotoSourceType)
     }
     
+    //MARK: Output
     enum Output {
         case fetchCharacterImage(isLoading: Bool)
         case updateCharacterInfo(character: Character)
         case updateImage(imageData: Data)
         case showCamera
         case showPhotoLibrary
-        
         case fetchDidFail(error: NetworkError)
     }
     
+    //MARK: init()
     init(_ dependencies: IDependencies, character: Character) {
         self.character = character
         self.networkService = dependencies.networkService
     }
     
+    //MARK: func transform()
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { input in
             switch input {
@@ -63,11 +71,15 @@ class DetailViewModel: ObservableObject, DetailViewModelProtocol {
         return output.eraseToAnyPublisher()
     }
     
-    private func updateCharacterInfo() {
+}
+
+//MARK: - Private methods
+private extension DetailViewModel {
+    func updateCharacterInfo() {
         output.send(.updateCharacterInfo(character: character))
     }
     
-    private func downloadImage() {
+    func downloadImage() {
         output.send(.fetchCharacterImage(isLoading: true))
         
         networkService.loadImageData(for: character)
@@ -81,12 +93,11 @@ class DetailViewModel: ObservableObject, DetailViewModelProtocol {
             .store(in: &cancellables)
     }
     
-    private func changePhotoWithCamera() {
+    func changePhotoWithCamera() {
         output.send(.showCamera)
     }
     
-    private func changePhotoWithPhotoLibrary() {
+    func changePhotoWithPhotoLibrary() {
         output.send(.showPhotoLibrary)
     }
-    
 }

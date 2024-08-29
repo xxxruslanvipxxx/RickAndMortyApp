@@ -7,13 +7,16 @@
 
 import UIKit
 
+//MARK: - InfoTableViewCell
 class InfoTableViewCell: UITableViewCell {
 
     static let identifier = "infoTableCell"
     
+    //MARK: Internal Variables
     var infoTypeString: String?
     var infoString: String?
     
+    //MARK: UI Variables
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [infoTypeLabel, infoLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -45,7 +48,6 @@ class InfoTableViewCell: UITableViewCell {
     }()
     
     //MARK: configure()
-
     public func configure(with character: Character, infoType: InfoType) {
         self.infoTypeString = infoType.rawValue
         switch infoType {
@@ -66,7 +68,6 @@ class InfoTableViewCell: UITableViewCell {
     }
     
     //MARK: UI Methods
-    
     private func setupUI() {
         self.backgroundColor = UIColor(named: ColorName.customBackgroundColor)
         

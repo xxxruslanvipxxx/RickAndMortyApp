@@ -11,7 +11,6 @@ class CharactersUI: UIViewController {
     
     //MARK: Variables
     var collectionViewHeight = NSLayoutConstraint()
-    
     var cellSize: CGSize {
         let width = self.view.frame.size.width - 48
         let cellSize = CGSize(width: width, height: width * 1.15)
@@ -114,7 +113,6 @@ class CharactersUI: UIViewController {
     }()
     
     //MARK: Lifecicle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -131,6 +129,7 @@ class CharactersUI: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
         
+    //MARK: UI setup methods
     private func setupViews() {
         view.backgroundColor = UIColor(named: ColorName.customBackgroundColor)
         view.addSubview(scrollView)
@@ -205,6 +204,7 @@ class CharactersUI: UIViewController {
     }
 }
 
+//MARK: - UITextFieldDelegate
 extension CharactersUI: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         searchTextField.resignFirstResponder()

@@ -9,9 +9,13 @@ import UIKit
 import Combine
 import UIScrollView_InfiniteScroll
 
+//MARK: - CharactersViewController
 class CharactersViewController: CharactersUI {
     
+    //MARK: Public
     var didSendCompletionEvent: ((CharactersViewController.Event) -> Void)?
+    
+    //MARK: Private
     private let viewModel: CharactersViewModelProtocol
     private var dependencies: IDependencies
     private var input: PassthroughSubject<CharactersViewModel.Input, Never> = .init()
@@ -24,6 +28,7 @@ class CharactersViewController: CharactersUI {
         }
     }
     
+    //MARK: Lifecycle methods
     init(viewModel: CharactersViewModelProtocol, dependencies: IDependencies) {
         self.viewModel = viewModel
         self.dependencies = dependencies
@@ -47,6 +52,7 @@ class CharactersViewController: CharactersUI {
         collectionView.reloadData()
     }
     
+    //MARK: binding()
     private func binding() {
         let output = viewModel.transform(input: input.eraseToAnyPublisher())
         
@@ -96,6 +102,7 @@ class CharactersViewController: CharactersUI {
             .store(in: &cancellables)
     }
     
+    //MARK: setupDelegates()
     private func setupDelegates() {
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -137,12 +144,10 @@ extension CharactersViewController: UICollectionViewDataSource {
         return cell
     }
     
-    
 }
 
 //MARK: - UICollectionViewDelegate
 extension CharactersViewController: UICollectionViewDelegate {
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let character = characters[indexPath.row]
         if let didSendCompletionEvent = didSendCompletionEvent {

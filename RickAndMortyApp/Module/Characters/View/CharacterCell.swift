@@ -8,6 +8,7 @@
 import UIKit
 import Combine
 
+//MARK: - CharacterCell
 class CharacterCell: UICollectionViewCell {
     
     static let identifier = "episodesCell"
@@ -31,7 +32,6 @@ class CharacterCell: UICollectionViewCell {
     }
     
     //MARK: UI Variables
-    
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: ImageName.systemPlaceholder)
@@ -112,7 +112,6 @@ class CharacterCell: UICollectionViewCell {
     }()
     
     //MARK: prepareForReuse()
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         imageView.image = UIImage(systemName: ImageName.systemPlaceholder)
@@ -121,7 +120,6 @@ class CharacterCell: UICollectionViewCell {
     }
     
     //MARK: configure()
-
     public func configure(viewModel: CharacterCellViewModelProtocol) {
         self.viewModel = viewModel
         binding()
@@ -129,6 +127,7 @@ class CharacterCell: UICollectionViewCell {
         setupUI()
     }
     
+    //MARK: binding()
     private func binding() {
         guard let output = viewModel?.transform(input: input.eraseToAnyPublisher()) else {
             print("cell binding error")
@@ -138,26 +137,25 @@ class CharacterCell: UICollectionViewCell {
         output
             .receive(on: RunLoop.main)
             .sink { [weak self] output in
-            switch output {
-            case .configureImage(with: let data):
-                guard let data = data, let image = UIImage(data: data) else {
-                    self?.imageView.image = UIImage(named: ImageName.systemPlaceholder)
-                    return
+                switch output {
+                case .configureImage(with: let data):
+                    guard let image = UIImage(data: data) else {
+                        self?.imageView.image = UIImage(named: ImageName.systemPlaceholder)
+                        return
+                    }
+                    self?.imageView.image = image
+                case .configureEpisode(with: let episode):
+                    self?.episodeLabel.text = episode
+                case .configureName(with: let name):
+                    self?.characterNameLabel.text = name
+                case .configureIsFavorite(with: let isFavorite):
+                    self?.isFavorite = isFavorite
                 }
-                self?.imageView.image = image
-            case .configureEpisode(with: let episode):
-                self?.episodeLabel.text = episode
-            case .configureName(with: let name):
-                self?.characterNameLabel.text = name
-            case .configureIsFavorite(with: let isFavorite):
-                self?.isFavorite = isFavorite
             }
-        }
-        .store(in: &cancellables)
+            .store(in: &cancellables)
     }
     
     //MARK: Objc methods
-    
     @objc
     private func heartButtonPressed(sender: UIButton) {
         isFavorite.toggle()
@@ -167,7 +165,6 @@ class CharacterCell: UICollectionViewCell {
     
     
     //MARK: UI Methods
-    
     private func setupUI() {
         self.backgroundColor = UIColor(named: ColorName.customBackgroundColor)
         
@@ -209,7 +206,6 @@ class CharacterCell: UICollectionViewCell {
         //MARK: imageAndEpisodeStack constraints
         let imageAndEpisodeStackTop = imageAndEpisodeStack.topAnchor.constraint(equalTo: episodeBackgroundView.topAnchor)
         let imageAndEpisodeStackLeading = imageAndEpisodeStack.leadingAnchor.constraint(equalTo: episodeBackgroundView.leadingAnchor, constant: 18)
-//        let imageAndEpisodeStackTrailing = imageAndEpisodeStack.trailingAnchor.constraint(equalTo: addToFavoriteButton.leadingAnchor, constant: -18)
         let imageAndEpisodeStackBottom = imageAndEpisodeStack.bottomAnchor.constraint(equalTo: episodeBackgroundView.bottomAnchor)
         let imageAndEpisodeStackWidth = imageAndEpisodeStack.widthAnchor.constraint(equalTo: episodeBackgroundView.widthAnchor, multiplier: 0.75)
         
@@ -234,28 +230,25 @@ class CharacterCell: UICollectionViewCell {
 
 //MARK: - Setup shadows
 extension CharacterCell {
-    
     override func layoutSubviews() {
-            super.layoutSubviews()
-
-            if shadowLayer == nil {
-                shadowLayer = CAShapeLayer()
-                shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 4).cgPath
-                
-                shadowLayer.fillColor = UIColor.white.cgColor
-
-                shadowLayer.shadowColor = UIColor.darkGray.cgColor
-                shadowLayer.shadowPath = shadowLayer.path
-                shadowLayer.shadowOffset = CGSize(width: 0, height: 2.0)
-                shadowLayer.shadowOpacity = 0.7
-                shadowLayer.shadowRadius = 3
-
-                layer.insertSublayer(shadowLayer, at: 0)
-            }
+        super.layoutSubviews()
+        
+        if shadowLayer == nil {
+            shadowLayer = CAShapeLayer()
+            shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 4).cgPath
+            
+            shadowLayer.fillColor = UIColor.white.cgColor
+            
+            shadowLayer.shadowColor = UIColor.darkGray.cgColor
+            shadowLayer.shadowPath = shadowLayer.path
+            shadowLayer.shadowOffset = CGSize(width: 0, height: 2.0)
+            shadowLayer.shadowOpacity = 0.7
+            shadowLayer.shadowRadius = 3
+            
+            layer.insertSublayer(shadowLayer, at: 0)
         }
-    
+    }
 }
-
 
 //MARK: - Animations
 extension CharacterCell {
