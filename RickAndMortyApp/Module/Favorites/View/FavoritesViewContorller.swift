@@ -47,7 +47,7 @@ class FavoritesViewContorller: FavoritesUI {
     
     //MARK: binding()
     private func binding() {
-        let output = viewModel.transform(input.eraseToAnyPublisher())
+        let output = viewModel.transform(input: input.eraseToAnyPublisher())
         
         output
             .receive(on: RunLoop.main)

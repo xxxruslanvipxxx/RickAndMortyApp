@@ -10,7 +10,7 @@ import Combine
 
 //MARK: - FavoritesViewModelProtocol
 protocol FavoritesViewModelProtocol {
-    func transform(_ input: AnyPublisher<FavoritesViewModel.Input, Never>) -> AnyPublisher<FavoritesViewModel.Output, Never>
+    func transform(input: AnyPublisher<FavoritesViewModel.Input, Never>) -> AnyPublisher<FavoritesViewModel.Output, Never>
 }
 
 //MARK: - FavoritesViewModel
@@ -38,15 +38,15 @@ class FavoritesViewModel: FavoritesViewModelProtocol {
     }
     
     //MARK: func transform()
-    func transform(_ input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
-        output.send(.fetchCompleted(isCompleted: false))
-        
+    func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] input in
             switch input {
             case .fetchFavorites:
                 guard let self else { return }
+                output.send(.fetchCompleted(isCompleted: false))
                 Task {
                     let characters = await self.fetchCharacters()
+                    self.output.send(.fetchCompleted(isCompleted: true))
                     self.output.send(.favoritesFetched(characters: characters))
                 }
             }
