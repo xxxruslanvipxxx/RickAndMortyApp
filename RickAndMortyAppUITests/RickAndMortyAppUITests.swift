@@ -8,34 +8,69 @@
 import XCTest
 
 final class RickAndMortyAppUITests: XCTestCase {
-
+    
+    var app: XCUIApplication!
+    
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
+        try super.setUpWithError()
         continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
+        app = XCUIApplication()
+        app.launchArguments.append("UITesting")
         app.launch()
+        sleep(3)
 
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    }
+    
+    override func tearDownWithError() throws {
+        try super.tearDownWithError()
     }
 
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
-            }
-        }
+    func testForSearching() throws {
+        
+        let searchTextField = app.scrollViews.textFields["searchTextField"]
+        XCTAssertTrue(searchTextField.exists)
+        searchTextField.tap()
+        
+        searchTextField.typeText("Mr. Nimbus")
+        
+        let searchButton = app.buttons["Search"]
+        XCTAssert(searchButton.exists)
+        searchButton.tap()
+        
+        sleep(1)
+        
+        let nameLabel = app.staticTexts["Mr. Nimbus"]
+        XCTAssert(nameLabel.exists)
     }
+    
+    func testNavigateToDetail() {
+
+        let collectionView = app.scrollViews.otherElements.collectionViews.element(boundBy: 0)
+        XCTAssert(collectionView.exists)
+        
+        let cell = collectionView.cells.element(boundBy: 0)
+        XCTAssert(cell.exists)
+        
+        cell.tap()
+        
+        let nameLabel = app.staticTexts["Rick Sanchez"]
+        XCTAssert(nameLabel.exists)
+        
+    }
+    
+    func testNavigateToFavorites() {
+        
+        let tabBar = app.tabBars["Tab Bar"]
+        XCTAssert(tabBar.exists)
+        
+        let favoriteButton = tabBar.buttons.element(boundBy: 1)
+        XCTAssert(favoriteButton.exists)
+        
+        favoriteButton.tap()
+        
+        let text = app.staticTexts["Favorite characters"]
+        XCTAssert(text.exists)
+        
+    }
+    
 }

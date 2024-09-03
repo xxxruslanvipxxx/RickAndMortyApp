@@ -155,7 +155,7 @@ final class CharactersViewModelTests: XCTestCase {
         expectedOutputFlow.append(.loadBaseCharacters(isLoading: false))
         expectedOutputFlow.append(.fetchBaseCharactersSucceed(characters: [], nextPageUrl: nil))
         
-        waitForExpectations(timeout: 0.5)
+        waitForExpectations(timeout: 0.1)
         XCTAssertEqual(expectedOutputFlow.count, outputFlow.count)
     }
 
