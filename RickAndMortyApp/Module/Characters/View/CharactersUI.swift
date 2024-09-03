@@ -30,6 +30,7 @@ class CharactersUI: UIViewController {
     lazy var searchTextField: UITextField = {
         let tf = UITextField()
         tf.translatesAutoresizingMaskIntoConstraints = false
+        tf.accessibilityIdentifier = "searchTextField"
         // Add color to placeholder text
         tf.attributedPlaceholder = NSAttributedString(string: ConstantText.searchTextFieldPlaceholder,
                                                       attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray])

@@ -19,16 +19,32 @@ class FavoritesUI: UIViewController {
     }
     
     //MARK: UI Variables
-//    lazy var favoritesLabel: UILabel = {
-//        let label = UILabel()
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        label.text = ConstantText.favoritesLabelText
-//        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-//        label.textColor = .black
-//        label.textAlignment = .center
-//        
-//        return label
-//    }()
+    lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = true
+        scrollView.keyboardDismissMode = .onDrag
+        
+        return scrollView
+    }()
+    
+    lazy var contentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    lazy var favoritesLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = ConstantText.favoritesLabelText
+        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.textColor = .black
+        label.textAlignment = .center
+        
+        return label
+    }()
     
     lazy var collectionView: UICollectionView = {
         // UICollectionViewFlowLayout
@@ -68,30 +84,52 @@ class FavoritesUI: UIViewController {
     //MARK: UI Setup
     private func setupViews() {
         view.backgroundColor = UIColor(named: ColorName.customBackgroundColor)
-//        view.addSubview(favoritesLabel)
-        view.addSubview(collectionView)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        [favoritesLabel, collectionView].forEach { contentView.addSubview($0) }
     }
     
     private func setupNavigationBar() {
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.topItem?.title = ConstantText.favoritesLabelText
+        navigationController?.isNavigationBarHidden = true
     }
     
     private func setupConstraints() {
+        
+        //MARK: scrollView constraints
+        let scrollViewTop = scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        let scrollViewLeading = scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
+        let scrollViewTrailing = scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        let scrollViewBottom = scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        
+        NSLayoutConstraint.activate([scrollViewTop, scrollViewLeading, scrollViewTrailing, scrollViewBottom])
+        
+        //MARK: contentView constraints
+        let contentViewTop = contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor)
+        let contentViewLeading = contentView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor)
+        let contentViewTrailing = contentView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor)
+        let contentViewBottom = contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor)
+        let contentViewWidth = contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
+        let contentViewHeight = contentView.heightAnchor.constraint(equalTo: scrollView.frameLayoutGuide.heightAnchor)
+        contentViewHeight.priority = .defaultLow
+        
+        NSLayoutConstraint.activate([contentViewTop, contentViewLeading, contentViewTrailing, contentViewBottom, contentViewWidth, contentViewHeight])
+        
         //MARK: favoritesLabel constraints
-//        let favoritesLabelTop = favoritesLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0)
-//        let favoritesLabelLeading = favoritesLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8)
-//        let favoritesLabelTrailing = favoritesLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8)
-//        
-//        NSLayoutConstraint.activate([favoritesLabelTop, favoritesLabelLeading, favoritesLabelTrailing])
+        let favoritesLabelTop = favoritesLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16)
+        let favoritesLabelLeading = favoritesLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8)
+        let favoritesLabelTrailing = favoritesLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
+        
+        NSLayoutConstraint.activate([favoritesLabelTop, favoritesLabelLeading, favoritesLabelTrailing])
         
         //MARK: collectionView constraints
-        let collectionViewTop = collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20)
-        let collectionViewLeading = collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
-        let collectionViewTrailing = collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-        let collectionViewBottom = collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        let collectionViewTop = collectionView.topAnchor.constraint(equalTo: favoritesLabel.bottomAnchor, constant: 20)
+        let collectionViewLeading = collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+        let collectionViewTrailing = collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        let collectionViewBottom = collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        collectionViewHeight = collectionView.heightAnchor.constraint(equalToConstant: 1000)
+        collectionViewHeight.priority = .defaultHigh
         
-        NSLayoutConstraint.activate([collectionViewTop, collectionViewLeading, collectionViewTrailing, collectionViewBottom])
+        NSLayoutConstraint.activate([collectionViewTop, collectionViewLeading, collectionViewTrailing, collectionViewBottom, collectionViewHeight])
     }
     
     private func setupTabBar() {

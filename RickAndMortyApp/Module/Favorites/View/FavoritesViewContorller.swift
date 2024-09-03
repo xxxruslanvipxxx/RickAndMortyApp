@@ -18,7 +18,12 @@ class FavoritesViewContorller: FavoritesUI {
     private var viewModel: FavoritesViewModelProtocol
     private var input: PassthroughSubject<FavoritesViewModel.Input, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
-    private var characters: [Character] = []
+    private var characters: [Character] = [] {
+        didSet {
+            self.collectionViewHeight.constant = (cellSize.height + 40) * CGFloat(characters.count)
+            self.collectionView.reloadData()
+        }
+    }
     private var dependencies: IDependencies
     
     //MARK: Lifecycle methods
